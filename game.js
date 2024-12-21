@@ -1,6 +1,6 @@
 import GameLoop from './engine/loop.js';
 import InputManager from './engine/input.js';
-import Entity from './engine/entity.js';
+import Entity from './engine/entity.ts';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
