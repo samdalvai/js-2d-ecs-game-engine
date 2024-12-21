@@ -1,0 +1,16 @@
+{
+  "name": "js-ecs-game-engine",
+  "version": "1.0.0",
+  "description": "A game engine for the browser using ECS architecture",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Samuel Dalvai",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.13.3",
+    "typescript": "^5.7.2"
+  }
+}
