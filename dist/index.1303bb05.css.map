@@ -1,1 +1,0 @@
-{"mappings":"AAAA;;;;;;;;AAQA","sources":["styles.css"],"sourcesContent":["body {\n  margin: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}\n\ncanvas {\n  border: 1px solid black;\n}\n"],"names":[],"version":3,"file":"index.1303bb05.css.map","sourceRoot":"/__parcel_source_root/"}
