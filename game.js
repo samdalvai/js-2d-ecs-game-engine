@@ -1,5 +1,5 @@
 import GameLoop from './engine/loop.js';
-import InputManager from './engine/input.js';
+import InputManager from './engine/input.ts';
 import Entity from './engine/entity.ts';
 
 const canvas = document.getElementById('gameCanvas');
