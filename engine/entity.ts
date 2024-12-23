@@ -1,8 +1,8 @@
 export default class Entity {
-    private x: number;
-    private y: number;
-    private width: number;
-    private height: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 
     constructor(x: number, y: number) {
         this.x = x;
