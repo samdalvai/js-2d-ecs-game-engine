@@ -1,6 +1,6 @@
-import GameLoop from './engine/loop.js';
-import InputManager from './engine/input.js';
-import Entity from './engine/entity.js';
+import GameLoop from './engine/GameLoop';
+import InputManager from './engine/InputManager';
+import Entity from './engine/Entity';
 
 const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
@@ -12,7 +12,7 @@ if (!ctx) {
 const input = new InputManager();
 const player = new Entity(100, 100);
 
-const update = (dt: number) => {
+const update = () => {
     if (input.isKeyPressed('ArrowRight')) player.x += 5;
     if (input.isKeyPressed('ArrowLeft')) player.x -= 5;
     if (input.isKeyPressed('ArrowUp')) player.y -= 5;
