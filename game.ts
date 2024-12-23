@@ -1,14 +1,18 @@
-import GameLoop from './engine/loop.ts';
-import InputManager from './engine/input.ts';
-import Entity from './engine/entity.ts';
+import GameLoop from './engine/loop.js';
+import InputManager from './engine/input.js';
+import Entity from './engine/entity.js';
 
-const canvas = document.getElementById('gameCanvas');
+const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
+
+if (!ctx) {
+    throw new Error("Failed to get 2D context for the canvas.");
+}
 
 const input = new InputManager();
 const player = new Entity(100, 100);
 
-const update = (dt) => {
+const update = (dt: number) => {
     if (input.isKeyPressed('ArrowRight')) player.x += 5;
     if (input.isKeyPressed('ArrowLeft')) player.x -= 5;
     if (input.isKeyPressed('ArrowUp')) player.y -= 5;
