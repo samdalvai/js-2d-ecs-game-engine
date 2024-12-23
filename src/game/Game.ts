@@ -1,3 +1,4 @@
+import Registry from '../ecs/Registry';
 import { sleep } from '../utils/time';
 
 const FPS = 60;
@@ -10,10 +11,13 @@ export default class Game {
     millisecsPreviousFrame = 0;
     millisecondsLastFPSUpdate = 0;
 
+    registry: Registry | null;
+
     constructor() {
         this.isRunning = false;
         this.canvas = null;
         this.ctx = null;
+        this.registry = new Registry()
     }
 
     initialize = () => {
@@ -30,7 +34,10 @@ export default class Game {
         this.isRunning = true;
     };
 
-    setup = () => { };
+    setup = () => { 
+        const test1 = this.registry?.createEntity()
+        const test2 = this.registry?.createEntity()
+    };
 
     processInput = () => { };
 
