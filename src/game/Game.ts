@@ -5,15 +5,15 @@ const MILLISECS_PER_FRAME = 1000 / FPS;
 
 export default class Game {
     isRunning: boolean;
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
+    canvas: HTMLCanvasElement | null;
+    ctx: CanvasRenderingContext2D | null;
     millisecsPreviousFrame = 0;
     millisecondsLastFPSUpdate = 0;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    constructor() {
         this.isRunning = false;
-        this.canvas = canvas;
-        this.ctx = ctx;
+        this.canvas = null;
+        this.ctx = null;
     }
 
     initialize = () => {
@@ -30,9 +30,9 @@ export default class Game {
         this.isRunning = true;
     };
 
-    setup = () => {};
+    setup = () => { };
 
-    processInput = () => {};
+    processInput = () => { };
 
     update = async () => {
         // If we are too fast, waste some time until we reach the MILLISECS_PER_FRAME
@@ -55,6 +55,10 @@ export default class Game {
     };
 
     render = () => {
+        if (!this.canvas || !this.ctx) {
+            throw new Error('Failed to get 2D context for the canvas.');
+        }
+
         // Clear the whole canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
