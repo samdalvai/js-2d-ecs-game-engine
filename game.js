@@ -1,4 +1,4 @@
-import GameLoop from './engine/loop.js';
+import GameLoop from './engine/loop.ts';
 import InputManager from './engine/input.ts';
 import Entity from './engine/entity.ts';
 
