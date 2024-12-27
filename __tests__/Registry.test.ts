@@ -4,7 +4,7 @@ import Entity from '../src/ecs/Entity';
 import Registry from '../src/ecs/Registry';
 
 describe('Testing Registry related functions', () => {
-    test('Should add entity to registry', () => {
+    test('Should add entity to registry entities to be added', () => {
         const registry = new Registry();
         const entity = registry.createEntity();
 
@@ -13,7 +13,7 @@ describe('Testing Registry related functions', () => {
         expect(registry.entitiesToBeAdded.size).toBe(1);
     });
 
-    test('Should kill entity', () => {
+    test('Should add entity to registry entities to be killed', () => {
         const registry = new Registry();
         const entity = new Entity(1);
         registry.killEntity(entity);
