@@ -31,6 +31,6 @@ export default class Registry {
 
     killEntity = (entity: Entity) => {
         this.entitiesToBeKilled.add(entity);
-        console.log('Entity with id ' + entity.id + ' killed');
+        console.log('Entity with id ' + entity.getId() + ' killed');
     };
 }

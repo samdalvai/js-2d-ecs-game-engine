@@ -1,7 +1,7 @@
 import Registry from './Registry';
 
 export default class Entity {
-    id: number;
+    private id: number;
     registry: Registry | undefined;
 
     constructor(id: number) {

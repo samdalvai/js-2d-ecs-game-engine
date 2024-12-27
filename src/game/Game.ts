@@ -17,7 +17,7 @@ export default class Game {
         this.isRunning = false;
         this.canvas = null;
         this.ctx = null;
-        this.registry = new Registry()
+        this.registry = new Registry();
     }
 
     initialize = () => {
@@ -34,12 +34,12 @@ export default class Game {
         this.isRunning = true;
     };
 
-    setup = () => { 
-        const test1 = this.registry?.createEntity()
-        const test2 = this.registry?.createEntity()
+    setup = () => {
+        const test1 = this.registry?.createEntity();
+        const test2 = this.registry?.createEntity();
     };
 
-    processInput = () => { };
+    processInput = () => {};
 
     update = async () => {
         // If we are too fast, waste some time until we reach the MILLISECS_PER_FRAME
@@ -49,7 +49,7 @@ export default class Game {
         }
 
         // The difference in ticks since the last frame, converted to seconds
-        const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
+        //const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
 
         const millisecsCurrentFrame = performance.now();
         if (millisecsCurrentFrame - this.millisecondsLastFPSUpdate >= 1000) {
