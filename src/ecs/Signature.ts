@@ -1,7 +1,7 @@
 const MAX_COMPONENTS = 32;
 
 export default class Signature {
-    signature;
+    signature: number;
 
     constructor() {
         this.signature = 0;
