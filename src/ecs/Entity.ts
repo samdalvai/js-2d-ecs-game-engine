@@ -1,4 +1,4 @@
-import Component from './Component';
+import Component, { ComponentClass } from './Component';
 import Registry from './Registry';
 
 export default class Entity {
@@ -14,19 +14,25 @@ export default class Entity {
     };
 
     addComponent<T extends Component>(
-        ComponentClass: new (...args: any[]) => T,
-        ...args: ConstructorParameters<typeof ComponentClass>
+        ComponentClass: ComponentClass<T>,
+        ...args: ConstructorParameters<{ new (...args: any[]): T }>
     ): void {
-        const component = new ComponentClass(...args);
+        this.registry?.addComponent<T>(this, ComponentClass, ...args);
     }
 
-    removeComponent<T extends Component>(): void {}
-
-    hasComponent<T extends Component>(): boolean {
-        return false;
+    removeComponent<T extends Component>(ComponentClass: ComponentClass<T>): void {
+        this.registry?.removeComponent<T>(this, ComponentClass);
     }
 
-    getComponent<T extends Component>(): T | undefined {
-        return undefined;
+    hasComponent<T extends Component>(ComponentClass: ComponentClass<T>): boolean {
+        if (!this.registry) {
+            return false;
+        }
+
+        return this.registry?.hasComponent<T>(this, ComponentClass);
+    }
+
+    getComponent<T extends Component>(ComponentClass: ComponentClass<T>): T | undefined {
+        return this.registry?.getComponent<T>(this, ComponentClass);
     }
 }

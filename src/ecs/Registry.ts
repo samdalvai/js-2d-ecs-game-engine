@@ -1,3 +1,4 @@
+import Component, { ComponentClass } from './Component';
 import Entity from './Entity';
 
 export default class Registry {
@@ -33,6 +34,30 @@ export default class Registry {
         this.entitiesToBeKilled.add(entity);
         console.log('Entity with id ' + entity.getId() + ' killed');
     };
+
+    addComponent<T extends Component>(
+        entity: Entity,
+        ComponentClass: ComponentClass<T>,
+        ...args: ConstructorParameters<typeof ComponentClass>
+    ) {
+        const comp = new ComponentClass(...args);
+        const id = ComponentClass.getId()
+        console.log("new comp: ", comp)
+        console.log("id: ", id)
+    }
+
+    removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {}
+
+    hasComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean {
+        return false;
+    }
+
+    getComponent<T extends Component>(
+        entity: Entity,
+        ComponentClass: ComponentClass<T>,
+    ): T | undefined {
+        return undefined;
+    }
 
     addEntityToSystems(entity: Entity) {
         // TODO...
