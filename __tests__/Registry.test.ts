@@ -1,5 +1,6 @@
 import { expect } from '@jest/globals';
 
+import Component from '../src/ecs/Component';
 import Entity from '../src/ecs/Entity';
 import Registry from '../src/ecs/Registry';
 
@@ -31,5 +32,22 @@ describe('Testing Registry related functions', () => {
         expect(entity.registry).toEqual(registry);
         expect(registry.entitiesToBeAdded.size).toBe(1);
         expect(registry.freeIds.length).toBe(0);
+    });
+
+    test('Should add new component to entity', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent extends Component {
+            param: number;
+
+            constructor(param: number) {
+                super();
+                this.param = param;
+            }
+        }
+
+        entity.addComponent(MyComponent, 1);
+        entity.addComponent(MyComponent, 2);
     });
 });
