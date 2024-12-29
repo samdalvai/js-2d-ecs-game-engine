@@ -1,6 +1,6 @@
 import Component, { ComponentClass } from './Component';
 import Entity from './Entity';
-import { IPool } from './Pool';
+import Pool, { IPool } from './Pool';
 import Signature from './Signature';
 
 export default class Registry {
@@ -65,9 +65,14 @@ export default class Registry {
         const componentId = ComponentClass.getId();
         const entityId = entity.getId();
 
-        // TODO: add component to component pool
-        const component = new ComponentClass(...args);
-        console.log('New component: ', component);
+        if (this.componentPools[componentId] === undefined) {
+            const newComponentPool = new Pool<T>();
+            this.componentPools[componentId] = newComponentPool;
+        }
+
+        const newComponent = new ComponentClass(...args);
+        const componentPool = this.componentPools[componentId] as Pool<T>;
+        componentPool.set(entityId, newComponent);
 
         this.entityComponentSignatures[entityId].set(componentId);
         console.log(
