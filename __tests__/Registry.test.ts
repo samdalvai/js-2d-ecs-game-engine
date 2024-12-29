@@ -248,4 +248,48 @@ describe('Testing Registry related functions', () => {
 
         expect(entity.hasComponent(MyComponent2)).toBe(false);
     });
+
+    test('Should get entity component from registry', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent extends Component {
+            param: number;
+
+            constructor(param: number) {
+                super();
+                this.param = param;
+            }
+        }
+
+        entity.addComponent(MyComponent, 1);
+
+        expect(entity.getComponent(MyComponent)).toEqual(new MyComponent(1));
+    });
+
+    test('Should get entity component from registry, when having multiple components', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        entity.addComponent(MyComponent1);
+        entity.addComponent(MyComponent2);
+
+        expect(entity.getComponent(MyComponent1)).toEqual(new MyComponent1());
+        expect(entity.getComponent(MyComponent2)).toEqual(new MyComponent2());
+    });
+
+    test('Should get an undefined component if entity does not have it', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        entity.addComponent(MyComponent1);
+
+        expect(entity.getComponent(MyComponent2)).toEqual(undefined);
+    });
 });

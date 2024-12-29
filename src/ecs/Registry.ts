@@ -72,7 +72,7 @@ export default class Registry {
 
         const newComponent = new ComponentClass(...args);
         const componentPool = this.componentPools[componentId] as Pool<T>;
-        componentPool.set(entityId, newComponent);
+        componentPool?.set(entityId, newComponent);
 
         this.entityComponentSignatures[entityId].set(componentId);
         console.log(
@@ -86,14 +86,12 @@ export default class Registry {
 
         // Remove the component from the component list for that entity
         const componentPool = this.componentPools[componentId] as Pool<T>;
-        componentPool.remove(entityId);
+        componentPool?.remove(entityId);
 
         // Set this component signature for that entity to false
         this.entityComponentSignatures[entityId].remove(componentId);
 
-        console.log(
-            'Component with id ' + componentId + ' was removed from entity id ' + entityId,
-        );
+        console.log('Component with id ' + componentId + ' was removed from entity id ' + entityId);
     }
 
     hasComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean {
@@ -106,7 +104,11 @@ export default class Registry {
         entity: Entity,
         ComponentClass: ComponentClass<T>,
     ): T | undefined {
-        return undefined;
+        const componentId = ComponentClass.getId();
+        const entityId = entity.getId();
+
+        const componentPool = this.componentPools[componentId] as Pool<T>;
+        return componentPool?.get(entityId);
     }
 
     // System management
