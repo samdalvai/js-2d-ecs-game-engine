@@ -39,9 +39,64 @@ describe('Testing Pool related functions', () => {
         pool.set(1, component2);
 
         expect(pool.data[0]).toEqual(component1);
+        expect(pool.data[1]).toEqual(component2);
         expect(pool.entityIdToIndex.get(0)).toBe(0);
         expect(pool.indexToEntityId.get(0)).toBe(0);
         expect(pool.entityIdToIndex.get(1)).toBe(1);
         expect(pool.indexToEntityId.get(1)).toBe(1);
+    });
+
+    test('Should remove entity and component from component pool', () => {
+        class MyComponent extends Component {}
+        const pool = new Pool<MyComponent>();
+
+        const component = new MyComponent();
+
+        pool.set(0, component);
+        pool.remove(0);
+
+        expect(pool.isEmpty()).toBe(true);
+        expect(pool.getSize()).toBe(0);
+        expect(pool.entityIdToIndex.get(0)).toBe(undefined);
+        expect(pool.indexToEntityId.get(0)).toBe(undefined);
+    });
+
+    test('Should remove two entities and components from component pool', () => {
+        class MyComponent extends Component {}
+        const pool = new Pool<MyComponent>();
+
+        const component1 = new MyComponent();
+        const component2 = new MyComponent();
+
+        pool.set(0, component1);
+        pool.set(1, component2);
+
+        pool.remove(0);
+        pool.remove(1);
+
+        expect(pool.isEmpty()).toBe(true);
+        expect(pool.getSize()).toBe(0);
+        expect(pool.entityIdToIndex.get(0)).toBe(undefined);
+        expect(pool.indexToEntityId.get(0)).toBe(undefined);
+        expect(pool.entityIdToIndex.get(1)).toBe(undefined);
+        expect(pool.indexToEntityId.get(1)).toBe(undefined);
+    });
+
+    test('When removing entity from component pool, the last component should occupy the freed up space', () => {
+        class MyComponent extends Component {}
+        const pool = new Pool<MyComponent>();
+
+        const component1 = new MyComponent();
+        const component2 = new MyComponent();
+
+        pool.set(0, component1);
+        pool.set(1, component2);
+
+        pool.remove(0);
+
+        expect(pool.data[0]).toEqual(component1);
+        expect(pool.data[1]).toEqual(undefined);
+        expect(pool.entityIdToIndex.get(1)).toBe(0);
+        expect(pool.indexToEntityId.get(0)).toBe(1);
     });
 });
