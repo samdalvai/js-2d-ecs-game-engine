@@ -1,17 +1,29 @@
 import Component, { ComponentClass } from './Component';
 import Entity from './Entity';
+import { IPool } from './Pool';
 import Signature from './Signature';
 
 export default class Registry {
-    numEntities = 0;
-    entityComponentSignatures: Signature[] = [];
+    numEntities;
 
-    entitiesToBeAdded: Set<Entity> = new Set();
-    entitiesToBeKilled: Set<Entity> = new Set();
-    freeIds: number[] = [];
+    // [Array index = component type id]
+    // [Pool index = entity id]
+    componentPools: IPool[];
+
+    // [Array index = entity id]
+    entityComponentSignatures: Signature[];
+
+    entitiesToBeAdded: Set<Entity>;
+    entitiesToBeKilled: Set<Entity>;
+    freeIds: number[];
 
     constructor() {
-        // TODO...
+        this.numEntities = 0;
+        this.componentPools = [];
+        this.entityComponentSignatures = [];
+        this.entitiesToBeAdded = new Set();
+        this.entitiesToBeKilled = new Set();
+        this.freeIds = [];
     }
 
     update = () => {};
@@ -58,7 +70,9 @@ export default class Registry {
         console.log('New component: ', component);
 
         this.entityComponentSignatures[entityId].set(componentId);
-        console.log('Component with id ' + componentId + ' was added to entity with id ' + entityId);
+        console.log(
+            'Component with id ' + componentId + ' was added to entity with id ' + entityId,
+        );
     }
 
     removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {}
