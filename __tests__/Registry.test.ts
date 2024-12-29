@@ -4,10 +4,12 @@ import Component, { IComponent } from '../src/ecs/Component';
 import Entity from '../src/ecs/Entity';
 import Pool from '../src/ecs/Pool';
 import Registry from '../src/ecs/Registry';
+import System, { ISystem } from '../src/ecs/System';
 
 describe('Testing Registry related functions', () => {
     beforeEach(() => {
         IComponent.resetIds();
+        ISystem.resetIds();
     });
 
     test('Should add entity to registry entities to be added', () => {
@@ -291,5 +293,39 @@ describe('Testing Registry related functions', () => {
         entity.addComponent(MyComponent1);
 
         expect(entity.getComponent(MyComponent2)).toEqual(undefined);
+    });
+
+    test('Should add system to registry', () => {
+        const registry = new Registry();
+
+        class MySystem extends System {}
+
+        registry.addSystem(MySystem);
+
+        expect(registry.systems.get(0)).toBeInstanceOf(MySystem);
+    });
+
+    test('Should add multiple systems to registry', () => {
+        const registry = new Registry();
+
+        class MySystem1 extends System {}
+        class MySystem2 extends System {}
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        expect(registry.systems.get(0)).toBeInstanceOf(MySystem1);
+        expect(registry.systems.get(1)).toBeInstanceOf(MySystem2);
+    });
+
+    test('Should remove system from registry', () => {
+        const registry = new Registry();
+
+        class MySystem extends System {}
+
+        registry.addSystem(MySystem);
+        registry.removeSystem(MySystem);
+
+        expect(registry.systems.get(0)).toBe(undefined);
     });
 });
