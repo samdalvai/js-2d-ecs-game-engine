@@ -51,7 +51,7 @@ export default class Pool<T extends Component> extends IPool {
         const indexOfRemoved = this.entityIdToIndex.get(entityId);
 
         if (indexOfRemoved === undefined) {
-            console.error('Could not find entity with id ' + entityId + ' in component pool');
+            console.warn('Could not find entity with id ' + entityId + ' in component pool');
             return;
         }
 
@@ -63,7 +63,7 @@ export default class Pool<T extends Component> extends IPool {
         const entityIdOfLastElement = this.indexToEntityId.get(indexOfLast);
 
         if (entityIdOfLastElement === undefined) {
-            console.error('Could not find last index of entity in component pool');
+            console.warn('Could not find last index of entity in component pool');
             return;
         }
 
@@ -74,5 +74,22 @@ export default class Pool<T extends Component> extends IPool {
         this.indexToEntityId.delete(indexOfLast);
 
         this.size--;
+    }
+
+    removeEntityFromPool(entityId: number) {
+        if (this.entityIdToIndex.get(entityId) !== undefined) {
+            this.remove(entityId);
+        }
+    }
+
+    get(entityId: number): T | undefined {
+        const componentIndex = this.entityIdToIndex.get(entityId);
+
+        if (componentIndex === undefined) {
+            console.warn('Could not find entity with id ' + entityId + ' in component pool');
+            return undefined;
+        }
+
+        return this.data[componentIndex];
     }
 }
