@@ -211,4 +211,41 @@ describe('Testing Registry related functions', () => {
         expect(pool2.entityIdToIndex.get(0)).toBe(0);
         expect(pool2.indexToEntityId.get(0)).toBe(0);
     });
+
+    test('Should return true for entity having component', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent extends Component {}
+
+        entity.addComponent(MyComponent);
+
+        expect(entity.hasComponent(MyComponent)).toBe(true);
+    });
+
+    test('Should return true for entity having component with multiple components', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        entity.addComponent(MyComponent1);
+        entity.addComponent(MyComponent2);
+
+        expect(entity.hasComponent(MyComponent1)).toBe(true);
+        expect(entity.hasComponent(MyComponent2)).toBe(true);
+    });
+
+    test('Should return false for entity not having component', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        entity.addComponent(MyComponent1);
+
+        expect(entity.hasComponent(MyComponent2)).toBe(false);
+    });
 });

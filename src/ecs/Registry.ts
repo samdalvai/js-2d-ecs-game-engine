@@ -97,7 +97,9 @@ export default class Registry {
     }
 
     hasComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean {
-        return false;
+        const componentId = ComponentClass.getId();
+        const entityId = entity.getId();
+        return this.entityComponentSignatures[entityId].test(componentId);
     }
 
     getComponent<T extends Component>(
