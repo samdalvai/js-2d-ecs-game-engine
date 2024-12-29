@@ -80,7 +80,21 @@ export default class Registry {
         );
     }
 
-    removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {}
+    removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {
+        const componentId = ComponentClass.getId();
+        const entityId = entity.getId();
+
+        // Remove the component from the component list for that entity
+        const componentPool = this.componentPools[componentId] as Pool<T>;
+        componentPool.remove(entityId);
+
+        // Set this component signature for that entity to false
+        this.entityComponentSignatures[entityId].remove(componentId);
+
+        console.log(
+            'Component with id ' + componentId + ' was removed from entity id ' + entityId,
+        );
+    }
 
     hasComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean {
         return false;

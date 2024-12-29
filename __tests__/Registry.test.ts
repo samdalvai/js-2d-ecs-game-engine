@@ -148,4 +148,67 @@ describe('Testing Registry related functions', () => {
         expect(pool2.entityIdToIndex.get(0)).toBe(0);
         expect(pool2.indexToEntityId.get(0)).toBe(0);
     });
+
+    test('Should remove entity and component from component pools when removing component', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent extends Component {}
+
+        entity.addComponent(MyComponent);
+        entity.removeComponent(MyComponent);
+
+        const pool = registry.componentPools[0] as Pool<MyComponent>;
+
+        expect(registry.componentPools.length).toBe(1);
+        expect(pool.data[0]).toBe(undefined);
+        expect(pool.entityIdToIndex.get(0)).toBe(undefined);
+        expect(pool.indexToEntityId.get(0)).toBe(undefined);
+    });
+
+    test('Should remove entity and component from component pools when removing component with more entities', () => {
+        const registry = new Registry();
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+
+        class MyComponent extends Component {}
+
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+        entity1.removeComponent(MyComponent);
+
+        const pool = registry.componentPools[0] as Pool<MyComponent>;
+
+        expect(registry.componentPools.length).toBe(1);
+        expect(pool.data[0]).toEqual(new MyComponent());
+        expect(pool.entityIdToIndex.get(0)).toBe(undefined);
+        expect(pool.indexToEntityId.get(1)).toBe(undefined);
+        expect(pool.data[1]).toEqual(undefined);
+        expect(pool.entityIdToIndex.get(1)).toBe(0);
+        expect(pool.indexToEntityId.get(0)).toBe(1);
+    });
+
+    test('Should remove entity and component from component pools when removing component with more entities when adding different components for same entity', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        entity.addComponent(MyComponent1);
+        entity.addComponent(MyComponent2);
+
+        entity.removeComponent(MyComponent1);
+
+        const pool1 = registry.componentPools[0] as Pool<MyComponent1>;
+        const pool2 = registry.componentPools[1] as Pool<MyComponent1>;
+
+        expect(registry.componentPools.length).toBe(2);
+        expect(pool1.data[0]).toEqual(undefined);
+        expect(pool1.entityIdToIndex.get(0)).toBe(undefined);
+        expect(pool1.indexToEntityId.get(0)).toBe(undefined);
+        expect(pool2.data[0]).toEqual(new MyComponent2());
+        expect(pool2.entityIdToIndex.get(0)).toBe(0);
+        expect(pool2.indexToEntityId.get(0)).toBe(0);
+    });
 });
