@@ -2,6 +2,7 @@ import { expect } from '@jest/globals';
 
 import Component, { IComponent } from '../src/ecs/Component';
 import Entity from '../src/ecs/Entity';
+import Pool from '../src/ecs/Pool';
 import Registry from '../src/ecs/Registry';
 
 describe('Testing Registry related functions', () => {
@@ -87,5 +88,64 @@ describe('Testing Registry related functions', () => {
         expect(registry.entityComponentSignatures[0].test(0)).toBe(true);
         expect(registry.entityComponentSignatures[1].test(0)).toBe(true);
         expect(registry.entityComponentSignatures[2].test(0)).toBe(true);
+    });
+
+    test('Should add entity and component to component pools when adding component', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent extends Component {}
+
+        entity.addComponent(MyComponent);
+
+        const pool = registry.componentPools[0] as Pool<MyComponent>;
+
+        expect(registry.componentPools.length).toBe(1);
+        expect(pool.data[0]).toEqual(new MyComponent());
+        expect(pool.entityIdToIndex.get(0)).toBe(0);
+        expect(pool.indexToEntityId.get(0)).toBe(0);
+    });
+
+    test('Should add entities and components to component pools when adding component for more entities', () => {
+        const registry = new Registry();
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+
+        class MyComponent extends Component {}
+
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        const pool = registry.componentPools[0] as Pool<MyComponent>;
+
+        expect(registry.componentPools.length).toBe(1);
+        expect(pool.data[0]).toEqual(new MyComponent());
+        expect(pool.entityIdToIndex.get(0)).toBe(0);
+        expect(pool.indexToEntityId.get(0)).toBe(0);
+        expect(pool.data[1]).toEqual(new MyComponent());
+        expect(pool.entityIdToIndex.get(1)).toBe(1);
+        expect(pool.indexToEntityId.get(1)).toBe(1);
+    });
+
+    test('Should add entity and components to component pools when adding different components for same entity', () => {
+        const registry = new Registry();
+        const entity = registry.createEntity();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        entity.addComponent(MyComponent1);
+        entity.addComponent(MyComponent2);
+
+        const pool1 = registry.componentPools[0] as Pool<MyComponent1>;
+        const pool2 = registry.componentPools[1] as Pool<MyComponent1>;
+
+        expect(registry.componentPools.length).toBe(2);
+        expect(pool1.data[0]).toEqual(new MyComponent1());
+        expect(pool1.entityIdToIndex.get(0)).toBe(0);
+        expect(pool1.indexToEntityId.get(0)).toBe(0);
+        expect(pool2.data[0]).toEqual(new MyComponent2());
+        expect(pool2.entityIdToIndex.get(0)).toBe(0);
+        expect(pool2.indexToEntityId.get(0)).toBe(0);
     });
 });
