@@ -2,6 +2,7 @@ import Component, { ComponentClass } from './Component';
 import Entity from './Entity';
 import Pool, { IPool } from './Pool';
 import Signature from './Signature';
+import System, { SystemClass } from './System';
 
 export default class Registry {
     numEntities;
@@ -13,6 +14,8 @@ export default class Registry {
     // [Array index = entity id]
     entityComponentSignatures: Signature[];
 
+    systems: Map<number, System>;
+
     entitiesToBeAdded: Set<Entity>;
     entitiesToBeKilled: Set<Entity>;
     freeIds: number[];
@@ -21,6 +24,7 @@ export default class Registry {
         this.numEntities = 0;
         this.componentPools = [];
         this.entityComponentSignatures = [];
+        this.systems = new Map<number, System>();
         this.entitiesToBeAdded = new Set();
         this.entitiesToBeKilled = new Set();
         this.freeIds = [];
@@ -112,6 +116,27 @@ export default class Registry {
     }
 
     // System management
+    addSystem<T extends System>(
+        SystemClass: SystemClass<T>,
+        ...args: ConstructorParameters<typeof SystemClass>
+    ) {
+        const newSystem = new SystemClass(...args);
+        this.systems.set(SystemClass.getId(), newSystem);
+    }
+
+    removeSystem<T extends System>(SystemClass: SystemClass<T>) {
+        this.systems.delete(SystemClass.getId());
+    }
+
+    hasSystem<T extends System>(SystemClass: SystemClass<T>): boolean {
+        return false;
+    }
+
+    getSystem<T extends System>(SystemClass: SystemClass<T>): T | undefined {
+        return undefined;
+    }
+
+    // Add and remove entities from their systems
 
     addEntityToSystems(entity: Entity) {
         // TODO...
