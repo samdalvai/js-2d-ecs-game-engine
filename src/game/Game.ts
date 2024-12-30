@@ -1,4 +1,6 @@
+import SpriteComponent from '../components/SpriteComponent';
 import Registry from '../ecs/Registry';
+import RenderSystem from '../systems/RenderSystem';
 import { sleep } from '../utils/time';
 
 const FPS = 60;
@@ -35,8 +37,10 @@ export default class Game {
     };
 
     setup = () => {
-        const test1 = this.registry?.createEntity();
-        const test2 = this.registry?.createEntity();
+        this.registry?.addSystem(RenderSystem);
+
+        const entity = this.registry?.createEntity();
+        entity?.addComponent(SpriteComponent);
     };
 
     processInput = () => {};
@@ -59,6 +63,8 @@ export default class Game {
         }
 
         this.millisecsPreviousFrame = performance.now();
+
+        this.registry?.update();
     };
 
     render = () => {
@@ -69,9 +75,7 @@ export default class Game {
         // Clear the whole canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Render entities
-        this.ctx.fillStyle = 'red';
-        this.ctx.fillRect(100, 100, 50, 50);
+        this.registry?.getSystem(RenderSystem)?.update(this.ctx);
     };
 
     run = () => {
