@@ -57,7 +57,7 @@ export default class Pool<T extends Component> extends IPool {
 
         const indexOfLast = this.size - 1;
         this.data[indexOfRemoved] = this.data[indexOfLast];
-        this.data.splice(indexOfLast, 1);
+        this.data.pop();
 
         // Update the index-entity maps to point to the correct elements
         const entityIdOfLastElement = this.indexToEntityId.get(indexOfLast);

@@ -41,7 +41,7 @@ export default class System extends ISystem {
         const entityIndex = this.entities.indexOf(entity);
         const lastElementIndex = this.entities.length - 1;
         this.entities[entityIndex] = this.entities[lastElementIndex];
-        this.entities.splice(lastElementIndex, 1);
+        this.entities.pop();
     };
 
     getSystemEntities() {

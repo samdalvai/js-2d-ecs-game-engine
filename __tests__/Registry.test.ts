@@ -559,11 +559,39 @@ describe('Testing Registry related functions', () => {
 
         registry.addSystem(MySystem);
         registry.addEntityToSystems(entity);
-        registry.removeEntityFromSystems(entity)
+        registry.removeEntityFromSystems(entity);
 
         const system = registry.getSystem(MySystem);
 
         expect(system?.getSystemEntities().length).toEqual(0);
+    });
+
+    test('Should remove entities from system with multiple entities', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity1);
+        registry.addEntityToSystems(entity2);
+        registry.removeEntityFromSystems(entity1);
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(1);
+        expect(system?.getSystemEntities()[0]).toEqual(entity2);
     });
 
     test('Should remove entities from system', () => {
@@ -586,8 +614,8 @@ describe('Testing Registry related functions', () => {
         registry.addSystem(MySystem);
         registry.addEntityToSystems(entity1);
         registry.addEntityToSystems(entity2);
-        registry.removeEntityFromSystems(entity1)
-        registry.removeEntityFromSystems(entity2)
+        registry.removeEntityFromSystems(entity1);
+        registry.removeEntityFromSystems(entity2);
 
         const system = registry.getSystem(MySystem);
 
@@ -619,7 +647,7 @@ describe('Testing Registry related functions', () => {
         registry.addSystem(MySystem1);
         registry.addSystem(MySystem2);
         registry.addEntityToSystems(entity);
-        registry.removeEntityFromSystems(entity)
+        registry.removeEntityFromSystems(entity);
 
         const system1 = registry.getSystem(MySystem1);
         const system2 = registry.getSystem(MySystem2);
