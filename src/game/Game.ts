@@ -52,7 +52,7 @@ export default class Game {
             await sleep(timeToWait);
         }
 
-        // The difference in ticks since the last frame, converted to seconds
+        // The difference in milliseconds since the last frame, converted to seconds
         //const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
 
         const millisecsCurrentFrame = performance.now();

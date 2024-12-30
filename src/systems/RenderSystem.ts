@@ -13,7 +13,7 @@ export default class RenderSystem extends System {
     }
 
     update(ctx: CanvasRenderingContext2D) {
-        for (const entity of this.getSystemEntities()) {
+        for (const _ of this.getSystemEntities()) {
             // Define the sprite details
             const spriteWidth = 32; // Width of one sprite
             const spriteHeight = 32; // Height of one sprite
