@@ -1,3 +1,6 @@
+import SpriteComponent from '../components/SpriteComponent';
+import Registry from '../ecs/Registry';
+import RenderSystem from '../systems/RenderSystem';
 import { sleep } from '../utils/time';
 
 const FPS = 60;
@@ -10,10 +13,13 @@ export default class Game {
     millisecsPreviousFrame = 0;
     millisecondsLastFPSUpdate = 0;
 
+    registry: Registry | null;
+
     constructor() {
         this.isRunning = false;
         this.canvas = null;
         this.ctx = null;
+        this.registry = new Registry();
     }
 
     initialize = () => {
@@ -30,9 +36,14 @@ export default class Game {
         this.isRunning = true;
     };
 
-    setup = () => { };
+    setup = () => {
+        this.registry?.addSystem(RenderSystem);
 
-    processInput = () => { };
+        const entity = this.registry?.createEntity();
+        entity?.addComponent(SpriteComponent);
+    };
+
+    processInput = () => {};
 
     update = async () => {
         // If we are too fast, waste some time until we reach the MILLISECS_PER_FRAME
@@ -41,8 +52,8 @@ export default class Game {
             await sleep(timeToWait);
         }
 
-        // The difference in ticks since the last frame, converted to seconds
-        const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
+        // The difference in milliseconds since the last frame, converted to seconds
+        //const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
 
         const millisecsCurrentFrame = performance.now();
         if (millisecsCurrentFrame - this.millisecondsLastFPSUpdate >= 1000) {
@@ -52,6 +63,8 @@ export default class Game {
         }
 
         this.millisecsPreviousFrame = performance.now();
+
+        this.registry?.update();
     };
 
     render = () => {
@@ -62,9 +75,7 @@ export default class Game {
         // Clear the whole canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Render entities
-        this.ctx.fillStyle = 'red';
-        this.ctx.fillRect(100, 100, 50, 50);
+        this.registry?.getSystem(RenderSystem)?.update(this.ctx);
     };
 
     run = () => {
