@@ -1,4 +1,6 @@
+import Component, { ComponentClass } from './Component';
 import Entity from './Entity';
+import Signature from './Signature';
 
 export type SystemClass<T extends System> = {
     new (...args: any[]): T;
@@ -15,7 +17,14 @@ export class ISystem {
 
 export default class System extends ISystem {
     private static _id?: number;
-    entities: Set<Entity> = new Set();
+    private componentSignature: Signature;
+    private entities: Entity[];
+
+    constructor() {
+        super();
+        this.componentSignature = new Signature();
+        this.entities = [];
+    }
 
     static getId() {
         if (this._id === undefined) {
@@ -25,10 +34,26 @@ export default class System extends ISystem {
     }
 
     addEntityToSystem = (entity: Entity) => {
-        this.entities.add(entity);
+        this.entities.push(entity);
     };
 
     removeEntityFromSystem = (entity: Entity) => {
-        this.entities.delete(entity);
+        const entityIndex = this.entities.indexOf(entity);
+        const lastElementIndex = this.entities.length - 1;
+        this.entities[entityIndex] = this.entities[lastElementIndex];
+        this.entities.splice(lastElementIndex, 1);
     };
+
+    getSystemEntities() {
+        return this.entities;
+    }
+
+    getComponentSignature() {
+        return this.componentSignature;
+    }
+
+    requireComponent<T extends Component>(ComponentClass: ComponentClass<T>) {
+        const componentId = ComponentClass.getId();
+        this.componentSignature.set(componentId);
+    }
 }

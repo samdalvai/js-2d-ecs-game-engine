@@ -16,8 +16,8 @@ export default class Registry {
 
     systems: Map<number, System>;
 
-    entitiesToBeAdded: Set<Entity>;
-    entitiesToBeKilled: Set<Entity>;
+    entitiesToBeAdded: Entity[];
+    entitiesToBeKilled: Entity[];
     freeIds: number[];
 
     constructor() {
@@ -25,8 +25,8 @@ export default class Registry {
         this.componentPools = [];
         this.entityComponentSignatures = [];
         this.systems = new Map<number, System>();
-        this.entitiesToBeAdded = new Set();
-        this.entitiesToBeKilled = new Set();
+        this.entitiesToBeAdded = [];
+        this.entitiesToBeKilled = [];
         this.freeIds = [];
     }
 
@@ -46,14 +46,14 @@ export default class Registry {
 
         const entity = new Entity(entityId);
         entity.registry = this;
-        this.entitiesToBeAdded.add(entity);
+        this.entitiesToBeAdded.push(entity);
         console.log('Entity created with id ' + entityId);
 
         return entity;
     };
 
     killEntity = (entity: Entity) => {
-        this.entitiesToBeKilled.add(entity);
+        this.entitiesToBeKilled.push(entity);
         console.log('Entity with id ' + entity.getId() + ' killed');
     };
 
@@ -138,9 +138,26 @@ export default class Registry {
     }
 
     addEntityToSystems(entity: Entity) {
-        // TODO...
+        const entityId = entity.getId();
+
+        const entityComponentSignature = this.entityComponentSignatures[entityId];
+
+        for (const system of this.systems.values()) {
+            const systemComponentSignature = system.getComponentSignature();
+
+            const isInterested =
+                (entityComponentSignature.signature & systemComponentSignature.signature) ==
+                systemComponentSignature.signature;
+
+            if (isInterested) {
+                system.addEntityToSystem(entity);
+            }
+        }
     }
+
     removeEntityFromSystems(entity: Entity) {
-        // TODO...
+        for (const system of this.systems.values()) {
+            system.removeEntityFromSystem(entity);
+        }
     }
 }
