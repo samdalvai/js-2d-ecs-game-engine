@@ -18,7 +18,7 @@ describe('Testing Registry related functions', () => {
 
         expect(entity.getId()).toBe(0);
         expect(entity.registry).toEqual(registry);
-        expect(registry.entitiesToBeAdded.size).toBe(1);
+        expect(registry.entitiesToBeAdded.length).toBe(1);
     });
 
     test('Should add entity to registry entities to be killed', () => {
@@ -26,7 +26,7 @@ describe('Testing Registry related functions', () => {
         const entity = new Entity(1);
         registry.killEntity(entity);
 
-        expect(registry.entitiesToBeKilled.size).toBe(1);
+        expect(registry.entitiesToBeKilled.length).toBe(1);
     });
 
     test('Should create entity with id from the free ids', () => {
@@ -37,7 +37,7 @@ describe('Testing Registry related functions', () => {
 
         expect(entity.getId()).toBe(999);
         expect(entity.registry).toEqual(registry);
-        expect(registry.entitiesToBeAdded.size).toBe(1);
+        expect(registry.entitiesToBeAdded.length).toBe(1);
         expect(registry.freeIds.length).toBe(0);
     });
 
@@ -406,5 +406,225 @@ describe('Testing Registry related functions', () => {
         registry.addSystem(MySystem1);
 
         expect(registry.getSystem(MySystem2)).toBe(undefined);
+    });
+
+    test('Should add entity to system, when entity has component to which system is interested to', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity);
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities()[0]).toEqual(entity);
+    });
+
+    test('Should add entity to mutliple systems, when entity has component to which systems are interested to', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem1 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        class MySystem2 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+        registry.addEntityToSystems(entity);
+
+        const system1 = registry.getSystem(MySystem1);
+        const system2 = registry.getSystem(MySystem2);
+
+        expect(system1?.getSystemEntities()[0]).toEqual(entity);
+        expect(system2?.getSystemEntities()[0]).toEqual(entity);
+    });
+
+    test('Should add multiple entities to system, when entities have component to which system is interested to', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity1);
+        registry.addEntityToSystems(entity2);
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities()[0]).toEqual(entity1);
+        expect(system?.getSystemEntities()[1]).toEqual(entity2);
+    });
+
+    test('Should add entity to system, when entity has multiple components to which system is interested to', () => {
+        const registry = new Registry();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent1);
+                this.requireComponent(MyComponent2);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent1);
+        entity.addComponent(MyComponent2);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity);
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities()[0]).toEqual(entity);
+    });
+
+    test('Should not add entity to system, when entity has only some of the components the entity is interested to', () => {
+        const registry = new Registry();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent1);
+                this.requireComponent(MyComponent2);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent1);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity);
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toBe(0);
+    });
+
+    test('Should remove entity from system', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity);
+        registry.removeEntityFromSystems(entity)
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(0);
+    });
+
+    test('Should remove entities from system', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+        registry.addEntityToSystems(entity1);
+        registry.addEntityToSystems(entity2);
+        registry.removeEntityFromSystems(entity1)
+        registry.removeEntityFromSystems(entity2)
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(0);
+    });
+
+    test('Should remove entity from multiple systems', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem1 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        class MySystem2 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+        registry.addEntityToSystems(entity);
+        registry.removeEntityFromSystems(entity)
+
+        const system1 = registry.getSystem(MySystem1);
+        const system2 = registry.getSystem(MySystem2);
+
+        expect(system1?.getSystemEntities().length).toEqual(0);
+        expect(system2?.getSystemEntities().length).toEqual(0);
     });
 });
