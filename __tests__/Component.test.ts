@@ -20,7 +20,5 @@ describe('Testing Component related functions', () => {
 
         expect(MyComponent1.getId()).toBe(0);
         expect(MyComponent2.getId()).toBe(1);
-        expect(MyComponent1.getId()).toBe(0);
-        expect(MyComponent2.getId()).toBe(1);
     });
 });
