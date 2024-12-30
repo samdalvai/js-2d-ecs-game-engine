@@ -5,10 +5,9 @@ import Signature from './Signature';
 import System, { SystemClass } from './System';
 
 export default class Registry {
-    numEntities;
+    numEntities: number;
 
-    // [Array index = component type id]
-    // [Pool index = entity id]
+    // [Array index = component type id] - [Pool index = entity id]
     componentPools: IPool[];
 
     // [Array index = entity id]
