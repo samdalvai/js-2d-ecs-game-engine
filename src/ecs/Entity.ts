@@ -13,6 +13,10 @@ export default class Entity {
         return this.id;
     };
 
+    kill = () => {
+        this.registry?.killEntity(this);
+    };
+
     addComponent<T extends Component>(
         ComponentClass: ComponentClass<T>,
         ...args: ConstructorParameters<{ new (...args: any[]): T }>

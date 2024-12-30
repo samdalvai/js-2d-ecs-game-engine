@@ -811,7 +811,7 @@ describe('Testing Registry related functions', () => {
 
         registry.addSystem(MySystem);
 
-        registry.killEntity(entity);
+        entity.kill();
         registry.update();
 
         const system = registry.getSystem(MySystem);
@@ -838,7 +838,7 @@ describe('Testing Registry related functions', () => {
 
         registry.addSystem(MySystem);
 
-        registry.killEntity(entity1);
+        entity1.kill();
         registry.update();
 
         const system = registry.getSystem(MySystem);
@@ -866,8 +866,8 @@ describe('Testing Registry related functions', () => {
 
         registry.addSystem(MySystem);
 
-        registry.killEntity(entity1);
-        registry.killEntity(entity2);
+        entity1.kill();
+        entity2.kill();
         registry.update();
 
         const system = registry.getSystem(MySystem);
@@ -900,7 +900,7 @@ describe('Testing Registry related functions', () => {
         registry.addSystem(MySystem1);
         registry.addSystem(MySystem2);
 
-        registry.killEntity(entity);
+        entity.kill();
         registry.update();
 
         const system1 = registry.getSystem(MySystem1);
