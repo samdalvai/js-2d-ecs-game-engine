@@ -655,4 +655,258 @@ describe('Testing Registry related functions', () => {
         expect(system1?.getSystemEntities().length).toEqual(0);
         expect(system2?.getSystemEntities().length).toEqual(0);
     });
+
+    test('Should add entity to system, when entity has component to which system is interested to, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities()[0]).toEqual(entity);
+    });
+
+    test('Should add entity to mutliple systems, when entity has component to which systems are interested to, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem1 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        class MySystem2 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        registry.update();
+
+        const system1 = registry.getSystem(MySystem1);
+        const system2 = registry.getSystem(MySystem2);
+
+        expect(system1?.getSystemEntities()[0]).toEqual(entity);
+        expect(system2?.getSystemEntities()[0]).toEqual(entity);
+    });
+
+    test('Should add multiple entities to system, when entities have component to which system is interested to, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities()[0]).toEqual(entity1);
+        expect(system?.getSystemEntities()[1]).toEqual(entity2);
+    });
+
+    test('Should add entity to system, when entity has multiple components to which system is interested to, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent1);
+                this.requireComponent(MyComponent2);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent1);
+        entity.addComponent(MyComponent2);
+
+        registry.addSystem(MySystem);
+
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities()[0]).toEqual(entity);
+    });
+
+    test('Should not add entity to system, when entity has only some of the components the entity is interested to, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent1);
+                this.requireComponent(MyComponent2);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent1);
+
+        registry.addSystem(MySystem);
+
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toBe(0);
+    });
+
+    test('Should remove entity from system, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+
+        registry.killEntity(entity);
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(0);
+    });
+
+    test('Should remove entities from system with multiple entities, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+
+        registry.killEntity(entity1);
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(1);
+        expect(system?.getSystemEntities()[0]).toEqual(entity2);
+    });
+
+    test('Should remove entities from system, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+
+        registry.killEntity(entity1);
+        registry.killEntity(entity2);
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(0);
+    });
+
+    test('Should remove entity from multiple systems, when updating registry', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem1 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        class MySystem2 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity = registry.createEntity();
+        entity.addComponent(MyComponent);
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        registry.killEntity(entity);
+        registry.update();
+
+        const system1 = registry.getSystem(MySystem1);
+        const system2 = registry.getSystem(MySystem2);
+
+        expect(system1?.getSystemEntities().length).toEqual(0);
+        expect(system2?.getSystemEntities().length).toEqual(0);
+    });
 });

@@ -29,7 +29,27 @@ export default class Registry {
         this.freeIds = [];
     }
 
-    update = () => {};
+    update<T extends Component>() {
+        for (const entity of this.entitiesToBeAdded) {
+            this.addEntityToSystems(entity);
+        }
+
+        this.entitiesToBeAdded = [];
+
+        for (const entity of this.entitiesToBeKilled) {
+            this.removeEntityFromSystems(entity);
+            this.entityComponentSignatures[entity.getId()].reset();
+
+            for (let i = 0; i < this.componentPools.length; i++) {
+                const pool = this.componentPools[i] as Pool<T>;
+                pool.removeEntityFromPool(entity.getId());
+            }
+
+            this.freeIds.push(entity.getId());
+        }
+
+        this.entitiesToBeKilled = [];
+    }
 
     createEntity = (): Entity => {
         let entityId;
