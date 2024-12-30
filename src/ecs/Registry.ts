@@ -32,8 +32,6 @@ export default class Registry {
 
     update = () => {};
 
-    // Entity management
-
     createEntity = (): Entity => {
         let entityId;
 
@@ -58,8 +56,6 @@ export default class Registry {
         this.entitiesToBeKilled.add(entity);
         console.log('Entity with id ' + entity.getId() + ' killed');
     };
-
-    // Component management
 
     addComponent<T extends Component>(
         entity: Entity,
@@ -115,7 +111,6 @@ export default class Registry {
         return componentPool?.get(entityId);
     }
 
-    // System management
     addSystem<T extends System>(
         SystemClass: SystemClass<T>,
         ...args: ConstructorParameters<typeof SystemClass>
@@ -129,14 +124,18 @@ export default class Registry {
     }
 
     hasSystem<T extends System>(SystemClass: SystemClass<T>): boolean {
-        return false;
+        return this.systems.get(SystemClass.getId()) !== undefined;
     }
 
     getSystem<T extends System>(SystemClass: SystemClass<T>): T | undefined {
-        return undefined;
-    }
+        const system = this.systems.get(SystemClass.getId());
 
-    // Add and remove entities from their systems
+        if (system === undefined) {
+            return undefined;
+        }
+
+        return system as T;
+    }
 
     addEntityToSystems(entity: Entity) {
         // TODO...
