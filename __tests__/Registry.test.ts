@@ -328,4 +328,83 @@ describe('Testing Registry related functions', () => {
 
         expect(registry.systems.get(0)).toBe(undefined);
     });
+
+    test('Should remove system from registry with multiple systems existing', () => {
+        const registry = new Registry();
+
+        class MySystem1 extends System {}
+        class MySystem2 extends System {}
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+        registry.removeSystem(MySystem1);
+
+        expect(registry.systems.get(0)).toBe(undefined);
+    });
+
+    test('Should return true when checking if system exists in registry', () => {
+        const registry = new Registry();
+
+        class MySystem extends System {}
+
+        registry.addSystem(MySystem);
+
+        expect(registry.hasSystem(MySystem)).toBe(true);
+    });
+
+    test('Should return true when checking if system exists in registry with multiple systems existing', () => {
+        const registry = new Registry();
+
+        class MySystem1 extends System {}
+        class MySystem2 extends System {}
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        expect(registry.hasSystem(MySystem1)).toBe(true);
+    });
+
+    test('Should return false if system does not exist', () => {
+        const registry = new Registry();
+
+        class MySystem1 extends System {}
+        class MySystem2 extends System {}
+
+        registry.addSystem(MySystem1);
+
+        expect(registry.hasSystem(MySystem2)).toBe(false);
+    });
+
+    test('Should return system if it exists in registry', () => {
+        const registry = new Registry();
+
+        class MySystem extends System {}
+
+        registry.addSystem(MySystem);
+
+        expect(registry.getSystem(MySystem)).toBeInstanceOf(MySystem);
+    });
+
+    test('Should return system if it exists in registry with multiple systems existing', () => {
+        const registry = new Registry();
+
+        class MySystem1 extends System {}
+        class MySystem2 extends System {}
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        expect(registry.getSystem(MySystem1)).toBeInstanceOf(MySystem1);
+    });
+
+    test('Should return undefined if system does not exist', () => {
+        const registry = new Registry();
+
+        class MySystem1 extends System {}
+        class MySystem2 extends System {}
+
+        registry.addSystem(MySystem1);
+
+        expect(registry.getSystem(MySystem2)).toBe(undefined);
+    });
 });

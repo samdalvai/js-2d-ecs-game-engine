@@ -26,9 +26,9 @@ export default class Pool<T extends Component> extends IPool {
 
     clear() {
         this.data = [];
+        this.size = 0;
         this.entityIdToIndex.clear();
         this.indexToEntityId.clear();
-        this.size = 0;
     }
 
     set(entityId: number, component: T) {
