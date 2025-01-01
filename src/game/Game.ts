@@ -3,8 +3,7 @@ import SpriteComponent from '../components/SpriteComponent';
 import Registry from '../ecs/Registry';
 import RenderSystem from '../systems/RenderSystem';
 import { sleep } from '../utils/time';
-
-import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
+import LevelLoader from './LevelLoader';
 
 const FPS = 60;
 const MILLISECS_PER_FRAME = 1000 / FPS;
@@ -47,7 +46,9 @@ export default class Game {
         const entity = this.registry?.createEntity();
         entity?.addComponent(SpriteComponent);
 
-        this.assetStore.addTexture('chopper', chopperSpriteSheet);
+        const loader = new LevelLoader();
+        loader.loadLevel(this.assetStore);
+        console.log("assets: ", this.assetStore)
     };
 
     processInput = () => {};
