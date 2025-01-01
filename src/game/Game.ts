@@ -1,7 +1,10 @@
+import AssetStore from '../asset-store/AssetStore';
 import SpriteComponent from '../components/SpriteComponent';
 import Registry from '../ecs/Registry';
 import RenderSystem from '../systems/RenderSystem';
 import { sleep } from '../utils/time';
+
+import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
 
 const FPS = 60;
 const MILLISECS_PER_FRAME = 1000 / FPS;
@@ -14,12 +17,14 @@ export default class Game {
     millisecondsLastFPSUpdate = 0;
 
     registry: Registry | null;
+    assetStore: AssetStore;
 
     constructor() {
         this.isRunning = false;
         this.canvas = null;
         this.ctx = null;
         this.registry = new Registry();
+        this.assetStore = new AssetStore();
     }
 
     initialize = () => {
@@ -41,6 +46,8 @@ export default class Game {
 
         const entity = this.registry?.createEntity();
         entity?.addComponent(SpriteComponent);
+
+        this.assetStore.addTexture('chopper', chopperSpriteSheet);
     };
 
     processInput = () => {};
@@ -75,7 +82,7 @@ export default class Game {
         // Clear the whole canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.registry?.getSystem(RenderSystem)?.update(this.ctx);
+        this.registry?.getSystem(RenderSystem)?.update(this.ctx, this.assetStore);
     };
 
     run = () => {
