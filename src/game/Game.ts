@@ -15,7 +15,7 @@ export default class Game {
     millisecsPreviousFrame = 0;
     millisecondsLastFPSUpdate = 0;
 
-    registry: Registry | null;
+    registry: Registry;
     assetStore: AssetStore;
 
     constructor() {
@@ -41,14 +41,10 @@ export default class Game {
     };
 
     setup = () => {
-        this.registry?.addSystem(RenderSystem);
-
-        const entity = this.registry?.createEntity();
-        entity?.addComponent(SpriteComponent);
+        this.registry.addSystem(RenderSystem);
 
         const loader = new LevelLoader();
-        loader.loadLevel(this.assetStore);
-        console.log("assets: ", this.assetStore)
+        loader.loadLevel(this.registry, this.assetStore);
     };
 
     processInput = () => {};
