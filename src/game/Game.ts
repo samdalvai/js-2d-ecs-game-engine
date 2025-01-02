@@ -28,6 +28,11 @@ export default class Game {
         this.assetStore = new AssetStore();
     }
 
+    private resizeCanvas = (canvas: HTMLCanvasElement) => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+
     initialize = () => {
         console.log('Initializing game');
         const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
@@ -37,12 +42,17 @@ export default class Game {
             throw new Error('Failed to get 2D context for the canvas.');
         }
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        this.resizeCanvas(canvas);
 
         this.canvas = canvas;
         this.ctx = ctx;
         this.isRunning = true;
+
+        window.addEventListener('resize', () => {
+            if (this.canvas) {
+                this.resizeCanvas(this.canvas);
+            }
+        });
     };
 
     setup = () => {
