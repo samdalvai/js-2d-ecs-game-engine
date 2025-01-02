@@ -5,6 +5,7 @@ import KeyPressedEvent from '../events/KeyPressedEvent';
 import KeyReleasedEvent from '../events/KeyReleasedEvent';
 import InputManager from '../input-manager/InputManager';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
+import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
 import RenderSystem from '../systems/RenderSystem';
 import { Rect } from '../types';
@@ -84,6 +85,7 @@ export default class Game {
         this.registry.addSystem(RenderSystem);
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
+        this.registry.addSystem(KeyboardControlSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -99,11 +101,9 @@ export default class Game {
 
             switch (inputEvent.type) {
             case 'keydown':
-                console.log(`Key down: ${inputEvent.key}`);
                 this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
                 break;
             case 'keyup':
-                console.log(`Key up: ${inputEvent.key}`);
                 this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.key);
                 break;
             }
@@ -135,11 +135,12 @@ export default class Game {
         this.registry?.update();
 
         // Perform the subscription of the events for all systems
-        // ...
+        this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime);
         this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
+        this.registry.getSystem(KeyboardControlSystem)?.update();
     };
 
     private render = () => {
