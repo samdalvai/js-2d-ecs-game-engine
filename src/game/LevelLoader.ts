@@ -1,6 +1,6 @@
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
 import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
-import tileMapJson from '../../assets/tilemaps/desert.json';
+import tileMapJson from '../../assets/tilemaps/tilemap.json';
 import desertSpriteSheet from '../../assets/tilemaps/desert.png';
 import AssetStore from '../asset-store/AssetStore';
 import SpriteComponent from '../components/SpriteComponent';
