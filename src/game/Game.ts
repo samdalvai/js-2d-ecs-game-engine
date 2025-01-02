@@ -1,5 +1,6 @@
 import AssetStore from '../asset-store/AssetStore';
 import Registry from '../ecs/Registry';
+import MovementSystem from '../systems/MovementSystem';
 import RenderSystem from '../systems/RenderSystem';
 import { Rect } from '../types';
 import { sleep } from '../utils/time';
@@ -72,6 +73,7 @@ export default class Game {
 
     private setup = () => {
         this.registry.addSystem(RenderSystem);
+        this.registry.addSystem(MovementSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -87,7 +89,7 @@ export default class Game {
         }
 
         // The difference in milliseconds since the last frame, converted to seconds
-        //const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
+        const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
 
         const millisecsCurrentFrame = performance.now();
         if (millisecsCurrentFrame - this.millisecondsLastFPSUpdate >= 1000) {
@@ -99,6 +101,8 @@ export default class Game {
         this.millisecsPreviousFrame = performance.now();
 
         this.registry?.update();
+
+        this.registry.getSystem(MovementSystem)?.update(deltaTime);
     };
 
     private render = () => {
