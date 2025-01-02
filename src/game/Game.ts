@@ -43,6 +43,8 @@ export default class Game {
             throw new Error('Failed to get 2D context for the canvas.');
         }
 
+        // If this is not disabled the browser might use interpolation to smooth the scaling,
+        // which can cause visible borders or artifacts, e.g. when rendering tiles
         ctx.imageSmoothingEnabled = false;
     };
 
@@ -56,10 +58,6 @@ export default class Game {
         }
 
         this.resize(canvas, this.camera);
-
-        // If this is not disabled the browser might use interpolation to smooth the scaling,
-        // which can cause visible borders or artifacts, e.g. when rendering tiles
-        ctx.imageSmoothingEnabled = false;
 
         this.canvas = canvas;
         this.ctx = ctx;
