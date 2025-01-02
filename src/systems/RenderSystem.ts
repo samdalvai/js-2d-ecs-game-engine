@@ -56,7 +56,7 @@ export default class RenderSystem extends System {
                 width: sprite.width * transform.scale.x,
                 height: sprite.height * transform.scale.y,
             };
-
+            
             // TODO: handle flipping images and rotation, if possible
 
             ctx.drawImage(
