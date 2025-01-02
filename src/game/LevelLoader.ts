@@ -13,6 +13,8 @@ export default class LevelLoader {
         assetStore.addTexture('chopper', chopperSpriteSheet);
     }
 
+    private loadTileMap(registry: Registry, assetStore: AssetStore) {}
+
     private loadEntities(registry: Registry, assetStore: AssetStore) {
         const player = registry.createEntity();
         player.addComponent(SpriteComponent);

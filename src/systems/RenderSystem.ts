@@ -1,12 +1,13 @@
 import AssetStore from '../asset-store/AssetStore';
 import SpriteComponent from '../components/SpriteComponent';
+import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
 
 export default class RenderSystem extends System {
-
     constructor() {
         super();
         this.requireComponent(SpriteComponent);
+        this.requireComponent(TransformComponent);
     }
 
     update(ctx: CanvasRenderingContext2D, assetStore: AssetStore) {
