@@ -7,14 +7,24 @@ export default class SpriteComponent extends Component {
     height: number;
     zIndex: number;
     srcRect: Rect;
+    isFixed: boolean;
 
-    constructor(assetId = '', width = 0, height = 0, zIndex = 0, srcRectX = 0, srcRectY = 0) {
+    constructor(
+        assetId = '',
+        width = 0,
+        height = 0,
+        zIndex = 0,
+        srcRectX = 0,
+        srcRectY = 0,
+        isFixed = false,
+    ) {
         super();
         this.assetId = assetId;
         this.width = width;
         this.height = height;
         this.zIndex = zIndex;
         this.srcRect = { x: srcRectX, y: srcRectY, width, height };
+        this.isFixed = isFixed;
     }
 }
 
