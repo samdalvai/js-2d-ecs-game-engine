@@ -9,14 +9,14 @@ const FPS = 60;
 const MILLISECS_PER_FRAME = 1000 / FPS;
 
 export default class Game {
-    isRunning: boolean;
-    canvas: HTMLCanvasElement | null;
-    ctx: CanvasRenderingContext2D | null;
-    camera: Rect;
-    millisecsPreviousFrame = 0;
-    millisecondsLastFPSUpdate = 0;
-    registry: Registry;
-    assetStore: AssetStore;
+    private isRunning: boolean;
+    private canvas: HTMLCanvasElement | null;
+    private ctx: CanvasRenderingContext2D | null;
+    private camera: Rect;
+    private millisecsPreviousFrame = 0;
+    private millisecondsLastFPSUpdate = 0;
+    private registry: Registry;
+    private assetStore: AssetStore;
 
     static mapWidth: number;
     static mapHeight: number;
@@ -70,16 +70,16 @@ export default class Game {
         });
     };
 
-    setup = () => {
+    private setup = () => {
         this.registry.addSystem(RenderSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
     };
 
-    processInput = () => {};
+    private processInput = () => {};
 
-    update = async () => {
+    private update = async () => {
         // If we are too fast, waste some time until we reach the MILLISECS_PER_FRAME
         const timeToWait = MILLISECS_PER_FRAME - (performance.now() - this.millisecsPreviousFrame);
         if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME) {
@@ -101,7 +101,7 @@ export default class Game {
         this.registry?.update();
     };
 
-    render = () => {
+    private render = () => {
         if (!this.canvas || !this.ctx) {
             throw new Error('Failed to get 2D context for the canvas.');
         }
