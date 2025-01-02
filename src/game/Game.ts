@@ -1,6 +1,9 @@
 import AssetStore from '../asset-store/AssetStore';
 import Registry from '../ecs/Registry';
 import EventBus from '../event-bus/EventBus';
+import KeyPressedEvent from '../events/KeyPressedEvent';
+import KeyReleasedEvent from '../events/KeyReleasedEvent';
+import InputManager from '../input-manager/InputManager';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
 import MovementSystem from '../systems/MovementSystem';
 import RenderSystem from '../systems/RenderSystem';
@@ -21,6 +24,7 @@ export default class Game {
     private registry: Registry;
     private assetStore: AssetStore;
     private eventBus: EventBus;
+    private inputManager: InputManager;
 
     static mapWidth: number;
     static mapHeight: number;
@@ -33,6 +37,7 @@ export default class Game {
         this.registry = new Registry();
         this.assetStore = new AssetStore();
         this.eventBus = new EventBus();
+        this.inputManager = new InputManager();
     }
 
     private resize = (canvas: HTMLCanvasElement, camera: Rect) => {
@@ -84,7 +89,26 @@ export default class Game {
         loader.loadLevel(this.registry, this.assetStore);
     };
 
-    private processInput = () => {};
+    private processInput = () => {
+        while (this.inputManager.inputBuffer.length > 0) {
+            const inputEvent = this.inputManager.inputBuffer.shift();
+
+            if (!inputEvent) {
+                return;
+            }
+
+            switch (inputEvent.type) {
+            case 'keydown':
+                console.log(`Key down: ${inputEvent.key}`);
+                this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
+                break;
+            case 'keyup':
+                console.log(`Key up: ${inputEvent.key}`);
+                this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.key);
+                break;
+            }
+        }
+    };
 
     private update = async () => {
         // If we are too fast, waste some time until we reach the MILLISECS_PER_FRAME
