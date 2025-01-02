@@ -14,6 +14,8 @@ export default class Game {
     ctx: CanvasRenderingContext2D | null;
     millisecsPreviousFrame = 0;
     millisecondsLastFPSUpdate = 0;
+    static mapWidth: number;
+    static mapHeight: number;
 
     registry: Registry;
     assetStore: AssetStore;
@@ -34,6 +36,9 @@ export default class Game {
         if (!ctx) {
             throw new Error('Failed to get 2D context for the canvas.');
         }
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
         this.canvas = canvas;
         this.ctx = ctx;

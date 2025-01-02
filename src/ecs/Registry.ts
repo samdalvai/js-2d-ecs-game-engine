@@ -66,14 +66,14 @@ export default class Registry {
         const entity = new Entity(entityId);
         entity.registry = this;
         this.entitiesToBeAdded.push(entity);
-        console.log('Entity created with id ' + entityId);
+        //console.log('Entity created with id ' + entityId);
 
         return entity;
     };
 
     killEntity = (entity: Entity) => {
         this.entitiesToBeKilled.push(entity);
-        console.log('Entity with id ' + entity.getId() + ' killed');
+        //console.log('Entity with id ' + entity.getId() + ' killed');
     };
 
     addComponent<T extends Component>(
@@ -94,9 +94,9 @@ export default class Registry {
         componentPool?.set(entityId, newComponent);
 
         this.entityComponentSignatures[entityId].set(componentId);
-        console.log(
+        /*console.log(
             'Component with id ' + componentId + ' was added to entity with id ' + entityId,
-        );
+        );*/
     }
 
     removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {

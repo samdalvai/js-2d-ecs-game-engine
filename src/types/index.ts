@@ -9,3 +9,7 @@ export type Rect = {
     width: number;
     height: number;
 };
+
+export type TileMap = {
+    tiles: number[][];
+};
