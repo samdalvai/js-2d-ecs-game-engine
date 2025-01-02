@@ -2,6 +2,7 @@ import AssetStore from '../asset-store/AssetStore';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
+import { Rect } from '../types';
 
 export default class RenderSystem extends System {
     constructor() {
@@ -11,31 +12,64 @@ export default class RenderSystem extends System {
     }
 
     update(ctx: CanvasRenderingContext2D, assetStore: AssetStore) {
-        for (const _ of this.getSystemEntities()) {
-            // Define the sprite details
-            const spriteWidth = 32; // Width of one sprite
-            const spriteHeight = 32; // Height of one sprite
-            const spriteX = 0; // Column of the sprite (0-indexed)
-            const spriteY = 0; // Row of the sprite (0-indexed)
+        const renderableEntities: {
+            sprite: SpriteComponent;
+            transform: TransformComponent;
+        }[] = [];
 
-            // Calculate source rectangle
-            const sx = spriteX * spriteWidth;
-            const sy = spriteY * spriteHeight;
-            const sWidth = spriteWidth;
-            const sHeight = spriteHeight;
+        for (const entity of this.getSystemEntities()) {
+            const sprite = entity.getComponent(SpriteComponent);
+            const transform = entity.getComponent(TransformComponent);
 
-            // Define destination rectangle on the canvas
-            const dx = 100; // X position on canvas
-            const dy = 100; // Y position on canvas
-            const dWidth = spriteWidth;
-            const dHeight = spriteHeight;
+            if (!sprite) {
+                console.error(
+                    'Could not find sprite component of entity with id ' + entity.getId(),
+                );
+                continue;
+            }
 
-            const image = assetStore.getTexture('chopper');
+            if (!transform) {
+                console.error(
+                    'Could not find transform component of entity with id ' + entity.getId(),
+                );
+                continue;
+            }
 
-            // Draw the sprite
-            ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+            renderableEntities.push({ sprite, transform });
+
+            // TODO: Cull entities outside camera view
         }
 
-        // TODO: render sprite based on position of entity
+        renderableEntities.sort((entityA, entityB) => {
+            return entityA.sprite.zIndex - entityB.sprite.zIndex;
+        });
+
+        for (const entity of renderableEntities) {
+            const sprite = entity.sprite;
+            const transform = entity.transform;
+
+            const srcRect: Rect = sprite.srcRect;
+
+            const dstRect: Rect = {
+                x: transform.position.x,
+                y: transform.position.y,
+                width: sprite.width * transform.scale.x,
+                height: sprite.height * transform.scale.y,
+            };
+
+            // TODO: handle flipping images and rotation, if possible
+
+            ctx.drawImage(
+                assetStore.getTexture(sprite.assetId),
+                srcRect.x,
+                srcRect.y,
+                srcRect.width,
+                srcRect.height,
+                dstRect.x,
+                dstRect.y,
+                dstRect.width,
+                dstRect.height,
+            );
+        }
     }
 }
