@@ -1,5 +1,6 @@
 import AssetStore from '../asset-store/AssetStore';
 import Registry from '../ecs/Registry';
+import EventBus from '../event-bus/EventBus';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
 import MovementSystem from '../systems/MovementSystem';
 import RenderSystem from '../systems/RenderSystem';
@@ -19,6 +20,7 @@ export default class Game {
     private millisecondsLastFPSUpdate = 0;
     private registry: Registry;
     private assetStore: AssetStore;
+    private eventBus: EventBus;
 
     static mapWidth: number;
     static mapHeight: number;
@@ -30,6 +32,7 @@ export default class Game {
         this.camera = { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };
         this.registry = new Registry();
         this.assetStore = new AssetStore();
+        this.eventBus = new EventBus();
     }
 
     private resize = (canvas: HTMLCanvasElement, camera: Rect) => {
@@ -102,8 +105,15 @@ export default class Game {
 
         this.millisecsPreviousFrame = performance.now();
 
+        // Reset all event handlers for the current frame
+        this.eventBus.reset();
+
         this.registry?.update();
 
+        // Perform the subscription of the events for all systems
+        // ...
+
+        // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime);
         this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
     };
