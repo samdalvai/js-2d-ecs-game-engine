@@ -1,3 +1,4 @@
+import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
@@ -30,8 +31,26 @@ export default class MovementSystem extends System {
             transform.position.x += rigidBody.velocity.x * deltaTime;
             transform.position.y += rigidBody.velocity.y * deltaTime;
 
-            // TODO: prevent the main player from moving outside the map boundaries
-            // ...
+            // Prevent the main player from moving outside the map boundaries
+            // TODO: use tag to identify player?
+            if (entity.hasComponent(KeyboardControlComponent)) {
+                const paddingLeft = 10;
+                const paddingTop = 10;
+                const paddingRight = 50;
+                const paddingBottom = 50;
+                transform.position.x =
+                    transform.position.x < paddingLeft ? paddingLeft : transform.position.x;
+                transform.position.x =
+                    transform.position.x > Game.mapWidth - paddingRight
+                        ? Game.mapWidth - paddingRight
+                        : transform.position.x;
+                transform.position.y =
+                    transform.position.y < paddingTop ? paddingTop : transform.position.y;
+                transform.position.y =
+                    transform.position.y > Game.mapHeight - paddingBottom
+                        ? Game.mapHeight - paddingBottom
+                        : transform.position.y;
+            }
 
             const cullingMargin = 100;
 
@@ -42,7 +61,7 @@ export default class MovementSystem extends System {
                 transform.position.y > Game.mapHeight + cullingMargin;
 
             // Kill all entities that move outside the map boundaries
-            if (isEntityOutsideMap) {
+            if (isEntityOutsideMap && !entity.hasComponent(KeyboardControlComponent)) {
                 entity.kill();
             }
         }
