@@ -16,17 +16,15 @@ export default class MovementSystem extends System {
             const rigidBody = entity.getComponent(RigidBodyComponent);
 
             if (!transform) {
-                console.error(
+                throw new Error(
                     'Could not find transform component of entity with id ' + entity.getId(),
                 );
-                continue;
             }
 
             if (!rigidBody) {
-                console.error(
+                throw new Error(
                     'Could not find rigidBody component of entity with id ' + entity.getId(),
                 );
-                continue;
             }
 
             transform.position.x += rigidBody.velocity.x * deltaTime;
