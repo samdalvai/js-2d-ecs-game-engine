@@ -1,5 +1,6 @@
 import AssetStore from '../asset-store/AssetStore';
 import Registry from '../ecs/Registry';
+import CameraMovementSystem from '../systems/CameraMovementSystem';
 import MovementSystem from '../systems/MovementSystem';
 import RenderSystem from '../systems/RenderSystem';
 import { Rect } from '../types';
@@ -74,6 +75,7 @@ export default class Game {
     private setup = () => {
         this.registry.addSystem(RenderSystem);
         this.registry.addSystem(MovementSystem);
+        this.registry.addSystem(CameraMovementSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -103,6 +105,7 @@ export default class Game {
         this.registry?.update();
 
         this.registry.getSystem(MovementSystem)?.update(deltaTime);
+        this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
     };
 
     private render = () => {
