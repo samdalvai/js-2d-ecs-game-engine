@@ -44,6 +44,10 @@ export default class Game {
 
         this.resizeCanvas(canvas);
 
+        // If this is not disabled the browser might use interpolation to smooth the scaling, 
+        // which can cause visible borders or artifacts, e.g. when rendering tiles
+        ctx.imageSmoothingEnabled = false;
+
         this.canvas = canvas;
         this.ctx = ctx;
         this.isRunning = true;
