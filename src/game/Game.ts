@@ -18,11 +18,13 @@ const MILLISECS_PER_FRAME = 1000 / FPS;
 
 export default class Game {
     private isRunning: boolean;
+    private isDebug: boolean;
     private canvas: HTMLCanvasElement | null;
     private ctx: CanvasRenderingContext2D | null;
     private camera: Rect;
     private millisecsPreviousFrame = 0;
     private millisecondsLastFPSUpdate = 0;
+    private currentFPS = 0;
     private registry: Registry;
     private assetStore: AssetStore;
     private eventBus: EventBus;
@@ -33,6 +35,7 @@ export default class Game {
 
     constructor() {
         this.isRunning = false;
+        this.isDebug = false;
         this.canvas = null;
         this.ctx = null;
         this.camera = { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };
@@ -103,6 +106,10 @@ export default class Game {
 
             switch (inputEvent.type) {
                 case 'keydown':
+                    if (inputEvent.key === 'F2') {
+                        this.isDebug = !this.isDebug;
+                    }
+
                     this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
                     break;
                 case 'keyup':
@@ -122,11 +129,12 @@ export default class Game {
         // The difference in milliseconds since the last frame, converted to seconds
         const deltaTime = (performance.now() - this.millisecsPreviousFrame) / 1000.0;
 
-        const millisecsCurrentFrame = performance.now();
-        if (millisecsCurrentFrame - this.millisecondsLastFPSUpdate >= 1000) {
-            const currentFPS = 1000 / (millisecsCurrentFrame - this.millisecsPreviousFrame);
-            this.millisecondsLastFPSUpdate = millisecsCurrentFrame;
-            console.log('FPS: ' + currentFPS);
+        if (this.isDebug) {
+            const millisecsCurrentFrame = performance.now();
+            if (millisecsCurrentFrame - this.millisecondsLastFPSUpdate >= 1000) {
+                this.currentFPS = 1000 / (millisecsCurrentFrame - this.millisecsPreviousFrame);
+                this.millisecondsLastFPSUpdate = millisecsCurrentFrame;
+            }
         }
 
         this.millisecsPreviousFrame = performance.now();
@@ -155,6 +163,18 @@ export default class Game {
 
         this.registry.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
         this.registry.getSystem(AnimationSystem)?.update();
+
+        if (this.isDebug) {
+            const padding = 25;
+            const x = this.canvas.width - padding;
+            const y = padding;
+
+            this.ctx.font = '20px Arial';
+            this.ctx.textAlign = 'right';
+            this.ctx.textBaseline = 'top';
+            this.ctx.fillStyle = 'lightgreen';
+            this.ctx.fillText(this.currentFPS.toFixed(2) + ' FPS', x, y);
+        }
     };
 
     run = () => {
