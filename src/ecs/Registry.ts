@@ -13,19 +13,33 @@ export default class Registry {
     // [Array index = entity id]
     entityComponentSignatures: Signature[];
 
+    // [Map key = system type id]
     systems: Map<number, System>;
 
     entitiesToBeAdded: Entity[];
     entitiesToBeKilled: Entity[];
+
+    // Entity tags (one tag name per entity)
+    entityPerTag: Map<string, Entity>;
+    tagPerEntity: Map<number, string>;
+
+    // Entity groups (a set of entities per group name)
+    entitiesPerGroup: Map<string, Set<Entity>>;
+    groupPerEntity: Map<number, string>;
+
     freeIds: number[];
 
     constructor() {
         this.numEntities = 0;
         this.componentPools = [];
         this.entityComponentSignatures = [];
-        this.systems = new Map<number, System>();
+        this.systems = new Map();
         this.entitiesToBeAdded = [];
         this.entitiesToBeKilled = [];
+        this.entityPerTag = new Map();
+        this.tagPerEntity = new Map();
+        this.entitiesPerGroup = new Map();
+        this.groupPerEntity = new Map();
         this.freeIds = [];
     }
 
@@ -94,9 +108,7 @@ export default class Registry {
         componentPool?.set(entityId, newComponent);
 
         this.entityComponentSignatures[entityId].set(componentId);
-        console.log(
-            'Component with id ' + componentId + ' was added to entity with id ' + entityId,
-        );
+        console.log('Component with id ' + componentId + ' was added to entity with id ' + entityId);
     }
 
     removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {
@@ -119,10 +131,7 @@ export default class Registry {
         return this.entityComponentSignatures[entityId].test(componentId);
     }
 
-    getComponent<T extends Component>(
-        entity: Entity,
-        ComponentClass: ComponentClass<T>,
-    ): T | undefined {
+    getComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): T | undefined {
         const componentId = ComponentClass.getId();
         const entityId = entity.getId();
 
@@ -130,10 +139,7 @@ export default class Registry {
         return componentPool?.get(entityId);
     }
 
-    addSystem<T extends System>(
-        SystemClass: SystemClass<T>,
-        ...args: ConstructorParameters<typeof SystemClass>
-    ) {
+    addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) {
         const newSystem = new SystemClass(...args);
         this.systems.set(SystemClass.getId(), newSystem);
     }
