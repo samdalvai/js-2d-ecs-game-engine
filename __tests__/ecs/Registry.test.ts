@@ -23,7 +23,7 @@ describe('Testing Registry related functions', () => {
 
     test('Should add entity to registry entities to be killed', () => {
         const registry = new Registry();
-        const entity = new Entity(1);
+        const entity = new Entity(1, registry);
         registry.killEntity(entity);
 
         expect(registry.entitiesToBeKilled.length).toBe(1);
@@ -908,5 +908,37 @@ describe('Testing Registry related functions', () => {
 
         expect(system1?.getSystemEntities().length).toEqual(0);
         expect(system2?.getSystemEntities().length).toEqual(0);
+    });
+
+    test('Should add tag to entity and get entity by tag', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.tag('test');
+
+        expect(registry.getEntityByTag('test')).toEqual(entity);
+    });
+
+    test('Should remove tag from entity after adding it', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.tag('test');
+
+        registry.removeEntityTag(entity);
+
+        expect(registry.getEntityByTag('test')).toBe(undefined);
+    });
+
+    test('Should remove tag with entity when entity is killed', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.tag('test');
+        entity.kill();
+
+        registry.update();
+
+        expect(registry.getEntityByTag('test')).toBe(undefined);
     });
 });

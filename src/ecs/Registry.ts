@@ -60,10 +60,17 @@ export default class Registry {
             }
 
             this.freeIds.push(entity.getId());
+
+            this.removeEntityTag(entity);
+            this.removeEntityGroup(entity);
         }
 
         this.entitiesToBeKilled = [];
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Entity management
+    ////////////////////////////////////////////////////////////////////////////////
 
     createEntity = (): Entity => {
         let entityId;
@@ -77,8 +84,7 @@ export default class Registry {
             entityId = this.freeIds.pop() as number;
         }
 
-        const entity = new Entity(entityId);
-        entity.registry = this;
+        const entity = new Entity(entityId, this);
         this.entitiesToBeAdded.push(entity);
         console.log('Entity created with id ' + entityId);
 
@@ -89,6 +95,57 @@ export default class Registry {
         this.entitiesToBeKilled.push(entity);
         console.log('Entity with id ' + entity.getId() + ' killed');
     };
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Tag management
+    ////////////////////////////////////////////////////////////////////////////////
+
+    tagEntity(entity: Entity, tag: string) {
+        this.entityPerTag.set(tag, entity);
+        this.tagPerEntity.set(entity.getId(), tag);
+    }
+
+    entityHasTag(entity: Entity, tag: string) {
+        const currentTag = this.tagPerEntity.get(entity.getId());
+
+        if (currentTag === undefined) {
+            return false;
+        }
+
+        return currentTag === tag;
+    }
+
+    getEntityByTag(tag: string) {
+        return this.entityPerTag.get(tag);
+    }
+
+    removeEntityTag(entity: Entity) {
+        const currentTag = this.tagPerEntity.get(entity.getId());
+
+        if (currentTag === undefined) {
+            console.warn('Could not find tag for entity with id ' + entity.getId());
+            return;
+        }
+
+        this.tagPerEntity.delete(entity.getId());
+        this.entityPerTag.delete(currentTag);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Group management
+    ////////////////////////////////////////////////////////////////////////////////
+
+    groupEntity(entity: Entity, group: string) {}
+
+    entityBelongsToGroup(entity: Entity, group: string) {}
+
+    getEntitiesByGroup(group: string) {}
+
+    removeEntityGroup(entity: Entity) {}
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Component management
+    ////////////////////////////////////////////////////////////////////////////////
 
     addComponent<T extends Component>(
         entity: Entity,
@@ -138,6 +195,10 @@ export default class Registry {
         const componentPool = this.componentPools[componentId] as Pool<T>;
         return componentPool?.get(entityId);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // System management
+    ////////////////////////////////////////////////////////////////////////////////
 
     addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) {
         const newSystem = new SystemClass(...args);
