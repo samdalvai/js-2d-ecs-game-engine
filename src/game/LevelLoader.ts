@@ -11,7 +11,7 @@ import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
-import { TileMap } from '../types';
+import { Flip, TileMap } from '../types';
 import Game from './Game';
 
 export default class LevelLoader {
@@ -83,7 +83,7 @@ export default class LevelLoader {
 
         const enemy = registry.createEntity();
         enemy.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);
-        enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32);
+        enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32, Flip.HORIZONTAL);
         enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
     }
 }

@@ -2,7 +2,7 @@ import AssetStore from '../asset-store/AssetStore';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
-import { Rect } from '../types';
+import { Flip, Rect } from '../types';
 
 export default class RenderSystem extends System {
     constructor() {
@@ -61,31 +61,31 @@ export default class RenderSystem extends System {
                 height: sprite.height * transform.scale.y,
             };
 
-            // Handle rotation of sprites
-            if (transform.rotation !== 0) {
-                ctx.save();
+            ctx.save();
 
-                const centerX = dstRect.x + dstRect.width / 2;
-                const centerY = dstRect.y + dstRect.height / 2;
-                ctx.translate(centerX, centerY);
+            // Calculate the center of the destination rectangle
+            const centerX = dstRect.x + dstRect.width / 2;
+            const centerY = dstRect.y + dstRect.height / 2;
 
-                const radians = transform.rotation * (Math.PI / 180);
-                ctx.rotate(radians);
+            // Move the origin of the canvas to the center of the sprite
+            ctx.translate(centerX, centerY);
 
-                ctx.drawImage(
-                    assetStore.getTexture(sprite.assetId),
-                    srcRect.x,
-                    srcRect.y,
-                    srcRect.width,
-                    srcRect.height,
-                    -dstRect.width / 2,
-                    -dstRect.height / 2,
-                    dstRect.width,
-                    dstRect.height,
-                );
+            // Apply flipping
+            switch (sprite.flip) {
+                case Flip.NONE:
+                    break;
+                case Flip.HORIZONTAL:
+                    ctx.scale(-1, 1);
+                    break;
+                case Flip.VERTICAL:
+                    ctx.scale(1, -1);
+                    break;
+            }
 
-                ctx.restore();
-                continue;
+            // Optionally, apply rotation (in radians)
+            if (transform.rotation) {
+                const rotationAngle = transform.rotation * (Math.PI / 180);
+                ctx.rotate(rotationAngle);
             }
 
             ctx.drawImage(
@@ -94,11 +94,13 @@ export default class RenderSystem extends System {
                 srcRect.y,
                 srcRect.width,
                 srcRect.height,
-                dstRect.x,
-                dstRect.y,
+                -dstRect.width / 2, // Adjust to draw from the center
+                -dstRect.height / 2,
                 dstRect.width,
                 dstRect.height,
             );
+
+            ctx.restore();
         }
     }
 }

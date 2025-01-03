@@ -13,3 +13,9 @@ export type Rect = {
 export type TileMap = {
     tiles: number[][];
 };
+
+export enum Flip {
+    NONE,
+    HORIZONTAL,
+    VERTICAL,
+}
