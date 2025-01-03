@@ -3,6 +3,7 @@ import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
 import desertSpriteSheet from '../../assets/tilemaps/desert.png';
 import tileMapJson from '../../assets/tilemaps/tilemap.json';
 import AssetStore from '../asset-store/AssetStore';
+import AnimationComponent from '../components/AnimationComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
@@ -79,11 +80,12 @@ export default class LevelLoader {
         player.addComponent(CameraFollowComponent);
         player.addComponent(
             KeyboardControlComponent,
-            { x: 0, y: -150 },
-            { x: 150, y: 0 },
-            { x: 0, y: 150 },
-            { x: -150, y: 0 },
+            { x: 0, y: -300 },
+            { x: 300, y: 0 },
+            { x: 0, y: 300 },
+            { x: -300, y: 0 },
         );
+        player.addComponent(AnimationComponent, 2, 10);
 
         const enemy = registry.createEntity();
         enemy.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);

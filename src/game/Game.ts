@@ -4,6 +4,7 @@ import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
 import KeyReleasedEvent from '../events/KeyReleasedEvent';
 import InputManager from '../input-manager/InputManager';
+import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
@@ -86,6 +87,7 @@ export default class Game {
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
         this.registry.addSystem(KeyboardControlSystem);
+        this.registry.addSystem(AnimationSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -100,12 +102,12 @@ export default class Game {
             }
 
             switch (inputEvent.type) {
-            case 'keydown':
-                this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
-                break;
-            case 'keyup':
-                this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.key);
-                break;
+                case 'keydown':
+                    this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
+                    break;
+                case 'keyup':
+                    this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.key);
+                    break;
             }
         }
     };
@@ -132,7 +134,7 @@ export default class Game {
         // Reset all event handlers for the current frame
         this.eventBus.reset();
 
-        this.registry?.update();
+        this.registry.update();
 
         // Perform the subscription of the events for all systems
         this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
@@ -151,7 +153,8 @@ export default class Game {
         // Clear the whole canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.registry?.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
+        this.registry.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
+        this.registry.getSystem(AnimationSystem)?.update();
     };
 
     run = () => {
