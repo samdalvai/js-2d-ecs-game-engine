@@ -1,8 +1,12 @@
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
 import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
-import tileMapJson from '../../assets/tilemaps/tilemap.json';
 import desertSpriteSheet from '../../assets/tilemaps/desert.png';
+import tileMapJson from '../../assets/tilemaps/tilemap.json';
 import AssetStore from '../asset-store/AssetStore';
+import AnimationComponent from '../components/AnimationComponent';
+import CameraFollowComponent from '../components/CameraFollowComponent';
+import KeyboardControlComponent from '../components/KeyboardControlComponent';
+import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
@@ -65,13 +69,23 @@ export default class LevelLoader {
         }
 
         Game.mapWidth = columnNumber * tileSize * mapScale;
-        Game.mapHeight = columnNumber * tileSize * mapScale;
+        Game.mapHeight = rowNumber * tileSize * mapScale;
     }
 
     private loadEntities(registry: Registry) {
         const player = registry.createEntity();
         player.addComponent(TransformComponent, { x: 100, y: 100 }, { x: 1, y: 1 }, 0);
         player.addComponent(SpriteComponent, 'chopper-texture', 32, 32, 1, 0, 0);
+        player.addComponent(RigidBodyComponent, { x: 0, y: 0 });
+        player.addComponent(CameraFollowComponent);
+        player.addComponent(
+            KeyboardControlComponent,
+            { x: 0, y: -300 },
+            { x: 300, y: 0 },
+            { x: 0, y: 300 },
+            { x: -300, y: 0 },
+        );
+        player.addComponent(AnimationComponent, 2, 10);
 
         const enemy = registry.createEntity();
         enemy.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);

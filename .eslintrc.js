@@ -15,7 +15,9 @@ module.exports = {
         ],
         'quotes': ['warn', 'single'],
         '@typescript-eslint/no-unused-vars': 'warn',
-        'indent': ['warn', 4],
+        'indent': ['warn', 4, {
+            'SwitchCase': 1
+        }],
         '@typescript-eslint/no-explicit-any': 'off'
     },
 };
