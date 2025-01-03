@@ -17,15 +17,11 @@ export default class MovementSystem extends System {
             const rigidBody = entity.getComponent(RigidBodyComponent);
 
             if (!transform) {
-                throw new Error(
-                    'Could not find transform component of entity with id ' + entity.getId(),
-                );
+                throw new Error('Could not find transform component of entity with id ' + entity.getId());
             }
 
             if (!rigidBody) {
-                throw new Error(
-                    'Could not find rigidBody component of entity with id ' + entity.getId(),
-                );
+                throw new Error('Could not find rigidBody component of entity with id ' + entity.getId());
             }
 
             transform.position.x += rigidBody.velocity.x * deltaTime;
@@ -38,14 +34,12 @@ export default class MovementSystem extends System {
                 const paddingTop = 10;
                 const paddingRight = 50;
                 const paddingBottom = 50;
-                transform.position.x =
-                    transform.position.x < paddingLeft ? paddingLeft : transform.position.x;
+                transform.position.x = transform.position.x < paddingLeft ? paddingLeft : transform.position.x;
                 transform.position.x =
                     transform.position.x > Game.mapWidth - paddingRight
                         ? Game.mapWidth - paddingRight
                         : transform.position.x;
-                transform.position.y =
-                    transform.position.y < paddingTop ? paddingTop : transform.position.y;
+                transform.position.y = transform.position.y < paddingTop ? paddingTop : transform.position.y;
                 transform.position.y =
                     transform.position.y > Game.mapHeight - paddingBottom
                         ? Game.mapHeight - paddingBottom
