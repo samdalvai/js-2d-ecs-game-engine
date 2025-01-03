@@ -80,10 +80,12 @@ export default class LevelLoader {
         );
         player.addComponent(AnimationComponent, 2, 10);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
+        player.tag('player');
 
         const enemy = registry.createEntity();
         enemy.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);
         enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32, Flip.HORIZONTAL);
         enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy.group('enemies');
     }
 }
