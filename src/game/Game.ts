@@ -175,7 +175,7 @@ export default class Game {
             this.ctx.textAlign = 'right';
             this.ctx.textBaseline = 'top';
             this.ctx.fillStyle = 'lightgreen';
-            this.ctx.fillText(this.currentFPS.toFixed(2) + ' FPS', x, y);
+            this.ctx.fillText(`Current FPS: (${this.currentFPS.toFixed(2)})`, x, y);
 
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
         }
