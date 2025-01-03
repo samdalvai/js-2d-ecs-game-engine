@@ -22,15 +22,11 @@ export default class RenderSystem extends System {
             const transform = entity.getComponent(TransformComponent);
 
             if (!sprite) {
-                throw new Error(
-                    'Could not find sprite component of entity with id ' + entity.getId(),
-                );
+                throw new Error('Could not find sprite component of entity with id ' + entity.getId());
             }
 
             if (!transform) {
-                throw new Error(
-                    'Could not find transform component of entity with id ' + entity.getId(),
-                );
+                throw new Error('Could not find transform component of entity with id ' + entity.getId());
             }
 
             // Check if the entity sprite is outside the camera view
@@ -65,7 +61,33 @@ export default class RenderSystem extends System {
                 height: sprite.height * transform.scale.y,
             };
 
-            // TODO: handle flipping images and rotation, if possible
+            // Handle rotation of sprites
+            if (transform.rotation !== 0) {
+                ctx.save();
+
+                const centerX = dstRect.x + dstRect.width / 2;
+                const centerY = dstRect.y + dstRect.height / 2;
+                ctx.translate(centerX, centerY);
+
+                const radians = transform.rotation * (Math.PI / 180);
+                ctx.rotate(radians);
+
+                ctx.drawImage(
+                    assetStore.getTexture(sprite.assetId),
+                    srcRect.x,
+                    srcRect.y,
+                    srcRect.width,
+                    srcRect.height,
+                    -dstRect.width / 2,
+                    -dstRect.height / 2,
+                    dstRect.width,
+                    dstRect.height,
+                );
+
+                ctx.restore();
+                continue;
+            }
+
             ctx.drawImage(
                 assetStore.getTexture(sprite.assetId),
                 srcRect.x,
