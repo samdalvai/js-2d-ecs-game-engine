@@ -3,10 +3,11 @@ import Registry from './Registry';
 
 export default class Entity {
     private id: number;
-    registry: Registry | undefined;
+    registry: Registry;
 
-    constructor(id: number) {
+    constructor(id: number, registry: Registry) {
         this.id = id;
+        this.registry = registry;
     }
 
     getId = () => {
@@ -14,18 +15,34 @@ export default class Entity {
     };
 
     kill = () => {
-        this.registry?.killEntity(this);
+        this.registry.killEntity(this);
     };
+
+    tag(tag: string) {
+        this.registry.tagEntity(this, tag);
+    }
+
+    hasTag(tag: string) {
+        return this.registry.entityHasTag(this, tag);
+    }
+
+    group(group: string) {
+        this.registry.groupEntity(this, group);
+    }
+
+    belongsToGroup(group: string) {
+        return this.registry.entityBelongsToGroup(this, group);
+    }
 
     addComponent<T extends Component>(
         ComponentClass: ComponentClass<T>,
         ...args: ConstructorParameters<{ new (...args: any[]): T }>
     ): void {
-        this.registry?.addComponent<T>(this, ComponentClass, ...args);
+        this.registry.addComponent<T>(this, ComponentClass, ...args);
     }
 
     removeComponent<T extends Component>(ComponentClass: ComponentClass<T>): void {
-        this.registry?.removeComponent<T>(this, ComponentClass);
+        this.registry.removeComponent<T>(this, ComponentClass);
     }
 
     hasComponent<T extends Component>(ComponentClass: ComponentClass<T>): boolean {
@@ -33,10 +50,10 @@ export default class Entity {
             return false;
         }
 
-        return this.registry?.hasComponent<T>(this, ComponentClass);
+        return this.registry.hasComponent<T>(this, ComponentClass);
     }
 
     getComponent<T extends Component>(ComponentClass: ComponentClass<T>): T | undefined {
-        return this.registry?.getComponent<T>(this, ComponentClass);
+        return this.registry.getComponent<T>(this, ComponentClass);
     }
 }
