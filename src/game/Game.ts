@@ -8,6 +8,7 @@ import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
+import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderSystem from '../systems/RenderSystem';
 import { Rect } from '../types';
 import { sleep } from '../utils/time';
@@ -91,6 +92,7 @@ export default class Game {
         this.registry.addSystem(CameraMovementSystem);
         this.registry.addSystem(KeyboardControlSystem);
         this.registry.addSystem(AnimationSystem);
+        this.registry.addSystem(RenderColliderSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -174,6 +176,8 @@ export default class Game {
             this.ctx.textBaseline = 'top';
             this.ctx.fillStyle = 'lightgreen';
             this.ctx.fillText(this.currentFPS.toFixed(2) + ' FPS', x, y);
+
+            this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
         }
     };
 

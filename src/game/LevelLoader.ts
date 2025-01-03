@@ -4,6 +4,7 @@ import desertSpriteSheet from '../../assets/tilemaps/desert.png';
 import tileMapJson from '../../assets/tilemaps/tilemap.json';
 import AssetStore from '../asset-store/AssetStore';
 import AnimationComponent from '../components/AnimationComponent';
+import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
@@ -52,15 +53,7 @@ export default class LevelLoader {
                     { x: mapScale, y: mapScale },
                     0,
                 );
-                tile.addComponent(
-                    SpriteComponent,
-                    'desert-texture',
-                    tileSize,
-                    tileSize,
-                    0,
-                    srcRectX,
-                    srcRectY,
-                );
+                tile.addComponent(SpriteComponent, 'desert-texture', tileSize, tileSize, 0, srcRectX, srcRectY);
 
                 columnNumber++;
             }
@@ -86,9 +79,11 @@ export default class LevelLoader {
             { x: -300, y: 0 },
         );
         player.addComponent(AnimationComponent, 2, 10);
+        player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
 
         const enemy = registry.createEntity();
         enemy.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);
-        enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
+        enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32);
+        enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
     }
 }
