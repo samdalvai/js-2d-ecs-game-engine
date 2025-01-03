@@ -6,6 +6,7 @@ import KeyReleasedEvent from '../events/KeyReleasedEvent';
 import InputManager from '../input-manager/InputManager';
 import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
+import CollisionSystem from '../systems/CollisionSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
@@ -93,6 +94,7 @@ export default class Game {
         this.registry.addSystem(KeyboardControlSystem);
         this.registry.addSystem(AnimationSystem);
         this.registry.addSystem(RenderColliderSystem);
+        this.registry.addSystem(CollisionSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -152,6 +154,7 @@ export default class Game {
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime);
         this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
+        this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
         this.registry.getSystem(KeyboardControlSystem)?.update();
     };
 
