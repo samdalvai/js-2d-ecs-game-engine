@@ -150,6 +150,7 @@ export default class Game {
 
         // Perform the subscription of the events for all systems
         this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
