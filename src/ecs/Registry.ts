@@ -101,6 +101,12 @@ export default class Registry {
     ////////////////////////////////////////////////////////////////////////////////
 
     tagEntity(entity: Entity, tag: string) {
+        const existingEntity = this.entityPerTag.get(tag);
+
+        if (existingEntity !== undefined) {
+            throw new Error('An entity with tag ' + tag + ' already exists with id ' + existingEntity.getId());
+        }
+
         this.entityPerTag.set(tag, entity);
         this.tagPerEntity.set(entity.getId(), tag);
     }
@@ -135,13 +141,58 @@ export default class Registry {
     // Group management
     ////////////////////////////////////////////////////////////////////////////////
 
-    groupEntity(entity: Entity, group: string) {}
+    groupEntity(entity: Entity, group: string) {
+        const currentEntities = this.entitiesPerGroup.get(group);
 
-    entityBelongsToGroup(entity: Entity, group: string) {}
+        if (currentEntities === undefined) {
+            this.entitiesPerGroup.set(group, new Set([entity]));
+        } else {
+            currentEntities.add(entity);
+        }
 
-    getEntitiesByGroup(group: string) {}
+        this.groupPerEntity.set(entity.getId(), group);
+    }
 
-    removeEntityGroup(entity: Entity) {}
+    entityBelongsToGroup(entity: Entity, group: string) {
+        const currentGroup = this.groupPerEntity.get(entity.getId());
+
+        if (currentGroup === undefined) {
+            return false;
+        }
+
+        return currentGroup === group;
+    }
+
+    getEntitiesByGroup(group: string) {
+        const currentEntities = this.entitiesPerGroup.get(group);
+
+        if (currentEntities === undefined) {
+            return [];
+        }
+
+        return [...currentEntities];
+    }
+
+    removeEntityGroup(entity: Entity) {
+        const currentGroup = this.groupPerEntity.get(entity.getId());
+
+        if (currentGroup === undefined) {
+            console.warn('COuld not remove entity groups for entity with id ' + entity.getId());
+            return;
+        }
+
+        this.groupPerEntity.delete(entity.getId());
+
+        const currentEntities = this.entitiesPerGroup.get(currentGroup);
+
+        if (currentEntities !== undefined) {
+            currentEntities.delete(entity);
+
+            if (currentEntities.size === 0) {
+                this.entitiesPerGroup.delete(currentGroup);
+            }
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Component management

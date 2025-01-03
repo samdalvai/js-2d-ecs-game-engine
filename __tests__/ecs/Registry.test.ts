@@ -917,6 +917,7 @@ describe('Testing Registry related functions', () => {
         entity.tag('test');
 
         expect(registry.getEntityByTag('test')).toEqual(entity);
+        expect(entity.hasTag('test')).toBe(true);
     });
 
     test('Should remove tag from entity after adding it', () => {
@@ -928,6 +929,7 @@ describe('Testing Registry related functions', () => {
         registry.removeEntityTag(entity);
 
         expect(registry.getEntityByTag('test')).toBe(undefined);
+        expect(entity.hasTag('test')).toBe(false);
     });
 
     test('Should remove tag with entity when entity is killed', () => {
@@ -940,5 +942,64 @@ describe('Testing Registry related functions', () => {
         registry.update();
 
         expect(registry.getEntityByTag('test')).toBe(undefined);
+    });
+
+    test('Should throw an error when attempting to tag another entity with the same tag', () => {
+        const registry = new Registry();
+
+        const entity1 = registry.createEntity();
+        entity1.tag('test');
+
+        const entity2 = registry.createEntity();
+        expect(() => entity2.tag('test')).toThrowError();
+    });
+
+    test('Should add group to entity and get entity by group', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.group('test');
+
+        expect(registry.getEntitiesByGroup('test')).toEqual([entity]);
+        expect(entity.belongsToGroup('test')).toBe(true);
+    });
+
+    test('Should remove group from entity after adding it', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.group('test');
+
+        registry.removeEntityGroup(entity);
+
+        expect(registry.getEntitiesByGroup('test')).toEqual([]);
+        expect(entity.belongsToGroup('test')).toBe(false);
+    });
+
+    test('Should remove entity from group when entity is killed', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.group('test');
+        entity.kill();
+
+        registry.update();
+
+        expect(registry.getEntitiesByGroup('test')).toEqual([]);
+    });
+
+    test('Should remove entity from group when entity is killed, but some entity remains in the group', () => {
+        const registry = new Registry();
+
+        const entity1 = registry.createEntity();
+        entity1.group('test');
+        const entity2 = registry.createEntity();
+        entity2.group('test');
+
+        entity1.kill();
+
+        registry.update();
+
+        expect(registry.getEntitiesByGroup('test')).toEqual([entity2]);
     });
 });
