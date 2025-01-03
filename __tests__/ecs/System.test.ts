@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import System, { ISystem } from '../src/ecs/System';
+import System, { ISystem } from '../../src/ecs/System';
 
 describe('Testing System related functions', () => {
     beforeEach(() => {
