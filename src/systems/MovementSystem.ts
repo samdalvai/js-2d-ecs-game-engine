@@ -55,7 +55,6 @@ export default class MovementSystem extends System {
 
             // Kill all entities that move outside the map boundaries
             if (isEntityOutsideMap && !entity.hasComponent(KeyboardControlComponent)) {
-                console.log("killing entity")
                 entity.kill();
             }
         }
