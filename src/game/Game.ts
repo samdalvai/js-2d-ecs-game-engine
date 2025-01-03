@@ -152,7 +152,7 @@ export default class Game {
         this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
-        this.registry.getSystem(MovementSystem)?.update(deltaTime);
+        this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
         this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
         this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
         this.registry.getSystem(KeyboardControlSystem)?.update();
