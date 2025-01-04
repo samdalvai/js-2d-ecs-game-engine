@@ -112,15 +112,14 @@ export default class Game {
 
             switch (inputEvent.type) {
                 case 'keydown':
-                    if (inputEvent.key === 'F2') {
+                    if (inputEvent.code === 'F2') {
                         this.isDebug = !this.isDebug;
                     }
-                    console.log("event: ", inputEvent.code)
-
-                    this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
+                    
+                    this.eventBus.emitEvent(KeyPressedEvent, inputEvent.code);
                     break;
                 case 'keyup':
-                    this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.key);
+                    this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.code);
                     break;
             }
         }
