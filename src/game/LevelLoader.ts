@@ -1,3 +1,4 @@
+import bulletSprite from '../../assets/images/bullet.png';
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
 import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
 import treeSprite from '../../assets/images/tree.png';
@@ -28,6 +29,7 @@ export default class LevelLoader {
         assetStore.addTexture('tank-texture', tankSpriteSheet);
         assetStore.addTexture('desert-texture', desertSpriteSheet);
         assetStore.addTexture('tree-texture', treeSprite);
+        assetStore.addTexture('bullet-texture', bulletSprite);
     }
 
     private loadTileMap(registry: Registry) {
