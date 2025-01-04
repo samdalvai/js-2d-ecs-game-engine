@@ -42,12 +42,8 @@ export default class MovementSystem extends System {
             const rigidbody = enemy.getComponent(RigidBodyComponent);
             const sprite = enemy.getComponent(SpriteComponent);
 
-            if (!rigidbody) {
-                throw new Error('Could not find rigidbody component of entity with id ' + enemy.getId());
-            }
-
-            if (!sprite) {
-                throw new Error('Could not find sprite component of entity with id ' + enemy.getId());
+            if (!rigidbody || !sprite) {
+                throw new Error('Could not find some component(s) of entity with id ' + enemy.getId());
             }
 
             if (rigidbody.velocity.x != 0) {
@@ -67,12 +63,8 @@ export default class MovementSystem extends System {
             const rigidbody = player.getComponent(RigidBodyComponent);
             const transform = player.getComponent(TransformComponent);
 
-            if (!rigidbody) {
-                throw new Error('Could not find rigidbody component of entity with id ' + player.getId());
-            }
-
-            if (!transform) {
-                throw new Error('Could not find transform component of entity with id ' + player.getId());
+            if (!rigidbody || !transform) {
+                throw new Error('Could not find some component(s) of entity with id ' + player.getId());
             }
 
             // Move player some pixels back on collision to avoid being stuck
@@ -101,12 +93,8 @@ export default class MovementSystem extends System {
             const transform = entity.getComponent(TransformComponent);
             const rigidBody = entity.getComponent(RigidBodyComponent);
 
-            if (!transform) {
-                throw new Error('Could not find transform component of entity with id ' + entity.getId());
-            }
-
-            if (!rigidBody) {
-                throw new Error('Could not find rigidBody component of entity with id ' + entity.getId());
+            if (!rigidBody || !transform) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             transform.position.x += rigidBody.velocity.x * deltaTime;

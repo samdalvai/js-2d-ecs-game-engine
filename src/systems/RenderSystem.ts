@@ -21,12 +21,8 @@ export default class RenderSystem extends System {
             const sprite = entity.getComponent(SpriteComponent);
             const transform = entity.getComponent(TransformComponent);
 
-            if (!sprite) {
-                throw new Error('Could not find sprite component of entity with id ' + entity.getId());
-            }
-
-            if (!transform) {
-                throw new Error('Could not find transform component of entity with id ' + entity.getId());
+            if (!sprite || !transform) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             // Check if the entity sprite is outside the camera view

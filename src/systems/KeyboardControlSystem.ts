@@ -76,16 +76,8 @@ export default class KeyboardControlSystem extends System {
             const sprite = entity.getComponent(SpriteComponent);
             const rigidbody = entity.getComponent(RigidBodyComponent);
 
-            if (!keyboardControl) {
-                throw new Error('Could not find keyboardControl component of entity with id ' + entity.getId());
-            }
-
-            if (!sprite) {
-                throw new Error('Could not find sprite component of entity with id ' + entity.getId());
-            }
-
-            if (!rigidbody) {
-                throw new Error('Could not find rigidbody component of entity with id ' + entity.getId());
+            if (!keyboardControl || !sprite || !rigidbody) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             if (this.keysPressed.length == 0) {
