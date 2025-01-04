@@ -1,13 +1,11 @@
 import BoxColliderComponent from '../components/BoxColliderComponent';
-import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
-import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CollisionEvent from '../events/CollisionEvent';
-import { Flip, Vec2 } from '../types';
+import { Vec2 } from '../types';
 
 export default class MovementSystem extends System {
     constructor() {
@@ -30,8 +28,6 @@ export default class MovementSystem extends System {
         }
 
         if (a.belongsToGroup('obstacles') && (b.hasTag('player') || b.belongsToGroup('enemies'))) {
-            // Invert collision to ensure that the vector direction is always related
-            // to the "non obstacle" entity
             this.invertCollisionNormal(collisionNormal);
             this.onEntityHitsObstacle(b, a, collisionNormal);
         }
@@ -46,6 +42,8 @@ export default class MovementSystem extends System {
         }
     }
 
+    // Invert collision to ensure that the vector direction is always related
+    // to the "non obstacle" entity
     invertCollisionNormal(collisionNormal: Vec2) {
         collisionNormal.x *= -1;
         collisionNormal.y *= -1;
@@ -59,9 +57,6 @@ export default class MovementSystem extends System {
 
             const obstacleTransform = obstacle.getComponent(TransformComponent);
             const obstacleCollider = obstacle.getComponent(BoxColliderComponent);
-
-            let keyboardControl = entity.getComponent(KeyboardControlComponent);
-            console.log('keyboard control before: ', keyboardControl);
 
             if (!entityRigidBody || !entityTransform || !entityCollider) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
@@ -110,68 +105,6 @@ export default class MovementSystem extends System {
                     entityCollider.offset.x;
                 entityRigidBody.velocity.x = 0;
             }
-
-            keyboardControl = entity.getComponent(KeyboardControlComponent);
-            console.log('keyboard control after: ', keyboardControl);
-        }
-    }
-
-    onEnemyHitsObstacle(enemy: Entity) {
-        if (enemy.hasComponent(RigidBodyComponent) && enemy.hasComponent(SpriteComponent)) {
-            const rigidbody = enemy.getComponent(RigidBodyComponent);
-            const sprite = enemy.getComponent(SpriteComponent);
-
-            if (!rigidbody) {
-                throw new Error('Could not find rigidbody component of entity with id ' + enemy.getId());
-            }
-
-            if (!sprite) {
-                throw new Error('Could not find sprite component of entity with id ' + enemy.getId());
-            }
-
-            if (rigidbody.velocity.x != 0) {
-                rigidbody.velocity.x *= -1;
-                sprite.flip = sprite.flip === Flip.NONE ? Flip.HORIZONTAL : Flip.NONE;
-            }
-
-            if (rigidbody.velocity.y != 0) {
-                rigidbody.velocity.y *= -1;
-                sprite.flip = sprite.flip === Flip.NONE ? Flip.VERTICAL : Flip.NONE;
-            }
-        }
-    }
-
-    onPlayerHitsEnemyOrObstacle(player: Entity) {
-        if (player.hasComponent(RigidBodyComponent) && player.hasComponent(TransformComponent)) {
-            const rigidbody = player.getComponent(RigidBodyComponent);
-            const transform = player.getComponent(TransformComponent);
-
-            if (!rigidbody) {
-                throw new Error('Could not find rigidbody component of entity with id ' + player.getId());
-            }
-
-            if (!transform) {
-                throw new Error('Could not find transform component of entity with id ' + player.getId());
-            }
-
-            // Move player some pixels back on collision to avoid being stuck
-            if (rigidbody.velocity.x > 0) {
-                transform.position.x -= 10.0;
-            }
-
-            if (rigidbody.velocity.x < 0) {
-                transform.position.x += 10.0;
-            }
-
-            if (rigidbody.velocity.y > 0) {
-                transform.position.y -= 10.0;
-            }
-
-            if (rigidbody.velocity.y < 0) {
-                transform.position.y += 10.0;
-            }
-
-            rigidbody.velocity = { x: 0, y: 0 };
         }
     }
 
