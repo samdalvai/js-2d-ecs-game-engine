@@ -22,11 +22,11 @@ export default class MovementSystem extends System {
         const a = event.a;
         const b = event.b;
 
-        if (a.belongsToGroup('enemies') && b.belongsToGroup('obstacles')) {
-            this.onEnemyHitsObstacle(a);
+        if (a.belongsToGroup('enemies') && (b.belongsToGroup('obstacles') || b.hasTag('player'))) {
+            this.onEnemyHitsObstacleOrPlayer(a);
         }
-        if (a.belongsToGroup('obstacles') && b.belongsToGroup('enemies')) {
-            this.onEnemyHitsObstacle(b);
+        if ((a.belongsToGroup('obstacles') || a.hasTag('player')) && b.belongsToGroup('enemies')) {
+            this.onEnemyHitsObstacleOrPlayer(b);
         }
 
         if (a.hasTag('player') && (b.belongsToGroup('enemies') || b.belongsToGroup('obstacles'))) {
@@ -37,7 +37,7 @@ export default class MovementSystem extends System {
         }
     }
 
-    onEnemyHitsObstacle(enemy: Entity) {
+    onEnemyHitsObstacleOrPlayer(enemy: Entity) {
         if (enemy.hasComponent(RigidBodyComponent) && enemy.hasComponent(SpriteComponent)) {
             const rigidbody = enemy.getComponent(RigidBodyComponent);
             const sprite = enemy.getComponent(SpriteComponent);
