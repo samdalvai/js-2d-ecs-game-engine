@@ -31,19 +31,19 @@ export default class KeyboardControlSystem extends System {
     onKeyPressed = (event: KeyPressedEvent) => {
         switch (event.keyCode) {
             case 'ArrowUp':
-            case 'w':
+            case 'KeyW':
                 this.keysPressed.push(MovementDirection.UP);
                 break;
             case 'ArrowRight':
-            case 'd':
+            case 'KeyD':
                 this.keysPressed.push(MovementDirection.RIGHT);
                 break;
             case 'ArrowDown':
-            case 's':
+            case 'KeyS':
                 this.keysPressed.push(MovementDirection.DOWN);
                 break;
             case 'ArrowLeft':
-            case 'a':
+            case 'KeyA':
                 this.keysPressed.push(MovementDirection.LEFT);
                 break;
         }
@@ -52,19 +52,19 @@ export default class KeyboardControlSystem extends System {
     onKeyReleased = (event: KeyReleasedEvent) => {
         switch (event.keyCode) {
             case 'ArrowUp':
-            case 'w':
+            case 'KeyW':
                 this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.UP);
                 break;
             case 'ArrowRight':
-            case 'd':
+            case 'KeyD':
                 this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.RIGHT);
                 break;
             case 'ArrowDown':
-            case 's':
+            case 'KeyS':
                 this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.DOWN);
                 break;
             case 'ArrowLeft':
-            case 'a':
+            case 'KeyA':
                 this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.LEFT);
                 break;
         }
