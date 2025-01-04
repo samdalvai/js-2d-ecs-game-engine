@@ -32,6 +32,11 @@ export default class ProjectileEmitSystem extends System {
                         throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
                     }
 
+                    // Limit emission of projectiles to 1 every 0.5 seconds
+                    if (performance.now() - projectileEmitter.lastEmissionTime < 500) {
+                        continue;
+                    }
+
                     // If parent entity has sprite, start the projectile position in the middle of the entity
                     const projectilePosition = { ...transform.position };
                     if (entity.hasComponent(SpriteComponent)) {
@@ -69,6 +74,8 @@ export default class ProjectileEmitSystem extends System {
                         projectileEmitter.hitPercentDamage,
                         projectileEmitter.projectileDuration,
                     );
+
+                    projectileEmitter.lastEmissionTime = performance.now();
                 }
             }
         }
