@@ -1,3 +1,4 @@
+import BoxColliderComponent from '../components/BoxColliderComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
@@ -30,10 +31,10 @@ export default class MovementSystem extends System {
         }
 
         if (a.hasTag('player') && (b.belongsToGroup('enemies') || b.belongsToGroup('obstacles'))) {
-            this.onPlayerHitsEnemyOrObstacle(a);
+            this.onPlayerHitsEnemyOrObstacle(a, b);
         }
         if ((a.belongsToGroup('enemies') || a.belongsToGroup('obstacles')) && b.hasTag('player')) {
-            this.onPlayerHitsEnemyOrObstacle(b);
+            this.onPlayerHitsEnemyOrObstacle(b, a);
         }
     }
 
@@ -58,33 +59,64 @@ export default class MovementSystem extends System {
         }
     }
 
-    onPlayerHitsEnemyOrObstacle(player: Entity) {
+    onPlayerHitsEnemyOrObstacle(player: Entity, obstacle: Entity) {
         if (player.hasComponent(RigidBodyComponent) && player.hasComponent(TransformComponent)) {
-            const rigidbody = player.getComponent(RigidBodyComponent);
-            const transform = player.getComponent(TransformComponent);
+            const playerRigidBody = player.getComponent(RigidBodyComponent);
+            const playerTransform = player.getComponent(TransformComponent);
+            const playerCollider = player.getComponent(BoxColliderComponent);
 
-            if (!rigidbody || !transform) {
+            const obstacleTransform = obstacle.getComponent(TransformComponent);
+            const obstacleCollider = obstacle.getComponent(BoxColliderComponent);
+
+            if (!playerRigidBody || !playerTransform || !playerCollider) {
                 throw new Error('Could not find some component(s) of entity with id ' + player.getId());
             }
 
-            // Move player some pixels back on collision to avoid being stuck
-            if (rigidbody.velocity.x > 0) {
-                transform.position.x -= 10.0;
+            if (!obstacleTransform || !obstacleCollider) {
+                throw new Error('Could not find some component(s) of entity with id ' + player.getId());
             }
 
-            if (rigidbody.velocity.x < 0) {
-                transform.position.x += 10.0;
+            // Shift player back based on the collider dimension and position of the two entities
+
+            // Player is colliding from the right
+            if (playerRigidBody.velocity.x > 0) {
+                playerTransform.position.x =
+                    obstacleTransform.position.x -
+                    playerCollider.width * playerTransform.scale.x +
+                    obstacleCollider.offset.x -
+                    playerCollider.offset.x;
+                playerRigidBody.velocity.x = 0;
             }
 
-            if (rigidbody.velocity.y > 0) {
-                transform.position.y -= 10.0;
+            // Player is colliding from the left
+            if (playerRigidBody.velocity.x < 0) {
+                playerTransform.position.x =
+                    obstacleTransform.position.x +
+                    obstacleCollider.width * obstacleTransform.scale.x +
+                    obstacleCollider.offset.x -
+                    playerCollider.offset.x;
+                playerRigidBody.velocity.x = 0;
             }
 
-            if (rigidbody.velocity.y < 0) {
-                transform.position.y += 10.0;
+            // Player is colliding from the top
+            if (playerRigidBody.velocity.y > 0) {
+                playerTransform.position.y =
+                    obstacleTransform.position.y -
+                    playerCollider.height * playerTransform.scale.y +
+                    obstacleCollider.offset.y -
+                    playerCollider.offset.y;
+                playerRigidBody.velocity.y = 0;
             }
 
-            rigidbody.velocity = { x: 0, y: 0 };
+            // Player is colliding from the bottom
+            if (playerRigidBody.velocity.y < 0) {
+                playerTransform.position.y =
+                    obstacleTransform.position.y +
+                    obstacleCollider.height * obstacleTransform.scale.y +
+                    obstacleCollider.offset.y -
+                    playerCollider.offset.y;
+                playerRigidBody.velocity.y = 0;
+            }
         }
     }
 
