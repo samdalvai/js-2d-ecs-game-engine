@@ -7,6 +7,7 @@ import AssetStore from '../asset-store/AssetStore';
 import AnimationComponent from '../components/AnimationComponent';
 import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
+import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
@@ -82,6 +83,7 @@ export default class LevelLoader {
         );
         player.addComponent(AnimationComponent, 2, 10);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
+        player.addComponent(HealthComponent, 100);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
@@ -89,14 +91,15 @@ export default class LevelLoader {
         enemy1.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32, Flip.HORIZONTAL);
         enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 });
         enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy1.addComponent(HealthComponent, 100);
         enemy1.group('enemies');
-
 
         const enemy2 = registry.createEntity();
         enemy2.addComponent(TransformComponent, { x: 600, y: 600 }, { x: 1, y: 1 }, 0);
         enemy2.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
         enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 });
         enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy2.addComponent(HealthComponent, 50);
         enemy2.group('enemies');
 
         const tree1 = registry.createEntity();
