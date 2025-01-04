@@ -10,6 +10,7 @@ import CollisionSystem from '../systems/CollisionSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
+import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderSystem from '../systems/RenderSystem';
 import { Rect } from '../types';
 import { sleep } from '../utils/time';
@@ -95,6 +96,7 @@ export default class Game {
         this.registry.addSystem(AnimationSystem);
         this.registry.addSystem(RenderColliderSystem);
         this.registry.addSystem(CollisionSystem);
+        this.registry.addSystem(RenderHealthBarSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -169,6 +171,7 @@ export default class Game {
 
         this.registry.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
         this.registry.getSystem(AnimationSystem)?.update();
+        this.registry.getSystem(RenderHealthBarSystem)?.update(this.ctx, this.camera);
 
         if (this.isDebug) {
             const padding = 25;
