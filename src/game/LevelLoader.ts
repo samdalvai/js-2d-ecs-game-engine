@@ -1,5 +1,6 @@
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
 import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
+import treeSprite from '../../assets/images/tree.png';
 import desertSpriteSheet from '../../assets/tilemaps/desert.png';
 import tileMapJson from '../../assets/tilemaps/tilemap.json';
 import AssetStore from '../asset-store/AssetStore';
@@ -25,6 +26,7 @@ export default class LevelLoader {
         assetStore.addTexture('chopper-texture', chopperSpriteSheet);
         assetStore.addTexture('tank-texture', tankSpriteSheet);
         assetStore.addTexture('desert-texture', desertSpriteSheet);
+        assetStore.addTexture('tree-texture', treeSprite);
     }
 
     private loadTileMap(registry: Registry) {
@@ -67,7 +69,7 @@ export default class LevelLoader {
 
     private loadEntities(registry: Registry) {
         const player = registry.createEntity();
-        player.addComponent(TransformComponent, { x: 100, y: 100 }, { x: 1, y: 1 }, 0);
+        player.addComponent(TransformComponent, { x: 300, y: 300 }, { x: 1, y: 1 }, 0);
         player.addComponent(SpriteComponent, 'chopper-texture', 32, 32, 1, 0, 0);
         player.addComponent(RigidBodyComponent, { x: 0, y: 0 });
         player.addComponent(CameraFollowComponent);
@@ -83,9 +85,22 @@ export default class LevelLoader {
         player.tag('player');
 
         const enemy = registry.createEntity();
-        enemy.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);
+        enemy.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32, Flip.HORIZONTAL);
+        enemy.addComponent(RigidBodyComponent, { x: -50, y: 0 });
         enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy.group('enemies');
+
+        const tree1 = registry.createEntity();
+        tree1.addComponent(TransformComponent, { x: 400, y: 500 }, { x: 1, y: 1 }, 0);
+        tree1.addComponent(SpriteComponent, 'tree-texture', 32, 32, 1, 0);
+        tree1.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
+        tree1.group('obstacles');
+
+        const tree2 = registry.createEntity();
+        tree2.addComponent(TransformComponent, { x: 600, y: 500 }, { x: 1, y: 1 }, 0);
+        tree2.addComponent(SpriteComponent, 'tree-texture', 32, 32, 1, 0);
+        tree2.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
+        tree2.group('obstacles');
     }
 }
