@@ -9,6 +9,7 @@ import CameraMovementSystem from '../systems/CameraMovementSystem';
 import CollisionSystem from '../systems/CollisionSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
+import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderSystem from '../systems/RenderSystem';
@@ -97,6 +98,7 @@ export default class Game {
         this.registry.addSystem(RenderColliderSystem);
         this.registry.addSystem(CollisionSystem);
         this.registry.addSystem(RenderHealthBarSystem);
+        this.registry.addSystem(ProjectileEmitSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -115,7 +117,7 @@ export default class Game {
                     if (inputEvent.code === 'F2') {
                         this.isDebug = !this.isDebug;
                     }
-                    
+
                     this.eventBus.emitEvent(KeyPressedEvent, inputEvent.code);
                     break;
                 case 'keyup':
@@ -153,6 +155,7 @@ export default class Game {
         // Perform the subscription of the events for all systems
         this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
