@@ -61,8 +61,13 @@ export default class Registry {
 
             this.freeIds.push(entity.getId());
 
-            this.removeEntityTag(entity);
-            this.removeEntityGroup(entity);
+            if (this.tagPerEntity.get(entity.getId()) !== undefined) {
+                this.removeEntityTag(entity);
+            }
+
+            if (this.groupPerEntity.get(entity.getId()) !== undefined) {
+                this.removeEntityGroup(entity);
+            }
         }
 
         this.entitiesToBeKilled = [];
@@ -177,7 +182,7 @@ export default class Registry {
         const currentGroup = this.groupPerEntity.get(entity.getId());
 
         if (currentGroup === undefined) {
-            console.warn('COuld not remove entity groups for entity with id ' + entity.getId());
+            console.warn('Could not remove entity groups for entity with id ' + entity.getId());
             return;
         }
 
