@@ -4,6 +4,7 @@ import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
+import Registry from '../ecs/Registry';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
@@ -73,37 +74,50 @@ export default class ProjectileEmitSystem extends System {
         }
     }
 
-    /*void Update(std::unique_ptr<Registry>& registry) {
-            for (auto entity: GetSystemEntities()) {
-                auto& projectileEmitter = entity.GetComponent<ProjectileEmitterComponent>();
-                const auto transform = entity.GetComponent<TransformComponent>();
+    update(registry: Registry) {
+        for (const entity of this.getSystemEntities()) {
+            const projectileEmitter = entity.getComponent(ProjectileEmitterComponent);
+            const transform = entity.getComponent(TransformComponent);
 
-                // If emission frequency is zero, bypass re-emission logic
-                if (projectileEmitter.repeatFrequency == 0) {
-                    continue;
-                }
-
-                // Check if its time to re-emit a new projectile
-                if (SDL_GetTicks() - projectileEmitter.lastEmissionTime > projectileEmitter.repeatFrequency) {
-                    glm::vec2 projectilePosition = transform.position;
-                    if (entity.HasComponent<SpriteComponent>()) {
-                        const auto sprite = entity.GetComponent<SpriteComponent>();
-                        projectilePosition.x += (transform.scale.x * sprite.width / 2);
-                        projectilePosition.y += (transform.scale.y * sprite.height / 2);
-                    }
-
-                    // Add a new projectile entity to the registry
-                    Entity projectile = registry->CreateEntity();
-                    projectile.Group("projectiles");
-                    projectile.AddComponent<TransformComponent>(projectilePosition, glm::vec2(1.0, 1.0), 0.0);
-                    projectile.AddComponent<RigidBodyComponent>(projectileEmitter.projectileVelocity);
-                    projectile.AddComponent<SpriteComponent>("bullet-texture", 4, 4, 4);
-                    projectile.AddComponent<BoxColliderComponent>(4, 4);
-                    projectile.AddComponent<ProjectileComponent>(projectileEmitter.isFriendly, projectileEmitter.hitPercentDamage, projectileEmitter.projectileDuration);
-                
-                    // Update the projectile emitter component last emission to the current milliseconds
-                    projectileEmitter.lastEmissionTime = SDL_GetTicks();
-                }
+            if (!projectileEmitter || !transform) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
-        }*/
+
+            // If emission frequency is zero, bypass re-emission logic
+            if (projectileEmitter.repeatFrequency == 0) {
+                continue;
+            }
+
+            // Check if its time to re-emit a new projectile
+            if (performance.now() - projectileEmitter.lastEmissionTime > projectileEmitter.repeatFrequency) {
+                const projectilePosition = { ...transform.position };
+                if (entity.hasComponent(SpriteComponent)) {
+                    const sprite = entity.getComponent(SpriteComponent);
+
+                    if (!sprite) {
+                        throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+                    }
+                    projectilePosition.x += (transform.scale.x * sprite.width) / 2;
+                    projectilePosition.y += (transform.scale.y * sprite.height) / 2;
+                }
+
+                // Add a new projectile entity to the registry
+                const projectile = registry.createEntity();
+                projectile.group('projectiles');
+                projectile.addComponent(TransformComponent, projectilePosition, { x: 1.0, y: 1.0 }, 0.0);
+                projectile.addComponent(RigidBodyComponent, projectileEmitter.projectileVelocity);
+                projectile.addComponent(SpriteComponent, 'bullet-texture', 4, 4, 4);
+                projectile.addComponent(BoxColliderComponent, 4, 4);
+                projectile.addComponent(
+                    ProjectileComponent,
+                    projectileEmitter.isFriendly,
+                    projectileEmitter.hitPercentDamage,
+                    projectileEmitter.projectileDuration,
+                );
+
+                // Update the projectile emitter component last emission to the current milliseconds
+                projectileEmitter.lastEmissionTime = performance.now();
+            }
+        }
+    }
 }
