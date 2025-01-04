@@ -93,22 +93,22 @@ export default class KeyboardControlSystem extends System {
             } else {
                 switch (this.keysPressed[this.keysPressed.length - 1]) {
                     case MovementDirection.UP:
-                        rigidbody.velocity = keyboardControl.upVelocity;
+                        rigidbody.velocity = { ...keyboardControl.upVelocity };
                         rigidbody.direction = { x: 0, y: -1 };
                         sprite.srcRect.y = sprite.height * 0;
                         break;
                     case MovementDirection.RIGHT:
-                        rigidbody.velocity = keyboardControl.rightVelocity;
+                        rigidbody.velocity = { ...keyboardControl.rightVelocity };
                         rigidbody.direction = { x: 1, y: 0 };
                         sprite.srcRect.y = sprite.height * 1;
                         break;
                     case MovementDirection.DOWN:
-                        rigidbody.velocity = keyboardControl.downVelocity;
+                        rigidbody.velocity = { ...keyboardControl.downVelocity };
                         rigidbody.direction = { x: 0, y: 1 };
                         sprite.srcRect.y = sprite.height * 2;
                         break;
                     case MovementDirection.LEFT:
-                        rigidbody.velocity = keyboardControl.leftVelocity;
+                        rigidbody.velocity = { ...keyboardControl.leftVelocity };
                         rigidbody.direction = { x: -1, y: 0 };
                         sprite.srcRect.y = sprite.height * 3;
                         break;
