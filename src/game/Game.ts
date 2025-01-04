@@ -115,6 +115,7 @@ export default class Game {
                     if (inputEvent.key === 'F2') {
                         this.isDebug = !this.isDebug;
                     }
+                    console.log("event: ", inputEvent.code)
 
                     this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
                     break;
