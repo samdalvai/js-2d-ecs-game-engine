@@ -3,6 +3,7 @@ import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CollisionEvent from '../events/CollisionEvent';
+import { Vec2 } from '../types';
 
 export default class CollisionSystem extends System {
     constructor() {
@@ -61,7 +62,28 @@ export default class CollisionSystem extends System {
                 );
 
                 if (collisionHappened) {
-                    eventBus.emitEvent(CollisionEvent, a, b);
+                    const boxAMin = {
+                        x: aTransform.position.x + aCollider.offset.x,
+                        y: aTransform.position.y + aCollider.offset.y,
+                    };
+                    const boxAMax = {
+                        x: aTransform.position.x + aCollider.width * aTransform.scale.x + aCollider.offset.x,
+                        y: aTransform.position.y + aCollider.height * aTransform.scale.y + aCollider.offset.y,
+                    };
+
+                    const boxBMin = {
+                        x: bTransform.position.x + bCollider.offset.x,
+                        y: bTransform.position.y + bCollider.offset.y,
+                    };
+                    const boxBMax = {
+                        x: bTransform.position.x + bCollider.width * bTransform.scale.x + bCollider.offset.x,
+                        y: bTransform.position.y + bCollider.height * bTransform.scale.y + bCollider.offset.y,
+                    };
+
+                    const collisionNormal = this.computeCollisionNormal(boxAMin, boxAMax, boxBMin, boxBMax);
+
+                    console.log('collision between ' + a.getId() + ' and ' + b.getId());
+                    eventBus.emitEvent(CollisionEvent, a, b, collisionNormal);
                 }
             }
         }
@@ -69,5 +91,28 @@ export default class CollisionSystem extends System {
 
     checkAABBCollision(aX: number, aY: number, aW: number, aH: number, bX: number, bY: number, bW: number, bH: number) {
         return aX < bX + bW && aX + aW > bX && aY < bY + bH && aY + aH > bY;
+    }
+
+    computeCollisionNormal(boxAMin: Vec2, boxAMax: Vec2, boxBMin: Vec2, boxBMax: Vec2) {
+        // Calculate the overlap between the boxes on each axis
+        const xOverlap = Math.min(boxAMax.x, boxBMax.x) - Math.max(boxAMin.x, boxBMin.x);
+        const yOverlap = Math.min(boxAMax.y, boxBMax.y) - Math.max(boxAMin.y, boxBMin.y);
+
+        // Determine which axis has the smallest overlap (direction of collision)
+        if (xOverlap < yOverlap) {
+            // Colliding on the x-axis
+            if (boxAMin.x < boxBMin.x) {
+                return { x: -1, y: 0 }; // Collision normal pointing towards the left
+            } else {
+                return { x: 1, y: 0 }; // Collision normal pointing towards the right
+            }
+        } else {
+            // Colliding on the y-axis
+            if (boxAMin.y < boxBMin.y) {
+                return { x: 0, y: -1 }; // Collision normal pointing upwards
+            } else {
+                return { x: 0, y: 1 }; // Collision normal pointing downwards
+            }
+        }
     }
 }

@@ -1,3 +1,5 @@
+import BoxColliderComponent from '../components/BoxColliderComponent';
+import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
@@ -5,7 +7,7 @@ import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CollisionEvent from '../events/CollisionEvent';
-import { Flip } from '../types';
+import { Flip, Vec2 } from '../types';
 
 export default class MovementSystem extends System {
     constructor() {
@@ -21,19 +23,96 @@ export default class MovementSystem extends System {
     onCollision(event: CollisionEvent) {
         const a = event.a;
         const b = event.b;
+        const collisionNormal = event.collisionNormal;
 
-        if (a.belongsToGroup('enemies') && b.belongsToGroup('obstacles')) {
-            this.onEnemyHitsObstacle(a);
-        }
-        if (a.belongsToGroup('obstacles') && b.belongsToGroup('enemies')) {
-            this.onEnemyHitsObstacle(b);
+        if ((a.hasTag('player') || a.belongsToGroup('enemies')) && b.belongsToGroup('obstacles')) {
+            this.onEntityHitsObstacle(a, b, collisionNormal);
         }
 
-        if (a.hasTag('player') && (b.belongsToGroup('enemies') || b.belongsToGroup('obstacles'))) {
-            this.onPlayerHitsEnemyOrObstacle(a);
+        if (a.belongsToGroup('obstacles') && (b.hasTag('player') || b.belongsToGroup('enemies'))) {
+            // Invert collision to ensure that the vector direction is always related
+            // to the "non obstacle" entity
+            this.invertCollisionNormal(collisionNormal);
+            this.onEntityHitsObstacle(b, a, collisionNormal);
         }
-        if ((a.belongsToGroup('enemies') || a.belongsToGroup('obstacles')) && b.hasTag('player')) {
-            this.onPlayerHitsEnemyOrObstacle(b);
+
+        if (a.hasTag('player') && b.belongsToGroup('enemies')) {
+            this.onEntityHitsObstacle(a, b, collisionNormal);
+        }
+
+        if (a.belongsToGroup('enemies') && b.hasTag('player')) {
+            this.invertCollisionNormal(collisionNormal);
+            this.onEntityHitsObstacle(b, a, collisionNormal);
+        }
+    }
+
+    invertCollisionNormal(collisionNormal: Vec2) {
+        collisionNormal.x *= -1;
+        collisionNormal.y *= -1;
+    }
+
+    onEntityHitsObstacle(entity: Entity, obstacle: Entity, collisionNormal: Vec2) {
+        if (entity.hasComponent(RigidBodyComponent) && entity.hasComponent(TransformComponent)) {
+            const entityRigidBody = entity.getComponent(RigidBodyComponent);
+            const entityTransform = entity.getComponent(TransformComponent);
+            const entityCollider = entity.getComponent(BoxColliderComponent);
+
+            const obstacleTransform = obstacle.getComponent(TransformComponent);
+            const obstacleCollider = obstacle.getComponent(BoxColliderComponent);
+
+            let keyboardControl = entity.getComponent(KeyboardControlComponent);
+            console.log('keyboard control before: ', keyboardControl);
+
+            if (!entityRigidBody || !entityTransform || !entityCollider) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+            }
+
+            if (!obstacleTransform || !obstacleCollider) {
+                throw new Error('Could not find some component(s) of entity with id ' + obstacle.getId());
+            }
+
+            // Entity is colliding downwards, shift up by the height of the player entityCollider
+            if (collisionNormal.y < 0) {
+                entityTransform.position.y =
+                    obstacleTransform.position.y -
+                    entityCollider.height * entityTransform.scale.y +
+                    obstacleCollider.offset.y -
+                    entityCollider.offset.y;
+                entityRigidBody.velocity.y = 0;
+            }
+
+            // Entity is colliding upwards, shift down by the height of the ground entityCollider
+            if (collisionNormal.y > 0) {
+                entityTransform.position.y =
+                    obstacleTransform.position.y +
+                    obstacleCollider.height * obstacleTransform.scale.y +
+                    obstacleCollider.offset.y -
+                    entityCollider.offset.y;
+                entityRigidBody.velocity.y = 0;
+            }
+
+            // Entity is colliding on the right, shift left by width of player entityCollider
+            if (collisionNormal.x < 0) {
+                entityTransform.position.x =
+                    obstacleTransform.position.x -
+                    entityCollider.width * entityTransform.scale.x +
+                    obstacleCollider.offset.x -
+                    entityCollider.offset.x;
+                entityRigidBody.velocity.x = 0;
+            }
+
+            // Entity is colliding on the left, shift right by width of ground entityCollider
+            if (collisionNormal.x > 0) {
+                entityTransform.position.x =
+                    obstacleTransform.position.x +
+                    obstacleCollider.width * obstacleTransform.scale.x +
+                    obstacleCollider.offset.x -
+                    entityCollider.offset.x;
+                entityRigidBody.velocity.x = 0;
+            }
+
+            keyboardControl = entity.getComponent(KeyboardControlComponent);
+            console.log('keyboard control after: ', keyboardControl);
         }
     }
 
