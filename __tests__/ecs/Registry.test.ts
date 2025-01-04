@@ -910,6 +910,45 @@ describe('Testing Registry related functions', () => {
         expect(system2?.getSystemEntities().length).toEqual(0);
     });
 
+    test('Should remove entity from system and leave the other systems entities intact if entity does not appear there', () => {
+        const registry = new Registry();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        class MySystem1 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent1);
+            }
+        }
+
+        class MySystem2 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent2);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        entity1.addComponent(MyComponent1);
+
+        const entity2 = registry.createEntity();
+        entity2.addComponent(MyComponent2);
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        entity1.kill();
+        registry.update();
+
+        const system1 = registry.getSystem(MySystem1);
+        const system2 = registry.getSystem(MySystem2);
+
+        expect(system1?.getSystemEntities().length).toEqual(0);
+        expect(system2?.getSystemEntities().length).toEqual(1);
+    });
+
     test('Should add tag to entity and get entity by tag', () => {
         const registry = new Registry();
 
