@@ -87,7 +87,7 @@ export default class LevelLoader {
         player.addComponent(AnimationComponent, 2, 10);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
         player.addComponent(HealthComponent, 100);
-        player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 0, 10000, 10, true);
+        player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 0, 3000, 10, true);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
@@ -99,16 +99,16 @@ export default class LevelLoader {
         enemy1.group('enemies');
 
         const enemy2 = registry.createEntity();
-        enemy2.addComponent(TransformComponent, { x: 600, y: 600 }, { x: 1, y: 1 }, 0);
+        enemy2.addComponent(TransformComponent, { x: 650, y: 600 }, { x: 1, y: 1 }, 0);
         enemy2.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
         enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy2.addComponent(HealthComponent, 50);
-        enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 1000, 20, false);
+        enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 3000, 20, false);
         enemy2.group('enemies');
 
         const enemy3 = registry.createEntity();
-        enemy3.addComponent(TransformComponent, { x: 200, y: 500 }, { x: 1, y: 1 }, 0);
+        enemy3.addComponent(TransformComponent, { x: 250, y: 500 }, { x: 1, y: 1 }, 0);
         enemy3.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
         enemy3.addComponent(RigidBodyComponent, { x: 0, y: -50 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
