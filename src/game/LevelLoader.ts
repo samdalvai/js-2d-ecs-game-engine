@@ -10,6 +10,7 @@ import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
+import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
@@ -74,7 +75,7 @@ export default class LevelLoader {
         const player = registry.createEntity();
         player.addComponent(TransformComponent, { x: 300, y: 300 }, { x: 1, y: 1 }, 0);
         player.addComponent(SpriteComponent, 'chopper-texture', 32, 32, 1, 0, 0);
-        player.addComponent(RigidBodyComponent, { x: 0, y: 0 });
+        player.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         player.addComponent(CameraFollowComponent);
         player.addComponent(
             KeyboardControlComponent,
@@ -86,6 +87,7 @@ export default class LevelLoader {
         player.addComponent(AnimationComponent, 2, 10);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
         player.addComponent(HealthComponent, 100);
+        player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 10, 0, 10, true);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
@@ -102,7 +104,17 @@ export default class LevelLoader {
         enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 });
         enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy2.addComponent(HealthComponent, 50);
+        enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: Math.random() * 100 }, 3, 1, 20, false);
         enemy2.group('enemies');
+
+        const enemy3= registry.createEntity();
+        enemy3.addComponent(TransformComponent, { x: 200, y: 200 }, { x: 1, y: 1 }, 0);
+        enemy3.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
+        enemy3.addComponent(RigidBodyComponent, { x: 0, y: -50 });
+        enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy3.addComponent(HealthComponent, 50);
+        enemy3.addComponent(ProjectileEmitterComponent, { x: 0, y: Math.random() * 100 }, 3, 1, 20, false);
+        enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
         tree1.addComponent(TransformComponent, { x: 400, y: 500 }, { x: 1, y: 1 }, 0);
