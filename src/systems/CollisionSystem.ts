@@ -20,12 +20,8 @@ export default class CollisionSystem extends System {
             const aTransform = a.getComponent(TransformComponent);
             const aCollider = a.getComponent(BoxColliderComponent);
 
-            if (!aTransform) {
-                throw new Error('Could not find transform component of entity with id ' + a.getId());
-            }
-
-            if (!aCollider) {
-                throw new Error('Could not find collider component of entity with id ' + a.getId());
+            if (!aTransform || !aCollider) {
+                throw new Error('Could not find some component(s) of entity with id ' + a.getId());
             }
 
             // Loop all the entities that still need to be checked (to the right of i)
@@ -40,12 +36,8 @@ export default class CollisionSystem extends System {
                 const bTransform = b.getComponent(TransformComponent);
                 const bCollider = b.getComponent(BoxColliderComponent);
 
-                if (!bTransform) {
-                    throw new Error('Could not find transform component of entity with id ' + b.getId());
-                }
-
-                if (!bCollider) {
-                    throw new Error('Could not find collider component of entity with id ' + b.getId());
+                if (!bTransform || !bCollider) {
+                    throw new Error('Could not find some component(s) of entity with id ' + b.getId());
                 }
 
                 // Perform the AABB collision check between entities a and b

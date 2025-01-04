@@ -15,12 +15,8 @@ export default class RenderColliderSystem extends System {
             const transform = entity.getComponent(TransformComponent);
             const collider = entity.getComponent(BoxColliderComponent);
 
-            if (!transform) {
-                throw new Error('Could not find transform component of entity with id ' + entity.getId());
-            }
-
-            if (!collider) {
-                throw new Error('Could not find collider component of entity with id ' + entity.getId());
+            if (!collider || !transform) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             // Bypass rendering if entities are outside the camera view

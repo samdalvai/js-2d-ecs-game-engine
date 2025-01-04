@@ -16,9 +16,7 @@ export default class CameraMovementSystem extends System {
             const transform = entity.getComponent(TransformComponent);
 
             if (!transform) {
-                throw new Error(
-                    'Could not find transform component of entity with id ' + entity.getId(),
-                );
+                throw new Error('Could not find transform component of entity with id ' + entity.getId());
             }
 
             if (transform.position.x + camera.width / 2 < Game.mapWidth) {
