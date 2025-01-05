@@ -34,7 +34,7 @@ export default class ProjectileEmitSystem extends System {
                     }
 
                     // Limit emission of projectiles to 1 every 0.5 seconds
-                    if (performance.now() - projectileEmitter.lastEmissionTime < 500) {
+                    if (performance.now() - projectileEmitter.lastEmissionTime < 100) {
                         continue;
                     }
 
