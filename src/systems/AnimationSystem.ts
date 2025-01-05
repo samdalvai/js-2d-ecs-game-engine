@@ -18,6 +18,10 @@ export default class AnimationSystem extends System {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
+            if (!animation.isLoop && animation.currentFrame === animation.numFrames - 1) {
+                return;
+            }
+
             animation.currentFrame =
                 Math.round(((performance.now() - animation.startTime) * animation.frameSpeedRate) / 1000) %
                 animation.numFrames;

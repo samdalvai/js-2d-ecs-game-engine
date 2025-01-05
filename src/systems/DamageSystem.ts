@@ -5,10 +5,14 @@ import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CollisionEvent from '../events/CollisionEvent';
+import EntityKilledEvent from '../events/EntityKilledEvent';
 
 export default class DamageSystem extends System {
-    constructor() {
+    eventBus: EventBus;
+
+    constructor(eventBus: EventBus) {
         super();
+        this.eventBus = eventBus;
         this.requireComponent(BoxColliderComponent);
     }
 
@@ -54,6 +58,7 @@ export default class DamageSystem extends System {
             health.healthPercentage -= projectileComponent.hitPercentDamage;
 
             if (health.healthPercentage <= 0) {
+                this.eventBus.emitEvent(EntityKilledEvent, player);
                 player.kill();
             }
 
@@ -78,6 +83,7 @@ export default class DamageSystem extends System {
             health.healthPercentage -= projectileComponent.hitPercentDamage;
 
             if (health.healthPercentage <= 0) {
+                this.eventBus.emitEvent(EntityKilledEvent, enemy);
                 enemy.kill();
             }
 
