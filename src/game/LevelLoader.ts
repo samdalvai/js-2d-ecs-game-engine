@@ -1,5 +1,6 @@
 import bulletSprite from '../../assets/images/bullet.png';
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
+import explosionSprite from '../../assets/images/explosion.png';
 import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
 import treeSprite from '../../assets/images/tree.png';
 import desertSpriteSheet from '../../assets/tilemaps/desert.png';
@@ -31,6 +32,7 @@ export default class LevelLoader {
         assetStore.addTexture('desert-texture', desertSpriteSheet);
         assetStore.addTexture('tree-texture', treeSprite);
         assetStore.addTexture('bullet-texture', bulletSprite);
+        assetStore.addTexture('explosion-texture', explosionSprite);
     }
 
     private loadTileMap(registry: Registry) {
@@ -127,5 +129,10 @@ export default class LevelLoader {
         tree2.addComponent(SpriteComponent, 'tree-texture', 32, 32, 1, 0);
         tree2.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
         tree2.group('obstacles');
+
+        const explosion = registry.createEntity();
+        explosion.addComponent(TransformComponent, { x: 400, y: 300 }, { x: 1.5, y: 1.5 }, 0);
+        explosion.addComponent(SpriteComponent, 'explosion-texture', 32, 32, 1, 0);
+        explosion.addComponent(AnimationComponent, 11, 10);
     }
 }

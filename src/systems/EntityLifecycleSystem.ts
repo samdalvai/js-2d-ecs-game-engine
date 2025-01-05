@@ -9,14 +9,14 @@ export default class EntityLifecycleSystem extends System {
 
     update() {
         for (const entity of this.getSystemEntities()) {
-            const projectile = entity.getComponent(DurationComponent);
+            const duration = entity.getComponent(DurationComponent);
 
-            if (!projectile) {
+            if (!duration) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             // Kill projectiles after they reach their duration limit
-            if (performance.now() - projectile.startTime > projectile.duration) {
+            if (performance.now() - duration.startTime > duration.duration) {
                 entity.kill();
             }
         }
