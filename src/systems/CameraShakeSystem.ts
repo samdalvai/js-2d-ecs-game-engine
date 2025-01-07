@@ -2,6 +2,8 @@ import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CameraShakeEvent from '../events/CameraShakeEvent';
 
+const SHAKE_MAX_MOVEMENT = 5;
+
 export default class CameraShakeSystem extends System {
     shaking = false;
     shakeDuration = 0;
@@ -12,13 +14,22 @@ export default class CameraShakeSystem extends System {
     }
 
     subscribeToEvents = (eventBus: EventBus) => {
-        eventBus.subscribeToEvent(CameraShakeEvent, this, this.onCameraShake);
+        eventBus.subscribeToEvent(CameraShakeEvent, this, event => this.onCameraShake(event, performance.now()));
     };
 
-    onCameraShake = (event: CameraShakeEvent) => {
+    onCameraShake = (event: CameraShakeEvent, currentTime: number) => {
+        // If there is already a shake ongoing which will last more than the new one, skip the new shake
+        if (this.shaking) {
+            const remaining = currentTime + (this.shakeDuration - this.shakeStartTime);
+
+            if (remaining > event.shakeDuration) {
+                return;
+            }
+        }
+
         this.shaking = true;
         this.shakeDuration = event.shakeDuration;
-        this.shakeStartTime = performance.now();
+        this.shakeStartTime = currentTime;
     };
 
     update(ctx: CanvasRenderingContext2D) {
@@ -38,7 +49,7 @@ export default class CameraShakeSystem extends System {
         }
 
         // Apply random shake
-        const { x, y } = this.generateRandomMovement(5);
+        const { x, y } = this.generateRandomMovement(SHAKE_MAX_MOVEMENT);
         ctx.setTransform(1, 0, 0, 1, x, y);
     }
 
