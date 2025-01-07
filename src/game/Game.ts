@@ -9,7 +9,7 @@ import CameraMovementSystem from '../systems/CameraMovementSystem';
 import CameraShakeSystem from '../systems/CameraShakeSystem';
 import CollisionSystem from '../systems/CollisionSystem';
 import DamageSystem from '../systems/DamageSystem';
-import ExplosionAnimationSystem from '../systems/ExplosionAnimationSystem';
+import ExplosionOnDeathSystem from '../systems/ExplosionOnDeathSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import LifetimeSystem from '../systems/LifetimeSystem';
 import MovementSystem from '../systems/MovementSystem';
@@ -105,7 +105,7 @@ export default class Game {
         this.registry.addSystem(ProjectileEmitSystem);
         this.registry.addSystem(DamageSystem, this.eventBus);
         this.registry.addSystem(LifetimeSystem);
-        this.registry.addSystem(ExplosionAnimationSystem);
+        this.registry.addSystem(ExplosionOnDeathSystem);
         this.registry.addSystem(CameraShakeSystem);
 
         const loader = new LevelLoader();
@@ -165,7 +165,7 @@ export default class Game {
         this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(ExplosionAnimationSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
