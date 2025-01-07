@@ -46,10 +46,6 @@ export default class Entity {
     }
 
     hasComponent<T extends Component>(ComponentClass: ComponentClass<T>): boolean {
-        if (!this.registry) {
-            return false;
-        }
-
         return this.registry.hasComponent<T>(this, ComponentClass);
     }
 

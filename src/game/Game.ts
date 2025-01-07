@@ -6,10 +6,17 @@ import KeyReleasedEvent from '../events/KeyReleasedEvent';
 import InputManager from '../input-manager/InputManager';
 import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
+import CameraShakeSystem from '../systems/CameraShakeSystem';
 import CollisionSystem from '../systems/CollisionSystem';
+import DamageSystem from '../systems/DamageSystem';
+import ExplosionOnDeathSystem from '../systems/ExplosionOnDeathSystem';
+import ExplosionOnHitSystem from '../systems/ExplosionOnHitSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
+import LifetimeSystem from '../systems/LifetimeSystem';
 import MovementSystem from '../systems/MovementSystem';
+import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
+import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderSystem from '../systems/RenderSystem';
 import { Rect } from '../types';
 import { sleep } from '../utils/time';
@@ -95,6 +102,13 @@ export default class Game {
         this.registry.addSystem(AnimationSystem);
         this.registry.addSystem(RenderColliderSystem);
         this.registry.addSystem(CollisionSystem);
+        this.registry.addSystem(RenderHealthBarSystem);
+        this.registry.addSystem(ProjectileEmitSystem);
+        this.registry.addSystem(DamageSystem, this.eventBus);
+        this.registry.addSystem(LifetimeSystem);
+        this.registry.addSystem(ExplosionOnDeathSystem);
+        this.registry.addSystem(ExplosionOnHitSystem);
+        this.registry.addSystem(CameraShakeSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -110,14 +124,14 @@ export default class Game {
 
             switch (inputEvent.type) {
                 case 'keydown':
-                    if (inputEvent.key === 'F2') {
+                    if (inputEvent.code === 'F2') {
                         this.isDebug = !this.isDebug;
                     }
 
-                    this.eventBus.emitEvent(KeyPressedEvent, inputEvent.key);
+                    this.eventBus.emitEvent(KeyPressedEvent, inputEvent.code);
                     break;
                 case 'keyup':
-                    this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.key);
+                    this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.code);
                     break;
             }
         }
@@ -151,12 +165,19 @@ export default class Game {
         // Perform the subscription of the events for all systems
         this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
         this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
         this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
         this.registry.getSystem(KeyboardControlSystem)?.update();
+        this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
+        this.registry.getSystem(LifetimeSystem)?.update();
     };
 
     private render = () => {
@@ -169,6 +190,8 @@ export default class Game {
 
         this.registry.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
         this.registry.getSystem(AnimationSystem)?.update();
+        this.registry.getSystem(RenderHealthBarSystem)?.update(this.ctx, this.camera);
+        this.registry.getSystem(CameraShakeSystem)?.update(this.ctx);
 
         if (this.isDebug) {
             const padding = 25;
