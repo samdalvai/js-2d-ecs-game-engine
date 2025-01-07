@@ -6,11 +6,12 @@ import KeyReleasedEvent from '../events/KeyReleasedEvent';
 import InputManager from '../input-manager/InputManager';
 import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
+import CameraShakeSystem from '../systems/CameraShakeSystem';
 import CollisionSystem from '../systems/CollisionSystem';
 import DamageSystem from '../systems/DamageSystem';
-import LifetimeSystem from '../systems/LifetimeSystem';
 import ExplosionAnimationSystem from '../systems/ExplosionAnimationSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
+import LifetimeSystem from '../systems/LifetimeSystem';
 import MovementSystem from '../systems/MovementSystem';
 import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
@@ -105,6 +106,7 @@ export default class Game {
         this.registry.addSystem(DamageSystem, this.eventBus);
         this.registry.addSystem(LifetimeSystem);
         this.registry.addSystem(ExplosionAnimationSystem);
+        this.registry.addSystem(CameraShakeSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -185,6 +187,7 @@ export default class Game {
         this.registry.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
         this.registry.getSystem(AnimationSystem)?.update();
         this.registry.getSystem(RenderHealthBarSystem)?.update(this.ctx, this.camera);
+        this.registry.getSystem(CameraShakeSystem)?.update(this.ctx);
 
         if (this.isDebug) {
             const padding = 25;
