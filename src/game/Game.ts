@@ -166,6 +166,7 @@ export default class Game {
         this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(ExplosionAnimationSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
