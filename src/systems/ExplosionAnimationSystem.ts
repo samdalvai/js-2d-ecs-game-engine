@@ -1,6 +1,6 @@
 import AnimationComponent from '../components/AnimationComponent';
-import DurationComponent from '../components/DurationComponent';
 import ExplosionComponent from '../components/ExplosionComponent';
+import LifetimeComponent from '../components/LifetimeComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
@@ -45,21 +45,7 @@ export default class ExplosionAnimationSystem extends System {
             );
             explosionAnimation.addComponent(SpriteComponent, 'explosion-texture', 32, 32, 1, 0);
             explosionAnimation.addComponent(AnimationComponent, 11, 10, false);
-            explosionAnimation.addComponent(DurationComponent, 1000);
+            explosionAnimation.addComponent(LifetimeComponent, 1000);
         }
     };
 }
-
-/*
-
-
-
-| -- -- -- |
-|
-| -- -- -- |
-|                   |
-|                   |
-| -- -- -- -- -- -- |
-
-
-*/

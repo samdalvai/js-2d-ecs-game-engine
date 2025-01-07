@@ -8,7 +8,7 @@ import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
 import CollisionSystem from '../systems/CollisionSystem';
 import DamageSystem from '../systems/DamageSystem';
-import EntityLifecycleSystem from '../systems/EntityLifecycleSystem';
+import LifetimeSystem from '../systems/LifetimeSystem';
 import ExplosionAnimationSystem from '../systems/ExplosionAnimationSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import MovementSystem from '../systems/MovementSystem';
@@ -103,7 +103,7 @@ export default class Game {
         this.registry.addSystem(RenderHealthBarSystem);
         this.registry.addSystem(ProjectileEmitSystem);
         this.registry.addSystem(DamageSystem, this.eventBus);
-        this.registry.addSystem(EntityLifecycleSystem);
+        this.registry.addSystem(LifetimeSystem);
         this.registry.addSystem(ExplosionAnimationSystem);
 
         const loader = new LevelLoader();
@@ -171,7 +171,7 @@ export default class Game {
         this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
         this.registry.getSystem(KeyboardControlSystem)?.update();
         this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
-        this.registry.getSystem(EntityLifecycleSystem)?.update();
+        this.registry.getSystem(LifetimeSystem)?.update();
     };
 
     private render = () => {
