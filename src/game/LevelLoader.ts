@@ -1,5 +1,6 @@
 import bulletSprite from '../../assets/images/bullet.png';
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
+import explosionSmallSprite from '../../assets/images/explosion-small.png';
 import explosionSprite from '../../assets/images/explosion.png';
 import tankSpriteSheet from '../../assets/images/tank-panther-spritesheet.png';
 import treeSprite from '../../assets/images/tree.png';
@@ -11,6 +12,7 @@ import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
 import CameraShakeComponent from '../components/CameraShakeComponent';
 import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
+import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
@@ -35,6 +37,7 @@ export default class LevelLoader {
         assetStore.addTexture('tree-texture', treeSprite);
         assetStore.addTexture('bullet-texture', bulletSprite);
         assetStore.addTexture('explosion-texture', explosionSprite);
+        assetStore.addTexture('explosion-small-texture', explosionSmallSprite);
     }
 
     private loadTileMap(registry: Registry) {
@@ -93,6 +96,7 @@ export default class LevelLoader {
         player.addComponent(HealthComponent, 100);
         player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 0, 3000, 10, true);
         player.addComponent(ExplosionOnDeathComponent);
+        player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
         player.tag('player');
 
@@ -103,6 +107,7 @@ export default class LevelLoader {
         enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy1.addComponent(HealthComponent, 100);
         enemy1.addComponent(ExplosionOnDeathComponent);
+        enemy1.addComponent(ExplosionOnHitComponent);
         enemy1.group('enemies');
 
         const enemy2 = registry.createEntity();
@@ -113,6 +118,7 @@ export default class LevelLoader {
         enemy2.addComponent(HealthComponent, 50);
         enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 3000, 20, false);
         enemy2.addComponent(ExplosionOnDeathComponent);
+        enemy2.addComponent(ExplosionOnHitComponent);
         enemy2.group('enemies');
 
         const enemy3 = registry.createEntity();
@@ -123,6 +129,7 @@ export default class LevelLoader {
         enemy3.addComponent(HealthComponent, 50);
         enemy3.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 1000, 20, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
+        enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();

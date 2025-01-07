@@ -2,11 +2,13 @@ import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraShakeComponent from '../components/CameraShakeComponent';
 import HealthComponent from '../components/HealthComponent';
 import ProjectileComponent from '../components/ProjectileComponent';
+import TransformComponent from '../components/TransformComponent';
 import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CameraShakeEvent from '../events/CameraShakeEvent';
 import CollisionEvent from '../events/CollisionEvent';
+import EntityHitEvent from '../events/EntityHitEvent';
 import EntityKilledEvent from '../events/EntityKilledEvent';
 
 export default class DamageSystem extends System {
@@ -75,6 +77,16 @@ export default class DamageSystem extends System {
 
                 this.eventBus.emitEvent(CameraShakeEvent, cameraShake.shakeDuration);
             }
+
+            if (projectile.hasComponent(TransformComponent)) {
+                const transform = projectile.getComponent(TransformComponent);
+
+                if (!transform) {
+                    throw new Error('Could not find some component(s) of entity with id ' + projectile.getId());
+                }
+
+                this.eventBus.emitEvent(EntityHitEvent, player, transform.position);
+            }
         }
     }
 
@@ -100,6 +112,16 @@ export default class DamageSystem extends System {
             }
 
             projectile.kill();
+
+            if (projectile.hasComponent(TransformComponent)) {
+                const transform = projectile.getComponent(TransformComponent);
+
+                if (!transform) {
+                    throw new Error('Could not find some component(s) of entity with id ' + projectile.getId());
+                }
+
+                this.eventBus.emitEvent(EntityHitEvent, enemy, transform.position);
+            }
         }
     }
 }
