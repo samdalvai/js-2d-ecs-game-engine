@@ -1,5 +1,5 @@
 import AnimationComponent from '../components/AnimationComponent';
-import ExplosionComponent from '../components/ExplosionComponent';
+import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
 import LifetimeComponent from '../components/LifetimeComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
@@ -7,7 +7,7 @@ import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import EntityKilledEvent from '../events/EntityKilledEvent';
 
-export default class ExplosionAnimationSystem extends System {
+export default class ExplosionOnDeathSystem extends System {
     constructor() {
         super();
     }
@@ -21,11 +21,11 @@ export default class ExplosionAnimationSystem extends System {
         const entity = event.entity;
 
         if (
-            entity.hasComponent(ExplosionComponent) &&
+            entity.hasComponent(ExplosionOnDeathComponent) &&
             entity.hasComponent(TransformComponent) &&
             entity.hasComponent(SpriteComponent)
         ) {
-            const explosion = entity.getComponent(ExplosionComponent);
+            const explosion = entity.getComponent(ExplosionOnDeathComponent);
             const transform = entity.getComponent(TransformComponent);
             const sprite = entity.getComponent(SpriteComponent);
 

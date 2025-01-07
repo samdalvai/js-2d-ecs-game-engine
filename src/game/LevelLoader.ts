@@ -10,7 +10,7 @@ import AnimationComponent from '../components/AnimationComponent';
 import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
 import CameraShakeComponent from '../components/CameraShakeComponent';
-import ExplosionComponent from '../components/ExplosionComponent';
+import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
@@ -92,7 +92,7 @@ export default class LevelLoader {
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
         player.addComponent(HealthComponent, 100);
         player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 0, 3000, 10, true);
-        player.addComponent(ExplosionComponent);
+        player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(CameraShakeComponent, 100);
         player.tag('player');
 
@@ -102,7 +102,7 @@ export default class LevelLoader {
         enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 });
         enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy1.addComponent(HealthComponent, 100);
-        enemy1.addComponent(ExplosionComponent);
+        enemy1.addComponent(ExplosionOnDeathComponent);
         enemy1.group('enemies');
 
         const enemy2 = registry.createEntity();
@@ -112,7 +112,7 @@ export default class LevelLoader {
         enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy2.addComponent(HealthComponent, 50);
         enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 3000, 20, false);
-        enemy2.addComponent(ExplosionComponent);
+        enemy2.addComponent(ExplosionOnDeathComponent);
         enemy2.group('enemies');
 
         const enemy3 = registry.createEntity();
@@ -122,7 +122,7 @@ export default class LevelLoader {
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
         enemy3.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 1000, 20, false);
-        enemy3.addComponent(ExplosionComponent);
+        enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
