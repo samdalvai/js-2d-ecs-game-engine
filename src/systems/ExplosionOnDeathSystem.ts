@@ -17,7 +17,6 @@ export default class ExplosionOnDeathSystem extends System {
     };
 
     onEntityKilled = (event: EntityKilledEvent) => {
-        console.log('Entity killed: ', event.entity);
         const entity = event.entity;
 
         if (

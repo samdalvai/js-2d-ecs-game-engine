@@ -2,7 +2,7 @@ import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CameraShakeEvent from '../events/CameraShakeEvent';
 
-const SHAKE_MAX_MOVEMENT = 5;
+const SHAKE_MAX_MOVEMENT = 10;
 
 export default class CameraShakeSystem extends System {
     shaking = false;
