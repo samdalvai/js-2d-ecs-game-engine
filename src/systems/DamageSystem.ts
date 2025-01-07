@@ -1,9 +1,11 @@
 import BoxColliderComponent from '../components/BoxColliderComponent';
+import CameraShakeComponent from '../components/CameraShakeComponent';
 import HealthComponent from '../components/HealthComponent';
 import ProjectileComponent from '../components/ProjectileComponent';
 import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
+import CameraShakeEvent from '../events/CameraShakeEvent';
 import CollisionEvent from '../events/CollisionEvent';
 import EntityKilledEvent from '../events/EntityKilledEvent';
 
@@ -63,6 +65,16 @@ export default class DamageSystem extends System {
             }
 
             projectile.kill();
+
+            if (player.hasComponent(CameraShakeComponent)) {
+                const cameraShake = player.getComponent(CameraShakeComponent);
+
+                if (!cameraShake) {
+                    throw new Error('Could not find some component(s) of entity with id ' + player.getId());
+                }
+
+                this.eventBus.emitEvent(CameraShakeEvent, cameraShake.shakeDuration);
+            }
         }
     }
 

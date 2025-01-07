@@ -9,6 +9,7 @@ import AssetStore from '../asset-store/AssetStore';
 import AnimationComponent from '../components/AnimationComponent';
 import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
+import CameraShakeComponent from '../components/CameraShakeComponent';
 import ExplosionComponent from '../components/ExplosionComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
@@ -92,6 +93,7 @@ export default class LevelLoader {
         player.addComponent(HealthComponent, 100);
         player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 0, 3000, 10, true);
         player.addComponent(ExplosionComponent);
+        player.addComponent(CameraShakeComponent, 100);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
