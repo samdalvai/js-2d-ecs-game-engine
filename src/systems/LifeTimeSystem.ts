@@ -1,22 +1,22 @@
-import DurationComponent from '../components/DurationComponent';
+import LifetimeComponent from '../components/LifetimeComponent';
 import System from '../ecs/System';
 
-export default class EntityLifecycleSystem extends System {
+export default class LifetimeSystem extends System {
     constructor() {
         super();
-        this.requireComponent(DurationComponent);
+        this.requireComponent(LifetimeComponent);
     }
 
     update() {
         for (const entity of this.getSystemEntities()) {
-            const duration = entity.getComponent(DurationComponent);
+            const lifeTime = entity.getComponent(LifetimeComponent);
 
-            if (!duration) {
+            if (!lifeTime) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             // Kill projectiles after they reach their duration limit
-            if (performance.now() - duration.startTime > duration.duration) {
+            if (performance.now() - lifeTime.startTime > lifeTime.lifetime) {
                 entity.kill();
             }
         }

@@ -1,5 +1,5 @@
 import BoxColliderComponent from '../components/BoxColliderComponent';
-import DurationComponent from '../components/DurationComponent';
+import LifetimeComponent from '../components/LifetimeComponent';
 import ProjectileComponent from '../components/ProjectileComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
@@ -74,7 +74,7 @@ export default class ProjectileEmitSystem extends System {
                         projectileEmitter.isFriendly,
                         projectileEmitter.hitPercentDamage,
                     );
-                    projectile.addComponent(DurationComponent, projectileEmitter.projectileDuration);
+                    projectile.addComponent(LifetimeComponent, projectileEmitter.projectileDuration);
 
                     projectileEmitter.lastEmissionTime = performance.now();
                 }
@@ -121,7 +121,7 @@ export default class ProjectileEmitSystem extends System {
                     projectileEmitter.isFriendly,
                     projectileEmitter.hitPercentDamage,
                 );
-                projectile.addComponent(DurationComponent, projectileEmitter.projectileDuration);
+                projectile.addComponent(LifetimeComponent, projectileEmitter.projectileDuration);
 
                 // Update the projectile emitter component last emission to the current milliseconds
                 projectileEmitter.lastEmissionTime = performance.now();

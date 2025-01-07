@@ -9,7 +9,6 @@ import AssetStore from '../asset-store/AssetStore';
 import AnimationComponent from '../components/AnimationComponent';
 import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
-import DurationComponent from '../components/DurationComponent';
 import ExplosionComponent from '../components/ExplosionComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
