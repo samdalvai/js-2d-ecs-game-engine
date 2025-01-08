@@ -6,7 +6,7 @@ import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
 import KeyReleasedEvent from '../events/KeyReleasedEvent';
 
-enum MovementDirection {
+export enum MovementDirection {
     UP,
     RIGHT,
     DOWN,
@@ -85,29 +85,69 @@ export default class KeyboardControlSystem extends System {
             } else {
                 switch (this.keysPressed[this.keysPressed.length - 1]) {
                     case MovementDirection.UP:
-                        rigidbody.velocity = { ...keyboardControl.upVelocity };
+                        this.accellerateEntity(rigidbody, keyboardControl, MovementDirection.UP);
                         rigidbody.direction = { x: 0, y: -1 };
                         sprite.srcRect.y = sprite.height * 0;
                         break;
                     case MovementDirection.RIGHT:
-                        rigidbody.velocity = { ...keyboardControl.rightVelocity };
+                        this.accellerateEntity(rigidbody, keyboardControl, MovementDirection.RIGHT);
                         rigidbody.direction = { x: 1, y: 0 };
                         sprite.srcRect.y = sprite.height * 1;
                         break;
                     case MovementDirection.DOWN:
-                        rigidbody.velocity = { ...keyboardControl.downVelocity };
+                        this.accellerateEntity(rigidbody, keyboardControl, MovementDirection.DOWN);
                         rigidbody.direction = { x: 0, y: 1 };
                         sprite.srcRect.y = sprite.height * 2;
                         break;
                     case MovementDirection.LEFT:
-                        rigidbody.velocity = { ...keyboardControl.leftVelocity };
+                        this.accellerateEntity(rigidbody, keyboardControl, MovementDirection.LEFT);
                         rigidbody.direction = { x: -1, y: 0 };
                         sprite.srcRect.y = sprite.height * 3;
                         break;
                     default:
                         break;
                 }
+                console.log('rigidBody: ', rigidbody);
             }
+        }
+    };
+
+    accellerateEntity = (
+        rigidBody: RigidBodyComponent,
+        keyboardControl: KeyboardControlComponent,
+        movementDirection: MovementDirection,
+    ) => {
+        switch (movementDirection) {
+            case MovementDirection.UP:
+                rigidBody.velocity.x = 0;
+                rigidBody.velocity.y -=
+                    rigidBody.velocity.y - keyboardControl.accelleration > keyboardControl.upVelocity
+                        ? keyboardControl.accelleration
+                        : rigidBody.velocity.y - keyboardControl.upVelocity;
+                break;
+            case MovementDirection.RIGHT:
+                rigidBody.velocity.y = 0;
+                rigidBody.velocity.x +=
+                    rigidBody.velocity.x + keyboardControl.accelleration < keyboardControl.rightVelocity
+                        ? keyboardControl.accelleration
+                        : keyboardControl.rightVelocity - rigidBody.velocity.x;
+                break;
+            case MovementDirection.DOWN:
+                rigidBody.velocity.x = 0;
+                rigidBody.velocity.y +=
+                    rigidBody.velocity.y + keyboardControl.accelleration < keyboardControl.downVelocity
+                        ? keyboardControl.accelleration
+                        : keyboardControl.downVelocity - rigidBody.velocity.y;
+                break;
+            case MovementDirection.LEFT:
+                rigidBody.velocity.y = 0;
+                rigidBody.velocity.x -=
+                    rigidBody.velocity.x - keyboardControl.accelleration > keyboardControl.leftVelocity
+                        ? keyboardControl.accelleration
+                        : rigidBody.velocity.x - keyboardControl.leftVelocity;
+                break;
+            default:
+                break;
         }
     };
 }

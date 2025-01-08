@@ -6,7 +6,7 @@ import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CollisionEvent from '../events/CollisionEvent';
-import { Flip } from '../types';
+import { Flip } from '../types/types';
 
 export default class MovementSystem extends System {
     constructor() {
