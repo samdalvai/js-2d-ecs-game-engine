@@ -110,7 +110,6 @@ export default class LevelLoader {
         enemy1.addComponent(HealthComponent, 100);
         enemy1.addComponent(ExplosionOnDeathComponent);
         enemy1.addComponent(ExplosionOnHitComponent);
-        enemy1.addComponent(ShadowComponent, 30, 16, 0, -10);
         enemy1.group('enemies');
 
         const enemy2 = registry.createEntity();
@@ -122,7 +121,6 @@ export default class LevelLoader {
         enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 3000, 20, false);
         enemy2.addComponent(ExplosionOnDeathComponent);
         enemy2.addComponent(ExplosionOnHitComponent);
-        enemy2.addComponent(ShadowComponent, 20, 20, 0, -10);
         enemy2.group('enemies');
 
         const enemy3 = registry.createEntity();
@@ -134,7 +132,6 @@ export default class LevelLoader {
         enemy3.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 1000, 20, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
-        enemy3.addComponent(ShadowComponent, 20, 20, 0, -10);
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
