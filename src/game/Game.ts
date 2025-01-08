@@ -18,7 +18,7 @@ import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderSystem from '../systems/RenderSystem';
-import { Rect } from '../types';
+import { Rect } from '../types/types';
 import { sleep } from '../utils/time';
 import LevelLoader from './LevelLoader';
 

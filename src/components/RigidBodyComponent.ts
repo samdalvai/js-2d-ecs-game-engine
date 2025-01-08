@@ -1,5 +1,5 @@
 import Component from '../ecs/Component';
-import { Vec2 } from '../types';
+import { Vec2 } from '../types/types';
 
 export default class RigidBodyComponent extends Component {
     velocity: Vec2;

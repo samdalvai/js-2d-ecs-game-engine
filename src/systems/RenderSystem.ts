@@ -3,7 +3,7 @@ import ShadowComponent from '../components/ShadowComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
-import { Flip, Rect } from '../types';
+import { Flip, Rect } from '../types/types';
 
 export default class RenderSystem extends System {
     constructor() {
