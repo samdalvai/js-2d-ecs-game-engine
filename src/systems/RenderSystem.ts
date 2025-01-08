@@ -1,4 +1,5 @@
 import AssetStore from '../asset-store/AssetStore';
+import ShadowComponent from '../components/ShadowComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
@@ -15,6 +16,7 @@ export default class RenderSystem extends System {
         const renderableEntities: {
             sprite: SpriteComponent;
             transform: TransformComponent;
+            shadow?: ShadowComponent;
         }[] = [];
 
         for (const entity of this.getSystemEntities()) {
@@ -37,7 +39,9 @@ export default class RenderSystem extends System {
                 continue;
             }
 
-            renderableEntities.push({ sprite, transform });
+            const shadow = entity.hasComponent(ShadowComponent) ? entity.getComponent(ShadowComponent) : undefined;
+
+            renderableEntities.push({ sprite, transform, shadow });
         }
 
         renderableEntities.sort((entityA, entityB) => {
@@ -47,6 +51,26 @@ export default class RenderSystem extends System {
         for (const entity of renderableEntities) {
             const sprite = entity.sprite;
             const transform = entity.transform;
+
+            if (entity.shadow) {
+                ctx.save();
+
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'; // Semi-transparent black
+
+                // Position the shadow below the entity
+                const shadowX =
+                    transform.position.x + entity.shadow.offsetX + (sprite.width * transform.scale.x) / 2 - camera.x;
+                const shadowY =
+                    transform.position.y + entity.shadow.offsetY + sprite.height * transform.scale.y - camera.y;
+
+                // Draw an ellipse as the shadow
+                ctx.beginPath();
+                ctx.ellipse(shadowX, shadowY, entity.shadow.width / 2, entity.shadow.height / 2, 0, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Restore the canvas state
+                ctx.restore();
+            }
 
             const srcRect: Rect = sprite.srcRect;
 
