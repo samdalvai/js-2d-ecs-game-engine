@@ -1,5 +1,5 @@
 import Component from '../ecs/Component';
-import { Vec2 } from '../types';
+import { Vec2 } from '../types/types';
 
 export default class ProjectileEmitterComponent extends Component {
     projectileVelocity: Vec2;

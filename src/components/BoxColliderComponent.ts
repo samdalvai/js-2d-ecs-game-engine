@@ -1,5 +1,5 @@
 import Component from '../ecs/Component';
-import { Vec2 } from '../types';
+import { Vec2 } from '../types/types';
 
 export default class BoxColliderComponent extends Component {
     width: number;
