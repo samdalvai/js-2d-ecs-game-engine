@@ -12,7 +12,7 @@ import DamageSystem from '../systems/DamageSystem';
 import ExplosionOnDeathSystem from '../systems/ExplosionOnDeathSystem';
 import ExplosionOnHitSystem from '../systems/ExplosionOnHitSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
-import LifetimeSystem from '../systems/LifeTimeSystem';
+import LifetimeSystem from '../systems/LifetimeSystem';
 import MovementSystem from '../systems/MovementSystem';
 import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
