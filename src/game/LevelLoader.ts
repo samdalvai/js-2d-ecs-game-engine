@@ -83,7 +83,7 @@ export default class LevelLoader {
         const player = registry.createEntity();
         player.addComponent(TransformComponent, { x: 300, y: 300 }, { x: 1, y: 1 }, 0);
         player.addComponent(SpriteComponent, 'chopper-texture', 32, 32, 1, 0, 0);
-        player.addComponent(ShadowComponent, 32, 16, 0, 0);
+        player.addComponent(ShadowComponent, 32, 16, -1, 0);
         player.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         player.addComponent(CameraFollowComponent);
         player.addComponent(
