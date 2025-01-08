@@ -88,11 +88,10 @@ export default class LevelLoader {
         player.addComponent(CameraFollowComponent);
         player.addComponent(
             KeyboardControlComponent,
-            -300,
-            300,
-            300,
-            -300,
-            25,
+            { x: 0, y: -300 },
+            { x: 300, y: 0 },
+            { x: 0, y: 300 },
+            { x: -300, y: 0 },
         );
         player.addComponent(AnimationComponent, 2, 10);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
