@@ -208,7 +208,7 @@ export default class Registry {
         ComponentClass: ComponentClass<T>,
         ...args: ConstructorParameters<typeof ComponentClass>
     ) {
-        const componentId = ComponentClass.getId();
+        const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
 
         if (this.componentPools[componentId] === undefined) {
@@ -225,7 +225,7 @@ export default class Registry {
     }
 
     removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {
-        const componentId = ComponentClass.getId();
+        const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
 
         // Remove the component from the component list for that entity
@@ -239,13 +239,13 @@ export default class Registry {
     }
 
     hasComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean {
-        const componentId = ComponentClass.getId();
+        const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
         return this.entityComponentSignatures[entityId].test(componentId);
     }
 
     getComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): T | undefined {
-        const componentId = ComponentClass.getId();
+        const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
 
         const componentPool = this.componentPools[componentId] as Pool<T>;
@@ -258,19 +258,19 @@ export default class Registry {
 
     addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) {
         const newSystem = new SystemClass(...args);
-        this.systems.set(SystemClass.getId(), newSystem);
+        this.systems.set(SystemClass.getSystemId(), newSystem);
     }
 
     removeSystem<T extends System>(SystemClass: SystemClass<T>) {
-        this.systems.delete(SystemClass.getId());
+        this.systems.delete(SystemClass.getSystemId());
     }
 
     hasSystem<T extends System>(SystemClass: SystemClass<T>): boolean {
-        return this.systems.get(SystemClass.getId()) !== undefined;
+        return this.systems.get(SystemClass.getSystemId()) !== undefined;
     }
 
     getSystem<T extends System>(SystemClass: SystemClass<T>): T | undefined {
-        const system = this.systems.get(SystemClass.getId());
+        const system = this.systems.get(SystemClass.getSystemId());
 
         if (system === undefined) {
             return undefined;

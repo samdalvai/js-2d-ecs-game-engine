@@ -21,6 +21,7 @@ import ShadowComponent from '../components/ShadowComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
+import CameraMovementSystem from '../systems/CameraMovementSystem';
 import { Flip, TileMap } from '../types';
 import Game from './Game';
 
