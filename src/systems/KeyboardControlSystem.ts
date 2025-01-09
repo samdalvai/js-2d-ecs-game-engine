@@ -6,7 +6,7 @@ import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
 import KeyReleasedEvent from '../events/KeyReleasedEvent';
 
-enum MovementDirection {
+export enum MovementDirection {
     UP,
     RIGHT,
     DOWN,
@@ -74,40 +74,71 @@ export default class KeyboardControlSystem extends System {
         for (const entity of this.getSystemEntities()) {
             const keyboardControl = entity.getComponent(KeyboardControlComponent);
             const sprite = entity.getComponent(SpriteComponent);
-            const rigidbody = entity.getComponent(RigidBodyComponent);
+            const rigidBody = entity.getComponent(RigidBodyComponent);
 
-            if (!keyboardControl || !sprite || !rigidbody) {
+            if (!keyboardControl || !sprite || !rigidBody) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             if (this.keysPressed.length == 0) {
-                rigidbody.velocity = { x: 0, y: 0 };
+                rigidBody.velocity = { x: 0, y: 0 };
             } else {
-                switch (this.keysPressed[this.keysPressed.length - 1]) {
-                    case MovementDirection.UP:
-                        rigidbody.velocity = { ...keyboardControl.upVelocity };
-                        rigidbody.direction = { x: 0, y: -1 };
-                        sprite.srcRect.y = sprite.height * 0;
-                        break;
-                    case MovementDirection.RIGHT:
-                        rigidbody.velocity = { ...keyboardControl.rightVelocity };
-                        rigidbody.direction = { x: 1, y: 0 };
-                        sprite.srcRect.y = sprite.height * 1;
-                        break;
-                    case MovementDirection.DOWN:
-                        rigidbody.velocity = { ...keyboardControl.downVelocity };
-                        rigidbody.direction = { x: 0, y: 1 };
-                        sprite.srcRect.y = sprite.height * 2;
-                        break;
-                    case MovementDirection.LEFT:
-                        rigidbody.velocity = { ...keyboardControl.leftVelocity };
-                        rigidbody.direction = { x: -1, y: 0 };
-                        sprite.srcRect.y = sprite.height * 3;
-                        break;
-                    default:
-                        break;
-                }
+                this.updateEntityMovement(
+                    rigidBody,
+                    keyboardControl,
+                    sprite,
+                    this.keysPressed[this.keysPressed.length - 1],
+                );
             }
+        }
+    };
+
+    updateEntityMovement = (
+        rigidBody: RigidBodyComponent,
+        keyboardControl: KeyboardControlComponent,
+        sprite: SpriteComponent,
+        movementDirection: MovementDirection,
+    ) => {
+        switch (movementDirection) {
+            case MovementDirection.UP:
+                rigidBody.velocity.x = 0;
+                rigidBody.velocity.y -=
+                    rigidBody.velocity.y - keyboardControl.accelleration > keyboardControl.upVelocity
+                        ? keyboardControl.accelleration
+                        : rigidBody.velocity.y - keyboardControl.upVelocity;
+                rigidBody.direction = { x: 0, y: -1 };
+                sprite.srcRect.y = sprite.height * 0;
+                break;
+            case MovementDirection.RIGHT:
+                rigidBody.velocity.y = 0;
+                rigidBody.velocity.x +=
+                    rigidBody.velocity.x + keyboardControl.accelleration < keyboardControl.rightVelocity
+                        ? keyboardControl.accelleration
+                        : keyboardControl.rightVelocity - rigidBody.velocity.x;
+                rigidBody.direction = { x: 1, y: 0 };
+                sprite.srcRect.y = sprite.height * 1;
+
+                break;
+            case MovementDirection.DOWN:
+                rigidBody.velocity.x = 0;
+                rigidBody.velocity.y +=
+                    rigidBody.velocity.y + keyboardControl.accelleration < keyboardControl.downVelocity
+                        ? keyboardControl.accelleration
+                        : keyboardControl.downVelocity - rigidBody.velocity.y;
+                rigidBody.direction = { x: 0, y: 1 };
+                sprite.srcRect.y = sprite.height * 2;
+                break;
+            case MovementDirection.LEFT:
+                rigidBody.velocity.y = 0;
+                rigidBody.velocity.x -=
+                    rigidBody.velocity.x - keyboardControl.accelleration > keyboardControl.leftVelocity
+                        ? keyboardControl.accelleration
+                        : rigidBody.velocity.x - keyboardControl.leftVelocity;
+                rigidBody.direction = { x: -1, y: 0 };
+                sprite.srcRect.y = sprite.height * 3;
+                break;
+            default:
+                break;
         }
     };
 }
