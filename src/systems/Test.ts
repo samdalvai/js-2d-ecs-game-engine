@@ -41,7 +41,7 @@ const comp3 = getComponent(MyClass);
 
 type SystemClass<T extends System> = {
     new (...args: any[]): T;
-    getId(): number;
+    getSystemId(): number;
 };
 
 function addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) {
@@ -50,7 +50,7 @@ function addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: Const
 
 type ComponentClass<T extends Component> = {
     new (...args: any[]): T;
-    getId(): number;
+    getComponentId(): number;
 };
 
 function addComponent<T extends Component>(

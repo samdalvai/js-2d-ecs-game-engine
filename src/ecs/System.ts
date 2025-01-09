@@ -4,7 +4,7 @@ import Signature from './Signature';
 
 export type SystemClass<T extends System> = {
     new (...args: any[]): T;
-    getId(): number;
+    getSystemId(): number;
 };
 
 export class ISystem {
@@ -26,7 +26,7 @@ export default class System extends ISystem {
         this.entities = [];
     }
 
-    static getId() {
+    static getSystemId() {
         if (this._id === undefined) {
             this._id = ISystem.nextId++;
         }
