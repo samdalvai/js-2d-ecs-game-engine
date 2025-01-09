@@ -1,5 +1,8 @@
 import AnimationComponent from '../components/AnimationComponent';
-import Component, { ComponentClass } from '../ecs/Component';
+import CameraFollowComponent from '../components/CameraFollowComponent';
+import Component from '../ecs/Component';
+import System from '../ecs/System';
+import CameraMovementSystem from './CameraMovementSystem';
 
 function createInstance<T extends new (...args: any[]) => InstanceType<T>>(
     Class: T,
@@ -25,10 +28,43 @@ const myInstance = createInstance(MyClass, 'John', 30); // Correct usage
 const wrongParams = createInstance(MyClass, 'John', '30'); // Compiler error: age should be number
 const wrongInstance2 = createInstance(AnotherClass); // Compiler error: age should be number
 
-function getComponent<T extends new (...args: any[]) => any>(ComponentClass: T, ...args: ConstructorParameters<T>): T {
-    return new ComponentClass();
+function getComponent<T extends Component>(
+    ComponentClass: ComponentClass<T>,
+    ...args: ConstructorParameters<typeof ComponentClass>
+): T {
+    return new ComponentClass(...args);
 }
 
 const comp1 = getComponent(AnimationComponent, 1, 2);
 const comp2 = getComponent(AnimationComponent, 'hello', 23);
 const comp3 = getComponent(MyClass);
+
+type SystemClass<T extends System> = {
+    new (...args: any[]): T;
+    getId(): number;
+};
+
+function addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) {
+    const newSystem = new SystemClass(...args);
+}
+
+type ComponentClass<T extends Component> = {
+    new (...args: any[]): T;
+    getId(): number;
+};
+
+function addComponent<T extends Component>(
+    ComponentClass: ComponentClass<T>,
+    ...args: ConstructorParameters<typeof ComponentClass>
+) {
+    const newComponent = new ComponentClass(...args);
+}
+
+addSystem(CameraMovementSystem);
+addSystem(CameraFollowComponent);
+addSystem(MyClass);
+
+addComponent(CameraFollowComponent);
+addComponent(CameraMovementSystem);
+addComponent(MyClass);
+addComponent(AnotherClass);
