@@ -1,6 +1,6 @@
 export type ComponentClass<T extends Component> = {
     new (...args: any[]): T;
-    getId(): number;
+    getComponentId(): number;
 };
 
 export class IComponent {
@@ -14,7 +14,7 @@ export class IComponent {
 export default class Component extends IComponent {
     private static _id?: number;
 
-    static getId() {
+    static getComponentId() {
         if (this._id === undefined) {
             this._id = IComponent.nextId++;
         }
