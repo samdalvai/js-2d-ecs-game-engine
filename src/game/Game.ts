@@ -1,4 +1,5 @@
 import AssetStore from '../asset-store/AssetStore';
+import CameraFollowComponent from '../components/CameraFollowComponent';
 import Registry from '../ecs/Registry';
 import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
