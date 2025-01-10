@@ -18,6 +18,7 @@ import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderSystem from '../systems/RenderSystem';
+import SoundSystem from '../systems/SoundSystem';
 import { Rect } from '../types';
 import { sleep } from '../utils/time';
 import LevelLoader from './LevelLoader';
@@ -109,6 +110,7 @@ export default class Game {
         this.registry.addSystem(ExplosionOnDeathSystem);
         this.registry.addSystem(ExplosionOnHitSystem);
         this.registry.addSystem(CameraShakeSystem);
+        this.registry.addSystem(SoundSystem);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -178,6 +180,7 @@ export default class Game {
         this.registry.getSystem(KeyboardControlSystem)?.update();
         this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
         this.registry.getSystem(LifetimeSystem)?.update();
+        this.registry.getSystem(SoundSystem)?.update(this.assetStore);
     };
 
     private render = () => {
