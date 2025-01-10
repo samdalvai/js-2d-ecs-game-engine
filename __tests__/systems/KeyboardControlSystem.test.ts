@@ -6,57 +6,57 @@ import SpriteComponent from '../../src/components/SpriteComponent';
 import KeyboardControlSystem, { MovementDirection } from '../../src/systems/KeyboardControlSystem';
 
 describe('Testing KeyboardControl system related functions', () => {
-    test('Entity rigid body should accellerate up based on accelleration value', () => {
+    test('Entity rigid body should move up based on corresponging velocity value', () => {
         const rigidBody = new RigidBodyComponent({ x: 0, y: 0 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 20);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
         keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.UP);
 
-        expect(rigidBody.velocity).toEqual({ x: 0, y: -20 });
+        expect(rigidBody.velocity).toEqual({ x: 0, y: -100 });
         expect(rigidBody.direction).toEqual({ x: 0, y: -1 });
     });
 
-    test('Entity rigid body should accellerate right based on accelleration value', () => {
+    test('Entity rigid body should move right based on corresponging velocity value', () => {
         const rigidBody = new RigidBodyComponent({ x: 0, y: 0 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 20);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
         keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.RIGHT);
 
-        expect(rigidBody.velocity).toEqual({ x: 20, y: 0 });
+        expect(rigidBody.velocity).toEqual({ x: 100, y: 0 });
         expect(rigidBody.direction).toEqual({ x: 1, y: 0 });
     });
 
-    test('Entity rigid body should accellerate left based on accelleration value', () => {
+    test('Entity rigid body should move left based on corresponging velocity value', () => {
         const rigidBody = new RigidBodyComponent({ x: 0, y: 0 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 20);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
         keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.DOWN);
 
-        expect(rigidBody.velocity).toEqual({ x: 0, y: 20 });
+        expect(rigidBody.velocity).toEqual({ x: 0, y: 100 });
         expect(rigidBody.direction).toEqual({ x: 0, y: 1 });
     });
 
-    test('Entity rigid body should accellerate left based on accelleration value', () => {
+    test('Entity rigid body should move left based on corresponging velocity value', () => {
         const rigidBody = new RigidBodyComponent({ x: 0, y: 0 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 20);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
         keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.LEFT);
 
-        expect(rigidBody.velocity).toEqual({ x: -20, y: 0 });
+        expect(rigidBody.velocity).toEqual({ x: -100, y: 0 });
         expect(rigidBody.direction).toEqual({ x: -1, y: 0 });
     });
 
-    test('Entity rigid body should not accellerate up beyond the max up velocity', () => {
+    test('Entity rigid body should not move up beyond the max up velocity', () => {
         const rigidBody = new RigidBodyComponent({ x: 0, y: -75 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 50);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
@@ -67,9 +67,9 @@ describe('Testing KeyboardControl system related functions', () => {
         expect(rigidBody.direction).toEqual({ x: 0, y: -1 });
     });
 
-    test('Entity rigid body should not accellerate right beyond the max right velocity', () => {
+    test('Entity rigid body should not move right beyond the max right velocity', () => {
         const rigidBody = new RigidBodyComponent({ x: 75, y: 0 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 50);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
@@ -80,9 +80,9 @@ describe('Testing KeyboardControl system related functions', () => {
         expect(rigidBody.direction).toEqual({ x: 1, y: 0 });
     });
 
-    test('Entity rigid body should not accellerate down beyond the max down velocity', () => {
+    test('Entity rigid body should not move down beyond the max down velocity', () => {
         const rigidBody = new RigidBodyComponent({ x: 0, y: 75 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 50);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
@@ -93,9 +93,9 @@ describe('Testing KeyboardControl system related functions', () => {
         expect(rigidBody.direction).toEqual({ x: 0, y: 1 });
     });
 
-    test('Entity rigid body should not accellerate up beyond the max up velocity', () => {
+    test('Entity rigid body should not move up beyond the max up velocity', () => {
         const rigidBody = new RigidBodyComponent({ x: -75, y: 0 });
-        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100, 50);
+        const keyboardControl = new KeyboardControlComponent(-100, 100, 100, -100);
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
