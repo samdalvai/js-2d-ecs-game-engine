@@ -102,38 +102,25 @@ export default class KeyboardControlSystem extends System {
         switch (movementDirection) {
             case MovementDirection.UP:
                 rigidBody.velocity.x = 0;
-                rigidBody.velocity.y -=
-                    rigidBody.velocity.y - keyboardControl.accelleration > keyboardControl.upVelocity
-                        ? keyboardControl.accelleration
-                        : rigidBody.velocity.y - keyboardControl.upVelocity;
+                rigidBody.velocity.y = keyboardControl.upVelocity;
                 rigidBody.direction = { x: 0, y: -1 };
                 sprite.srcRect.y = sprite.height * 0;
                 break;
             case MovementDirection.RIGHT:
                 rigidBody.velocity.y = 0;
-                rigidBody.velocity.x +=
-                    rigidBody.velocity.x + keyboardControl.accelleration < keyboardControl.rightVelocity
-                        ? keyboardControl.accelleration
-                        : keyboardControl.rightVelocity - rigidBody.velocity.x;
+                rigidBody.velocity.x = keyboardControl.rightVelocity;
                 rigidBody.direction = { x: 1, y: 0 };
                 sprite.srcRect.y = sprite.height * 1;
-
                 break;
             case MovementDirection.DOWN:
                 rigidBody.velocity.x = 0;
-                rigidBody.velocity.y +=
-                    rigidBody.velocity.y + keyboardControl.accelleration < keyboardControl.downVelocity
-                        ? keyboardControl.accelleration
-                        : keyboardControl.downVelocity - rigidBody.velocity.y;
+                rigidBody.velocity.y = keyboardControl.downVelocity;
                 rigidBody.direction = { x: 0, y: 1 };
                 sprite.srcRect.y = sprite.height * 2;
                 break;
             case MovementDirection.LEFT:
                 rigidBody.velocity.y = 0;
-                rigidBody.velocity.x -=
-                    rigidBody.velocity.x - keyboardControl.accelleration > keyboardControl.leftVelocity
-                        ? keyboardControl.accelleration
-                        : rigidBody.velocity.x - keyboardControl.leftVelocity;
+                rigidBody.velocity.x = keyboardControl.leftVelocity;
                 rigidBody.direction = { x: -1, y: 0 };
                 sprite.srcRect.y = sprite.height * 3;
                 break;
