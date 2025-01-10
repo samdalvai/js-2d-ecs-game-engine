@@ -59,8 +59,8 @@ export default class ProjectileEmitSystem extends System {
                     if (rigidbody.direction.x < 0) directionX = -1;
                     if (rigidbody.direction.y > 0) directionY = +1;
                     if (rigidbody.direction.y < 0) directionY = -1;
-                    projectileVelocity.x = projectileEmitter.projectileVelocity.x * directionX + rigidbody.velocity.x;
-                    projectileVelocity.y = projectileEmitter.projectileVelocity.y * directionY + rigidbody.velocity.y;
+                    projectileVelocity.x = projectileEmitter.projectileVelocity.x * directionX;
+                    projectileVelocity.y = projectileEmitter.projectileVelocity.y * directionY;
 
                     // Create new projectile entity and add it to the world
                     const projectile = entity.registry.createEntity();

@@ -21,7 +21,6 @@ import ShadowComponent from '../components/ShadowComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
-import CameraMovementSystem from '../systems/CameraMovementSystem';
 import { Flip, TileMap } from '../types';
 import Game from './Game';
 
@@ -87,7 +86,7 @@ export default class LevelLoader {
         player.addComponent(ShadowComponent, 32, 16, -1, 0);
         player.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         player.addComponent(CameraFollowComponent);
-        player.addComponent(KeyboardControlComponent, -300, 300, 300, -300, 50);
+        player.addComponent(KeyboardControlComponent, -300, 300, 300, -300, 10);
         player.addComponent(AnimationComponent, 2, 10);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
         player.addComponent(HealthComponent, 100);
