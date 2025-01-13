@@ -56,7 +56,9 @@ export default class Registry {
 
             for (let i = 0; i < this.componentPools.length; i++) {
                 const pool = this.componentPools[i] as Pool<T>;
-                pool.removeEntityFromPool(entity.getId());
+                if (pool) {
+                    pool.removeEntityFromPool(entity.getId());
+                }
             }
 
             this.freeIds.push(entity.getId());
