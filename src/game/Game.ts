@@ -110,7 +110,7 @@ export default class Game {
         this.registry.addSystem(ExplosionOnDeathSystem);
         this.registry.addSystem(ExplosionOnHitSystem);
         this.registry.addSystem(CameraShakeSystem);
-        this.registry.addSystem(SoundSystem);
+        this.registry.addSystem(SoundSystem, this.assetStore);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -172,6 +172,7 @@ export default class Game {
         this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
         this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
 
         // Invoke all the systems that need to update
         this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
