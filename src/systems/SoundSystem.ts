@@ -37,7 +37,8 @@ export default class SoundSystem extends System {
             if (explosionSound.currentTime !== 0) {
                 explosionSound.currentTime = 0;
             }
-
+            
+            explosionSound.volume = 0.25;
             explosionSound.play();
         }
     };
@@ -50,26 +51,19 @@ export default class SoundSystem extends System {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
-            if (sound.isPlaying) {
-                continue; // Skip if the sound is already playing
-            }
-
             const soundTrack = assetStore.getSound(sound.assetId);
 
             if (!soundTrack) {
                 throw new Error(`Sound asset with ID ${sound.assetId} not found.`);
             }
-
-            if (sound.loop) {
-                soundTrack.loop = true;
+            
+            if (soundTrack.currentTime === 0) {
+                soundTrack.volume = sound.volume;
+                soundTrack.play();
             }
-
-            try {
-                // Attempt to play the sound and wait for it to start
-                await soundTrack.play();
-                sound.isPlaying = true; // Mark as playing only after successful playback
-            } catch (error) {
-                console.error(`Failed to play sound: ${error}`);
+            
+            if (soundTrack.currentTime >= soundTrack.duration - sound.offsetBuffer) {
+                soundTrack.currentTime = 0;
             }
         }
     }

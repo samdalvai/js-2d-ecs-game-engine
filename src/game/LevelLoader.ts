@@ -1,5 +1,5 @@
 import explosionBigSound from 'url:../../assets/sounds/explosion-big.wav';
-import helicopterSound from 'url:../../assets/sounds/helicopter.wav';
+import helicopterSound from 'url:../../assets/sounds/helicopter-long.wav';
 
 import bulletSprite from '../../assets/images/bullet.png';
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
@@ -101,7 +101,7 @@ export default class LevelLoader {
         player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
-        //player.addComponent(SoundComponent, 'helicopter', true);
+        player.addComponent(SoundComponent, 'helicopter', 0.150, 0.5);
         player.tag('player');
 
         const enemy1 = registry.createEntity();

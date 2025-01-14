@@ -2,13 +2,14 @@ import Component from '../ecs/Component';
 
 export default class SoundComponent extends Component {
     assetId: string;
-    loop: boolean;
-    isPlaying: boolean;
+    // Used to replay the sound before the soundtrack has ended (to avoid missing sound whe looping)
+    offsetBuffer: number;
+    volume: number;
 
-    constructor(assetId = '', lopp = false) {
+    constructor(assetId = '', offsetBuffer = 0, volume = 1) {
         super();
         this.assetId = assetId;
-        this.loop = lopp;
-        this.isPlaying = false;
+        this.offsetBuffer = offsetBuffer;
+        this.volume = volume;
     }
 }
