@@ -1,3 +1,7 @@
+import explosionBigSound from 'url:../../assets/sounds/explosion-big.wav';
+import explosionSmallSound from 'url:../../assets/sounds/explosion-small.wav';
+import helicopterSound from 'url:../../assets/sounds/helicopter-long.wav';
+
 import bulletSprite from '../../assets/images/bullet.png';
 import chopperSpriteSheet from '../../assets/images/chopper-green-spritesheet.png';
 import explosionSmallSprite from '../../assets/images/explosion-small.png';
@@ -18,6 +22,7 @@ import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import ShadowComponent from '../components/ShadowComponent';
+import SoundComponent from '../components/SoundComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
@@ -39,6 +44,10 @@ export default class LevelLoader {
         assetStore.addTexture('bullet-texture', bulletSprite);
         assetStore.addTexture('explosion-texture', explosionSprite);
         assetStore.addTexture('explosion-small-texture', explosionSmallSprite);
+
+        assetStore.addSound('helicopter', helicopterSound);
+        assetStore.addSound('explosion-big', explosionBigSound);
+        assetStore.addSound('explosion-small', explosionSmallSound);
     }
 
     private loadTileMap(registry: Registry) {
@@ -94,6 +103,7 @@ export default class LevelLoader {
         player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
+        player.addComponent(SoundComponent, 'helicopter', 1, 0.5);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
