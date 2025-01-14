@@ -34,6 +34,10 @@ export default class SoundSystem extends System {
                 throw new Error('Could not find explosion sound');
             }
 
+            if (explosionSound.currentTime !== 0) {
+                explosionSound.currentTime = 0;
+            }
+
             explosionSound.play();
         }
     };
