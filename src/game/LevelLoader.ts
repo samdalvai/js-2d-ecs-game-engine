@@ -1,4 +1,5 @@
 import explosionBigSound from 'url:../../assets/sounds/explosion-big.wav';
+import explosionSmallSound from 'url:../../assets/sounds/explosion-small.wav';
 import helicopterSound from 'url:../../assets/sounds/helicopter-long.wav';
 
 import bulletSprite from '../../assets/images/bullet.png';
@@ -46,6 +47,7 @@ export default class LevelLoader {
 
         assetStore.addSound('helicopter', helicopterSound);
         assetStore.addSound('explosion-big', explosionBigSound);
+        assetStore.addSound('explosion-small', explosionSmallSound);
     }
 
     private loadTileMap(registry: Registry) {
@@ -101,7 +103,7 @@ export default class LevelLoader {
         player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
-        player.addComponent(SoundComponent, 'helicopter', 0.150, 0.5);
+        player.addComponent(SoundComponent, 'helicopter', 1, 0.5);
         player.tag('player');
 
         const enemy1 = registry.createEntity();

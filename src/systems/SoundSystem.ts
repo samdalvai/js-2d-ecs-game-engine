@@ -1,8 +1,10 @@
 import AssetStore from '../asset-store/AssetStore';
 import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
+import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
 import SoundComponent from '../components/SoundComponent';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
+import EntityHitEvent from '../events/EntityHitEvent';
 import EntityKilledEvent from '../events/EntityKilledEvent';
 
 export default class SoundSystem extends System {
@@ -16,6 +18,7 @@ export default class SoundSystem extends System {
 
     subscribeToEvents = (eventBus: EventBus) => {
         eventBus.subscribeToEvent(EntityKilledEvent, this, this.onEntityKilled);
+        eventBus.subscribeToEvent(EntityHitEvent, this, this.onEntityHit);
     };
 
     onEntityKilled = (event: EntityKilledEvent) => {
@@ -37,9 +40,34 @@ export default class SoundSystem extends System {
             if (explosionSound.currentTime !== 0) {
                 explosionSound.currentTime = 0;
             }
-            
+
             explosionSound.volume = 0.25;
-            explosionSound.play();
+            explosionSound.play().catch(error => console.error(`Failed to play sound: ${error}`));
+        }
+    };
+
+    onEntityHit = (event: EntityHitEvent) => {
+        const entity = event.entity;
+
+        if (entity.hasComponent(ExplosionOnHitComponent)) {
+            const explosion = entity.getComponent(ExplosionOnHitComponent);
+
+            if (!explosion) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+            }
+
+            const explosionSound = this.assetStore.getSound('explosion-small');
+
+            if (!explosionSound) {
+                throw new Error('Could not find explosion sound');
+            }
+
+            if (explosionSound.currentTime !== 0) {
+                explosionSound.currentTime = 0;
+            }
+
+            explosionSound.volume = 0.25;
+            explosionSound.play().catch(error => console.error(`Failed to play sound: ${error}`));
         }
     };
 
@@ -56,12 +84,12 @@ export default class SoundSystem extends System {
             if (!soundTrack) {
                 throw new Error(`Sound asset with ID ${sound.assetId} not found.`);
             }
-            
+
             if (soundTrack.currentTime === 0) {
                 soundTrack.volume = sound.volume;
-                soundTrack.play();
+                soundTrack.play().catch(error => console.error(`Failed to play sound: ${error}`));
             }
-            
+
             if (soundTrack.currentTime >= soundTrack.duration - sound.offsetBuffer) {
                 soundTrack.currentTime = 0;
             }
