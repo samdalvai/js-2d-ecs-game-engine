@@ -98,7 +98,7 @@ export default class LevelLoader {
         player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
-        player.addComponent(SoundComponent, 'helicopter', 1, 0.5);
+        //player.addComponent(SoundComponent, 'helicopter', 1, 0.5);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
