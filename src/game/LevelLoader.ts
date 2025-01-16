@@ -14,20 +14,18 @@ import SoundComponent from '../components/SoundComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
-import { Flip } from '../types';
+import { Flip, TileMap } from '../types';
 import Game from './Game';
 
 export default class LevelLoader {
     public async loadLevel(registry: Registry, assetStore: AssetStore) {
-        console.log('loading assets');
         await this.loadAssets(assetStore);
-        console.log('loading tilemap');
-        this.loadTileMap(registry);
-        console.log('loading entities');
+        this.loadTileMap(registry, assetStore);
         this.loadEntities(registry);
     }
 
     private async loadAssets(assetStore: AssetStore) {
+        console.log('Loading assets');
         await assetStore.addTexture('desert-texture', './assets/tilemaps/desert.png');
         await assetStore.addTexture('chopper-texture', './assets/images/chopper-green-spritesheet.png');
         await assetStore.addTexture('tank-texture', './assets/images/tank-panther-spritesheet.png');
@@ -39,51 +37,45 @@ export default class LevelLoader {
         await assetStore.addSound('helicopter', './assets/sounds/helicopter-long.wav');
         await assetStore.addSound('explosion-big', './assets/sounds/explosion-big.wav');
         await assetStore.addSound('explosion-small', './assets/sounds/explosion-small.wav');
+
+        await assetStore.addJson('tile-map', '/assets/tilemaps/tilemap.json');
     }
 
-    private loadTileMap(registry: Registry) {
-        fetch('./assets/tilemaps/tilemap.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Could not load tilemap file');
-                }
-                return response.json();
-            })
-            .then(tileMap => {
-                const tileSize = 32;
-                const mapScale = 2;
-                let rowNumber = 0;
-                let columnNumber = 0;
-                for (let i = 0; i < tileMap.tiles.length; i++) {
-                    columnNumber = 0;
-                    for (let j = 0; j < tileMap.tiles[i].length; j++) {
-                        const tileNumber = tileMap.tiles[i][j];
-                        const srcRectX = (tileNumber % 10) * tileSize;
-                        const srcRectY = Math.floor(tileNumber / 10) * tileSize;
-                        const tile = registry.createEntity();
-                        tile.addComponent(
-                            TransformComponent,
-                            {
-                                x: columnNumber * (mapScale * tileSize),
-                                y: rowNumber * (mapScale * tileSize),
-                            },
-                            { x: mapScale, y: mapScale },
-                            0,
-                        );
-                        tile.addComponent(SpriteComponent, 'desert-texture', tileSize, tileSize, 0, srcRectX, srcRectY);
-                        columnNumber++;
-                    }
-                    rowNumber++;
-                }
-                Game.mapWidth = columnNumber * tileSize * mapScale;
-                Game.mapHeight = rowNumber * tileSize * mapScale;
-            })
-            .catch(error => {
-                console.error('Error loading JSON file:', error);
-            });
+    private loadTileMap(registry: Registry, assetStore: AssetStore) {
+        console.log('Loading tilemap');
+        const tileMap = assetStore.getJson('tile-map') as TileMap;
+
+        const tileSize = 32;
+        const mapScale = 2;
+        let rowNumber = 0;
+        let columnNumber = 0;
+        for (let i = 0; i < tileMap.tiles.length; i++) {
+            columnNumber = 0;
+            for (let j = 0; j < tileMap.tiles[i].length; j++) {
+                const tileNumber = tileMap.tiles[i][j];
+                const srcRectX = (tileNumber % 10) * tileSize;
+                const srcRectY = Math.floor(tileNumber / 10) * tileSize;
+                const tile = registry.createEntity();
+                tile.addComponent(
+                    TransformComponent,
+                    {
+                        x: columnNumber * (mapScale * tileSize),
+                        y: rowNumber * (mapScale * tileSize),
+                    },
+                    { x: mapScale, y: mapScale },
+                    0,
+                );
+                tile.addComponent(SpriteComponent, 'desert-texture', tileSize, tileSize, 0, srcRectX, srcRectY);
+                columnNumber++;
+            }
+            rowNumber++;
+        }
+        Game.mapWidth = columnNumber * tileSize * mapScale;
+        Game.mapHeight = rowNumber * tileSize * mapScale;
     }
 
     private loadEntities(registry: Registry) {
+        console.log('Loading entities');
         const player = registry.createEntity();
         player.addComponent(TransformComponent, { x: 300, y: 300 }, { x: 1, y: 1 }, 0);
         player.addComponent(SpriteComponent, 'chopper-texture', 32, 32, 1, 0, 0);
