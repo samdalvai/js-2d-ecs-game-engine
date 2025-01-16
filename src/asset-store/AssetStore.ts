@@ -12,12 +12,22 @@ export default class AssetStore {
         this.sounds.clear();
     }
 
-    addTexture(assetId: string, filePath: string) {
-        const texture = new Image();
-        texture.src = filePath;
-        this.textures.set(assetId, texture);
+    addTexture(assetId: string, filePath: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const texture = new Image();
+            texture.src = filePath;
 
-        console.log('Texture added to the AssetStore with id ' + assetId);
+            texture.onload = () => {
+                console.log('Texture added to the AssetStore with id ' + assetId);
+                this.textures.set(assetId, texture);
+                resolve();
+            };
+
+            texture.onerror = () => {
+                console.error('Failed to load texture ', filePath);
+                reject(new Error(`Failed to load texture from ${filePath}`));
+            };
+        });
     }
 
     getTexture(assetId: string) {
@@ -30,12 +40,22 @@ export default class AssetStore {
         return texture;
     }
 
-    addSound(assetId: string, filePath: string) {
-        const sound = new Audio();
-        sound.src = filePath;
-        this.sounds.set(assetId, sound);
+    addSound(assetId: string, filePath: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const sound = new Audio();
+            sound.src = filePath;
 
-        console.log('Sound added to the AssetStore with id ' + assetId);
+            sound.onloadeddata = () => {
+                console.log('Sound added to the AssetStore with id ' + assetId);
+                this.sounds.set(assetId, sound);
+                resolve();
+            };
+
+            sound.onerror = () => {
+                console.error('Failed to load sound ', filePath);
+                reject(new Error(`Failed to load sound from ${filePath}`));
+            };
+        });
     }
 
     getSound(assetId: string) {
