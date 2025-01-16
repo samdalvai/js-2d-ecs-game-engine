@@ -20,7 +20,7 @@ function onPlay() {
 
 const app = document.getElementById('app');
 if (app) {
-    app.innerHTML = `<h1>Hello, TypeScriptssss!</h1>`;
+    app.innerHTML = `<h1>Hello, TypeScriptssss Hello!</h1>`;
     app.appendChild(image);
 
     const button = document.createElement('button');
