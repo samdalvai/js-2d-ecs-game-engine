@@ -1,9 +1,9 @@
-export type Vec2 = {
+export type Vector = {
     x: number;
     y: number;
 };
 
-export type Rect = {
+export type Rectangle = {
     x: number;
     y: number;
     width: number;

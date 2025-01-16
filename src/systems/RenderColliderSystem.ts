@@ -1,7 +1,7 @@
 import BoxColliderComponent from '../components/BoxColliderComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
-import { Rect } from '../types';
+import { Rectangle } from '../types';
 
 export default class RenderColliderSystem extends System {
     constructor() {
@@ -10,7 +10,7 @@ export default class RenderColliderSystem extends System {
         this.requireComponent(BoxColliderComponent);
     }
 
-    update(ctx: CanvasRenderingContext2D, camera: Rect) {
+    update(ctx: CanvasRenderingContext2D, camera: Rectangle) {
         for (const entity of this.getSystemEntities()) {
             const transform = entity.getComponent(TransformComponent);
             const collider = entity.getComponent(BoxColliderComponent);
@@ -30,7 +30,7 @@ export default class RenderColliderSystem extends System {
                 continue;
             }
 
-            const colliderRect: Rect = {
+            const colliderRect: Rectangle = {
                 x: transform.position.x + collider.offset.x - camera.x,
                 y: transform.position.y + collider.offset.y - camera.y,
                 width: collider.width * transform.scale.x,

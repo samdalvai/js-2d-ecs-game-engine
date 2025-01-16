@@ -19,7 +19,7 @@ import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderSystem from '../systems/RenderSystem';
 import SoundSystem from '../systems/SoundSystem';
-import { Rect } from '../types';
+import { Rectangle } from '../types';
 import { sleep } from '../utils/time';
 import LevelLoader from './LevelLoader';
 
@@ -31,7 +31,7 @@ export default class Game {
     private isDebug: boolean;
     private canvas: HTMLCanvasElement | null;
     private ctx: CanvasRenderingContext2D | null;
-    private camera: Rect;
+    private camera: Rectangle;
     private millisecsPreviousFrame = 0;
     private millisecondsLastFPSUpdate = 0;
     private currentFPS = 0;
@@ -55,7 +55,7 @@ export default class Game {
         this.inputManager = new InputManager();
     }
 
-    private resize = (canvas: HTMLCanvasElement, camera: Rect) => {
+    private resize = (canvas: HTMLCanvasElement, camera: Rectangle) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
