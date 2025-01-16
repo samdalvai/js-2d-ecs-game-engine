@@ -4,7 +4,7 @@
   "description": "A game engine for the browser using ECS architecture",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "concurrently \"npx tsc --watch\" \"lite-server\"",
     "test": "jest",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix"
@@ -21,9 +21,10 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.14",
     "babel-jest": "^29.7.0",
+    "concurrently": "^9.1.2",
     "eslint": "^8.45.0",
     "jest": "^29.7.0",
-    "parcel": "^2.13.3",
+    "lite-server": "^2.6.1",
     "typescript": "^5.7.2"
   },
   "babel": {
