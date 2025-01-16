@@ -109,7 +109,7 @@ export default class LevelLoader {
         enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy2.addComponent(HealthComponent, 100);
-        enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 3000, 20, false);
+        enemy2.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 20, false);
         enemy2.addComponent(ExplosionOnDeathComponent);
         enemy2.addComponent(ExplosionOnHitComponent);
         enemy2.group('enemies');
@@ -120,7 +120,7 @@ export default class LevelLoader {
         enemy3.addComponent(RigidBodyComponent, { x: 0, y: -50 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
-        enemy3.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 1000, 20, false);
+        enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 20, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.group('enemies');
