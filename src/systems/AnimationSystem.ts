@@ -1,6 +1,6 @@
-import AnimationComponent from '../components/AnimationComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import System from '../ecs/System';
+import AnimationComponent from '../components/AnimationComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import System from '../ecs/System.js';
 
 export default class AnimationSystem extends System {
     constructor() {

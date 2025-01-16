@@ -1,7 +1,7 @@
-import BoxColliderComponent from '../components/BoxColliderComponent';
-import TransformComponent from '../components/TransformComponent';
-import System from '../ecs/System';
-import { Rect } from '../types';
+import BoxColliderComponent from '../components/BoxColliderComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import System from '../ecs/System.js';
+import { Rect } from '../types/types.js';
 
 export default class RenderColliderSystem extends System {
     constructor() {

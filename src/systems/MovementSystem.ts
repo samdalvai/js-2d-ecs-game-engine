@@ -1,12 +1,12 @@
-import BoxColliderComponent from '../components/BoxColliderComponent';
-import RigidBodyComponent from '../components/RigidBodyComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import TransformComponent from '../components/TransformComponent';
+import BoxColliderComponent from '../components/BoxColliderComponent.js';
+import RigidBodyComponent from '../components/RigidBodyComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
 import Entity from '../ecs/Entity';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import CollisionEvent from '../events/CollisionEvent';
-import { Flip } from '../types';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import CollisionEvent from '../events/CollisionEvent.js';
+import { Flip } from '../types/types.js';
 
 export default class MovementSystem extends System {
     constructor() {

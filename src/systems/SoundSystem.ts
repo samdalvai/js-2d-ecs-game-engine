@@ -1,11 +1,11 @@
 import AssetStore from '../asset-store/AssetStore';
-import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
-import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
-import SoundComponent from '../components/SoundComponent';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import EntityHitEvent from '../events/EntityHitEvent';
-import EntityKilledEvent from '../events/EntityKilledEvent';
+import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent.js';
+import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent.js';
+import SoundComponent from '../components/SoundComponent.js';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import EntityHitEvent from '../events/EntityHitEvent.js';
+import EntityKilledEvent from '../events/EntityKilledEvent.js';
 
 export default class SoundSystem extends System {
     assetStore: AssetStore;

@@ -1,8 +1,8 @@
-import Component, { ComponentClass } from './Component';
-import Entity from './Entity';
-import Pool, { IPool } from './Pool';
-import Signature from './Signature';
-import System, { SystemClass } from './System';
+import Component, { ComponentClass } from './Component.js';
+import Entity from './Entity.js';
+import Pool, { IPool } from './Pool.js';
+import Signature from './Signature.js';
+import System, { SystemClass } from './System.js';
 
 export default class Registry {
     numEntities: number;

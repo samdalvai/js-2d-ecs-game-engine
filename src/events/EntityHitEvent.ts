@@ -1,6 +1,6 @@
-import Entity from '../ecs/Entity';
-import GameEvent from '../event-bus/GameEvent';
-import { Vec2 } from '../types';
+import Entity from '../ecs/Entity.js';
+import GameEvent from '../event-bus/GameEvent.js';
+import { Vec2 } from '../types/types.js';
 
 export default class EntityHitEvent extends GameEvent {
     entity: Entity;

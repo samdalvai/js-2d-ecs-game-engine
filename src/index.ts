@@ -1,10 +1,10 @@
-/*import Game from './src/game/Game';
+import Game from './game/Game.js';
 
 const game = new Game();
 
 game.initialize();
 game.run();
-game.destroy();*/
+game.destroy();
 
 const image = new Image();
 image.src = './assets/chopper.png';

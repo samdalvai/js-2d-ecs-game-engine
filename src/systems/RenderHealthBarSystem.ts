@@ -1,8 +1,8 @@
-import HealthComponent from '../components/HealthComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import TransformComponent from '../components/TransformComponent';
-import System from '../ecs/System';
-import { Rect } from '../types';
+import HealthComponent from '../components/HealthComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import System from '../ecs/System.js';
+import { Rect } from '../types/types.js';
 
 export default class RenderHealthBarSystem extends System {
     constructor() {

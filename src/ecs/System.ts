@@ -1,6 +1,6 @@
-import Component, { ComponentClass } from './Component';
-import Entity from './Entity';
-import Signature from './Signature';
+import Component, { ComponentClass } from './Component.js';
+import Entity from './Entity.js';
+import Signature from './Signature.js';
 
 export type SystemClass<T extends System> = {
     new (...args: any[]): T;

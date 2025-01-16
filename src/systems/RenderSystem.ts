@@ -1,9 +1,9 @@
 import AssetStore from '../asset-store/AssetStore';
-import ShadowComponent from '../components/ShadowComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import TransformComponent from '../components/TransformComponent';
-import System from '../ecs/System';
-import { Flip, Rect } from '../types';
+import ShadowComponent from '../components/ShadowComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import System from '../ecs/System.js';
+import { Flip, Rect } from '../types/types.js';
 
 export default class RenderSystem extends System {
     constructor() {

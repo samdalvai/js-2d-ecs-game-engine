@@ -1,15 +1,15 @@
-import BoxColliderComponent from '../components/BoxColliderComponent';
-import CameraShakeComponent from '../components/CameraShakeComponent';
-import HealthComponent from '../components/HealthComponent';
-import ProjectileComponent from '../components/ProjectileComponent';
-import TransformComponent from '../components/TransformComponent';
-import Entity from '../ecs/Entity';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import CameraShakeEvent from '../events/CameraShakeEvent';
-import CollisionEvent from '../events/CollisionEvent';
-import EntityHitEvent from '../events/EntityHitEvent';
-import EntityKilledEvent from '../events/EntityKilledEvent';
+import BoxColliderComponent from '../components/BoxColliderComponent.js';
+import CameraShakeComponent from '../components/CameraShakeComponent.js';
+import HealthComponent from '../components/HealthComponent.js';
+import ProjectileComponent from '../components/ProjectileComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import Entity from '../ecs/Entity.js';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import CameraShakeEvent from '../events/CameraShakeEvent.js';
+import CollisionEvent from '../events/CollisionEvent.js';
+import EntityHitEvent from '../events/EntityHitEvent.js';
+import EntityKilledEvent from '../events/EntityKilledEvent.js';
 
 export default class DamageSystem extends System {
     eventBus: EventBus;
