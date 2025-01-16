@@ -18,34 +18,34 @@ import { Flip } from '../types';
 import Game from './Game';
 
 export default class LevelLoader {
-    public loadLevel(registry: Registry, assetStore: AssetStore) {
+    public async loadLevel(registry: Registry, assetStore: AssetStore) {
         console.log('loading assets');
-        this.loadAssets(assetStore);
+        await this.loadAssets(assetStore);
         console.log('loading tilemap');
         this.loadTileMap(registry);
         console.log('loading entities');
         this.loadEntities(registry);
     }
 
-    private loadAssets(assetStore: AssetStore) {
-        assetStore.addTexture('desert-texture', './assets/tilemaps/desert.png');
-        assetStore.addTexture('chopper-texture', './assets/images/chopper-green-spritesheet.png');
-        assetStore.addTexture('tank-texture', './assets/images/tank-panther-spritesheet.png');
-        assetStore.addTexture('tree-texture', './assets/images/tree.png');
-        assetStore.addTexture('bullet-texture', './assets/images/bullet.png');
-        assetStore.addTexture('explosion-texture', './assets/images/explosion.png');
-        assetStore.addTexture('explosion-small-texture', './assets/images/explosion-small.png');
+    private async loadAssets(assetStore: AssetStore) {
+        await assetStore.addTexture('desert-texture', './assets/tilemaps/desert.png');
+        await assetStore.addTexture('chopper-texture', './assets/images/chopper-green-spritesheet.png');
+        await assetStore.addTexture('tank-texture', './assets/images/tank-panther-spritesheet.png');
+        await assetStore.addTexture('tree-texture', './assets/images/tree.png');
+        await assetStore.addTexture('bullet-texture', './assets/images/bullet.png');
+        await assetStore.addTexture('explosion-texture', './assets/images/explosion.png');
+        await assetStore.addTexture('explosion-small-texture', './assets/images/explosion-small.png');
 
-        assetStore.addSound('helicopter', './assets/sounds/helicopter-long.wav');
-        assetStore.addSound('explosion-big', './assets/sounds/explosion-big.wav');
-        assetStore.addSound('explosion-small', './assets/sounds/explosion-small.wav');
+        await assetStore.addSound('helicopter', './assets/sounds/helicopter-long.wav');
+        await assetStore.addSound('explosion-big', './assets/sounds/explosion-big.wav');
+        await assetStore.addSound('explosion-small', './assets/sounds/explosion-small.wav');
     }
 
     private loadTileMap(registry: Registry) {
         fetch('./assets/tilemaps/tilemap.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error('Could not load tilemap file');
                 }
                 return response.json();
             })
