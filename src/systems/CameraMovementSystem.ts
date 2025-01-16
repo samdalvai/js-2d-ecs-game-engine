@@ -2,7 +2,7 @@ import CameraFollowComponent from '../components/CameraFollowComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
 import Game from '../game/Game';
-import { Rect } from '../types';
+import { Rectangle } from '../types';
 
 export default class CameraMovementSystem extends System {
     constructor() {
@@ -11,7 +11,7 @@ export default class CameraMovementSystem extends System {
         this.requireComponent(TransformComponent);
     }
 
-    update(camera: Rect) {
+    update(camera: Rectangle) {
         for (const entity of this.getSystemEntities()) {
             const transform = entity.getComponent(TransformComponent);
 

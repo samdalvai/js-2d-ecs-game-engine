@@ -3,7 +3,7 @@ import ShadowComponent from '../components/ShadowComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
-import { Flip, Rect } from '../types';
+import { Flip, Rectangle } from '../types';
 
 export default class RenderSystem extends System {
     constructor() {
@@ -12,7 +12,7 @@ export default class RenderSystem extends System {
         this.requireComponent(TransformComponent);
     }
 
-    update(ctx: CanvasRenderingContext2D, assetStore: AssetStore, camera: Rect) {
+    update(ctx: CanvasRenderingContext2D, assetStore: AssetStore, camera: Rectangle) {
         const renderableEntities: {
             sprite: SpriteComponent;
             transform: TransformComponent;
@@ -72,9 +72,9 @@ export default class RenderSystem extends System {
                 ctx.restore();
             }
 
-            const srcRect: Rect = sprite.srcRect;
+            const srcRect: Rectangle = sprite.srcRect;
 
-            const dstRect: Rect = {
+            const dstRect: Rectangle = {
                 x: transform.position.x - (sprite.isFixed ? 0 : camera.x),
                 y: transform.position.y - (sprite.isFixed ? 0 : camera.y),
                 width: sprite.width * transform.scale.x,

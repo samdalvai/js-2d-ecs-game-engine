@@ -1,12 +1,12 @@
 import Component from '../ecs/Component';
-import { Flip, Rect } from '../types';
+import { Flip, Rectangle } from '../types';
 
 export default class SpriteComponent extends Component {
     assetId: string;
     width: number;
     height: number;
     zIndex: number;
-    srcRect: Rect;
+    srcRect: Rectangle;
     flip: Flip;
     isFixed: boolean;
     

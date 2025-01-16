@@ -2,7 +2,7 @@ import HealthComponent from '../components/HealthComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
-import { Rect } from '../types';
+import { Rectangle } from '../types';
 
 export default class RenderHealthBarSystem extends System {
     constructor() {
@@ -12,7 +12,7 @@ export default class RenderHealthBarSystem extends System {
         this.requireComponent(SpriteComponent);
     }
 
-    update(ctx: CanvasRenderingContext2D, camera: Rect) {
+    update(ctx: CanvasRenderingContext2D, camera: Rectangle) {
         for (const entity of this.getSystemEntities()) {
             const transform = entity.getComponent(TransformComponent);
             const sprite = entity.getComponent(SpriteComponent);
@@ -45,7 +45,7 @@ export default class RenderHealthBarSystem extends System {
             const topPadding = 5;
             const healthBarHeight = 5;
 
-            const healthBarRect: Rect = {
+            const healthBarRect: Rectangle = {
                 x: transform.position.x - camera.x,
                 y: transform.position.y - healthBarHeight - topPadding * transform.scale.y - camera.y,
                 width: (sprite.width * transform.scale.x * health.healthPercentage) / 100,
