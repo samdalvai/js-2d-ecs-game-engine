@@ -108,7 +108,7 @@ export default class LevelLoader {
         enemy2.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
         enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        enemy2.addComponent(HealthComponent, 50);
+        enemy2.addComponent(HealthComponent, 100);
         enemy2.addComponent(ProjectileEmitterComponent, { x: 0, y: -100 }, 1000, 3000, 20, false);
         enemy2.addComponent(ExplosionOnDeathComponent);
         enemy2.addComponent(ExplosionOnHitComponent);
