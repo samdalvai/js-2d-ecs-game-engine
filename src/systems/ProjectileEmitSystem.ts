@@ -1,14 +1,14 @@
-import BoxColliderComponent from '../components/BoxColliderComponent';
-import LifetimeComponent from '../components/LifetimeComponent';
-import ProjectileComponent from '../components/ProjectileComponent';
-import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
-import RigidBodyComponent from '../components/RigidBodyComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import TransformComponent from '../components/TransformComponent';
+import BoxColliderComponent from '../components/BoxColliderComponent.js';
+import LifetimeComponent from '../components/LifetimeComponent.js';
+import ProjectileComponent from '../components/ProjectileComponent.js';
+import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent.js';
+import RigidBodyComponent from '../components/RigidBodyComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
 import Registry from '../ecs/Registry';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import KeyPressedEvent from '../events/KeyPressedEvent';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import KeyPressedEvent from '../events/KeyPressedEvent.js';
 
 export default class ProjectileEmitSystem extends System {
     constructor() {

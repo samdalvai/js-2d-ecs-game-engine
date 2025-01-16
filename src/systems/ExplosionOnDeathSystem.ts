@@ -1,11 +1,11 @@
-import AnimationComponent from '../components/AnimationComponent';
-import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
-import LifetimeComponent from '../components/LifetimeComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import TransformComponent from '../components/TransformComponent';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import EntityKilledEvent from '../events/EntityKilledEvent';
+import AnimationComponent from '../components/AnimationComponent.js';
+import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent.js';
+import LifetimeComponent from '../components/LifetimeComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import EntityKilledEvent from '../events/EntityKilledEvent.js';
 
 export default class ExplosionOnDeathSystem extends System {
     constructor() {

@@ -1,4 +1,4 @@
-import Component from '../ecs/Component';
+import Component from '../ecs/Component.js';
 
 export default class HealthComponent extends Component {
     healthPercentage: number;

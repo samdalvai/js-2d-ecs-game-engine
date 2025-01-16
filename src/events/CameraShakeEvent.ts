@@ -1,4 +1,4 @@
-import GameEvent from '../event-bus/GameEvent';
+import GameEvent from '../event-bus/GameEvent.js';
 
 export default class CameraShakeEvent extends GameEvent {
     shakeDuration: number;

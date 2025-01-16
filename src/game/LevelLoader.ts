@@ -10,24 +10,24 @@
 // import treeSprite from '../../assets/images/tree.png';
 // import desertSpriteSheet from '../../assets/tilemaps/desert.png';
 // import tileMapJson from '../../assets/tilemaps/tilemap.json';
-import AssetStore from '../asset-store/AssetStore';
-import AnimationComponent from '../components/AnimationComponent';
-import BoxColliderComponent from '../components/BoxColliderComponent';
-import CameraFollowComponent from '../components/CameraFollowComponent';
-import CameraShakeComponent from '../components/CameraShakeComponent';
-import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
-import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
-import HealthComponent from '../components/HealthComponent';
-import KeyboardControlComponent from '../components/KeyboardControlComponent';
-import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
-import RigidBodyComponent from '../components/RigidBodyComponent';
-import ShadowComponent from '../components/ShadowComponent';
-import SoundComponent from '../components/SoundComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import TransformComponent from '../components/TransformComponent';
-import Registry from '../ecs/Registry';
-import { Flip, TileMap } from '../types';
-import Game from './Game';
+import AssetStore from '../asset-store/AssetStore.js';
+import AnimationComponent from '../components/AnimationComponent.js';
+import BoxColliderComponent from '../components/BoxColliderComponent.js';
+import CameraFollowComponent from '../components/CameraFollowComponent.js';
+import CameraShakeComponent from '../components/CameraShakeComponent.js';
+import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent.js';
+import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent.js';
+import HealthComponent from '../components/HealthComponent.js';
+import KeyboardControlComponent from '../components/KeyboardControlComponent.js';
+import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent.js';
+import RigidBodyComponent from '../components/RigidBodyComponent.js';
+import ShadowComponent from '../components/ShadowComponent.js';
+import SoundComponent from '../components/SoundComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import Registry from '../ecs/Registry.js';
+import { Flip, TileMap } from '../types/types.js';
+import Game from './Game.js';
 
 export default class LevelLoader {
     public loadLevel(registry: Registry, assetStore: AssetStore) {

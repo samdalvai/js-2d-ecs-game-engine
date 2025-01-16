@@ -1,5 +1,5 @@
-import Component from '../ecs/Component';
-import { Flip, Rect } from '../types';
+import Component from '../ecs/Component.js';
+import { Flip, Rect } from '../types/types.js';
 
 export default class SpriteComponent extends Component {
     assetId: string;

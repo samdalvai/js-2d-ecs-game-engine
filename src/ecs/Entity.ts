@@ -1,5 +1,5 @@
-import Component, { ComponentClass } from './Component';
-import Registry from './Registry';
+import Component, { ComponentClass } from './Component.js';
+import Registry from './Registry.js';
 
 export default class Entity {
     private id: number;

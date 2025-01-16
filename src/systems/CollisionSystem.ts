@@ -1,8 +1,8 @@
-import BoxColliderComponent from '../components/BoxColliderComponent';
-import TransformComponent from '../components/TransformComponent';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import CollisionEvent from '../events/CollisionEvent';
+import BoxColliderComponent from '../components/BoxColliderComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import CollisionEvent from '../events/CollisionEvent.js';
 
 export default class CollisionSystem extends System {
     constructor() {

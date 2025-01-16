@@ -1,8 +1,8 @@
-import CameraFollowComponent from '../components/CameraFollowComponent';
-import TransformComponent from '../components/TransformComponent';
-import System from '../ecs/System';
-import Game from '../game/Game';
-import { Rect } from '../types';
+import CameraFollowComponent from '../components/CameraFollowComponent.js';
+import TransformComponent from '../components/TransformComponent.js';
+import System from '../ecs/System.js';
+import Game from '../game/Game.js';
+import { Rect } from '../types/types.js';
 
 export default class CameraMovementSystem extends System {
     constructor() {

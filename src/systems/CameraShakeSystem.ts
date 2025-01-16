@@ -1,6 +1,6 @@
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import CameraShakeEvent from '../events/CameraShakeEvent';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import CameraShakeEvent from '../events/CameraShakeEvent.js';
 
 const SHAKE_MAX_MOVEMENT = 10;
 

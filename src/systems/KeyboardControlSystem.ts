@@ -1,10 +1,10 @@
-import KeyboardControlComponent from '../components/KeyboardControlComponent';
-import RigidBodyComponent from '../components/RigidBodyComponent';
-import SpriteComponent from '../components/SpriteComponent';
-import System from '../ecs/System';
-import EventBus from '../event-bus/EventBus';
-import KeyPressedEvent from '../events/KeyPressedEvent';
-import KeyReleasedEvent from '../events/KeyReleasedEvent';
+import KeyboardControlComponent from '../components/KeyboardControlComponent.js';
+import RigidBodyComponent from '../components/RigidBodyComponent.js';
+import SpriteComponent from '../components/SpriteComponent.js';
+import System from '../ecs/System.js';
+import EventBus from '../event-bus/EventBus.js';
+import KeyPressedEvent from '../events/KeyPressedEvent.js';
+import KeyReleasedEvent from '../events/KeyReleasedEvent.js';
 
 export enum MovementDirection {
     UP,

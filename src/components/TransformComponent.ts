@@ -1,5 +1,5 @@
-import Component from '../ecs/Component';
-import { Vec2 } from '../types';
+import Component from '../ecs/Component.js';
+import { Vec2 } from '../types/types.js';
 
 export default class TransformComponent extends Component {
     position: Vec2;

@@ -1,4 +1,4 @@
-import GameEvent from '../event-bus/GameEvent';
+import GameEvent from '../event-bus/GameEvent.js';
 
 export default class KeyReleasedEvent extends GameEvent {
     keyCode: string;
