@@ -49,11 +49,13 @@ export default class MovementSystem extends System {
 
             if (rigidbody.velocity.x != 0) {
                 rigidbody.velocity.x *= -1;
+                rigidbody.direction.x *= -1;
                 sprite.flip = sprite.flip === Flip.NONE ? Flip.HORIZONTAL : Flip.NONE;
             }
 
             if (rigidbody.velocity.y != 0) {
                 rigidbody.velocity.y *= -1;
+                rigidbody.direction.y *= -1;
                 sprite.flip = sprite.flip === Flip.NONE ? Flip.VERTICAL : Flip.NONE;
             }
         }
