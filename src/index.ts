@@ -1,34 +1,42 @@
-/*import Game from './src/game/Game';
+import Game from './game/Game';
 
 const game = new Game();
 
 game.initialize();
 game.run();
-game.destroy();*/
+game.destroy();
 
-const image = new Image();
-image.src = './assets/chopper.png';
+// const image = new Image();
+// image.src = './assets/chopper.png';
 
-console.log('image: ', image);
+// image.onload = () => {
+//     console.log('Image loaded: ', image.src);
+// };
 
-const sound = new Audio();
-sound.src = './assets/helicopter.wav';
+// image.onerror = () => {
+//     console.error('Failed to load the image: ', image.src);
+// };
 
-function onPlay() {
-    sound.play();
-}
+// console.log('image: ', image);
 
-const app = document.getElementById('app');
-if (app) {
-    app.innerHTML = `<h1>Hello, TypeScriptssss!</h1>`;
-    app.appendChild(image);
+// const sound = new Audio();
+// sound.src = './assets/helicopter.wav';
 
-    const button = document.createElement('button');
-    button.innerHTML = 'Click Me!';
+// function onPlay() {
+//     sound.play();
+// }
 
-    // Add the onclick event listener to the button
-    button.onclick = onPlay;
+// const app = document.getElementById('app');
+// if (app) {
+//     app.innerHTML = '<h1>Hello, TypeScriptssss Hello!</h1>';
+//     app.appendChild(image);
 
-    // Append the button to the app
-    app.appendChild(button);
-}
+//     const button = document.createElement('button');
+//     button.innerHTML = 'Click Me!';
+
+//     // Add the onclick event listener to the button
+//     button.onclick = onPlay;
+
+//     // Append the button to the app
+//     app.appendChild(button);
+// }
