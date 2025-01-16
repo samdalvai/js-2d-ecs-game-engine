@@ -1,10 +1,12 @@
 export default class AssetStore {
     private textures: Map<string, HTMLImageElement>;
     private sounds: Map<string, HTMLAudioElement>;
+    private jsons: Map<string, any>;
 
     constructor() {
         this.textures = new Map<string, HTMLImageElement>();
         this.sounds = new Map<string, HTMLAudioElement>();
+        this.jsons = new Map<string, any>();
     }
 
     clearAssets() {
@@ -66,5 +68,33 @@ export default class AssetStore {
         }
 
         return sound;
+    }
+
+    addJson(assetId: string, filePath: string): Promise<void> {
+        return fetch(filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch JSON from ${filePath}, status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('JSON added to the AssetStore with id ' + assetId);
+                this.jsons.set(assetId, data);
+            })
+            .catch(error => {
+                console.error('Failed to load JSON:', error);
+                throw error;
+            });
+    }
+
+    getJson(assetId: string) {
+        const json = this.jsons.get(assetId);
+
+        if (!json) {
+            throw new Error('Could not find JSON with asset id: ' + assetId);
+        }
+
+        return json;
     }
 }
