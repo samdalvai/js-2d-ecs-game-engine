@@ -66,15 +66,17 @@ export default class PlayerFollowSystem extends System {
                     entityRigidBody.velocity = directionVector;
                 }
 
-                if (directionVector.x < 0) {
-                    entityRigidBody.direction = { x: -1, y: 0 };
-                } else if (directionVector.x > 0) {
-                    entityRigidBody.direction = { x: 1, y: 0 };
-                } else if (directionVector.y < 0) {
-                    entityRigidBody.direction = { x: 0, y: -1 };
-                } else {
-                    entityRigidBody.direction = { x: 0, y: 1 };
+                // Use a threshold to stabilize direction switching
+                const absX = Math.abs(directionVector.x);
+                const absY = Math.abs(directionVector.y);
+                const THRESHOLD = 0.1; // Small value to reduce flickering
+
+                if (absX > absY + THRESHOLD) {
+                    entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
+                } else if (absY > absX + THRESHOLD) {
+                    entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
                 }
+                // If differences are too small, keep the last direction
             } else {
                 // TODO: revert to previous velocity if entity has script (to be implemented)
                 entityRigidBody.velocity = { x: 0, y: 0 };
@@ -119,16 +121,8 @@ export default class PlayerFollowSystem extends System {
         const unitY = dirY / magnitude;
 
         // Scale to the desired length
-        let vectorX = unitX * velocity;
-        let vectorY = unitY * velocity;
-
-        if (Math.abs(vectorX) > Math.abs(vectorY)) {
-            vectorY = 0;
-        } else if (Math.abs(vectorY) > Math.abs(vectorX)) {
-            vectorX = 0;
-        } else {
-            vectorY = 0;
-        }
+        const vectorX = unitX * velocity;
+        const vectorY = unitY * velocity;
 
         return { x: vectorX, y: vectorY };
     }
