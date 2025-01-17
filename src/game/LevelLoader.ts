@@ -7,6 +7,7 @@ import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
 import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
+import PlayerFollowComponent from '../components/PlayerFollowComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import ShadowComponent from '../components/ShadowComponent';
@@ -112,6 +113,7 @@ export default class LevelLoader {
         enemy2.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 20, false);
         enemy2.addComponent(ExplosionOnDeathComponent);
         enemy2.addComponent(ExplosionOnHitComponent);
+        enemy2.addComponent(PlayerFollowComponent, 200, 50, { x: 16, y: 16 });
         enemy2.group('enemies');
 
         const enemy3 = registry.createEntity();
