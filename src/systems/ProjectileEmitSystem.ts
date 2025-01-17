@@ -27,9 +27,9 @@ export default class ProjectileEmitSystem extends System {
                 if (entity.hasTag('player')) {
                     const projectileEmitter = entity.getComponent(ProjectileEmitterComponent);
                     const transform = entity.getComponent(TransformComponent);
-                    const rigidbody = entity.getComponent(RigidBodyComponent);
+                    const rigidBody = entity.getComponent(RigidBodyComponent);
 
-                    if (!projectileEmitter || !transform || !rigidbody) {
+                    if (!projectileEmitter || !transform || !rigidBody) {
                         throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
                     }
 
@@ -49,18 +49,18 @@ export default class ProjectileEmitSystem extends System {
                         projectilePosition.y += (transform.scale.y * sprite.height) / 2;
                     }
 
-                    // If parent entity direction is controlled by the keyboard keys, modify the direction of the projectile accordingly
+                    // Modify the direction of the projectile according to the rigid body direction
                     const projectileVelocity = { ...projectileEmitter.projectileVelocity };
 
                     let directionX = 0;
                     let directionY = 0;
 
-                    if (rigidbody.direction.x > 0) directionX = +1;
-                    if (rigidbody.direction.x < 0) directionX = -1;
-                    if (rigidbody.direction.y > 0) directionY = +1;
-                    if (rigidbody.direction.y < 0) directionY = -1;
-                    projectileVelocity.x = projectileEmitter.projectileVelocity.x * directionX + rigidbody.velocity.x;
-                    projectileVelocity.y = projectileEmitter.projectileVelocity.y * directionY + rigidbody.velocity.y;
+                    if (rigidBody.direction.x > 0) directionX = +1;
+                    if (rigidBody.direction.x < 0) directionX = -1;
+                    if (rigidBody.direction.y > 0) directionY = +1;
+                    if (rigidBody.direction.y < 0) directionY = -1;
+                    projectileVelocity.x = projectileEmitter.projectileVelocity.x * directionX + rigidBody.velocity.x;
+                    projectileVelocity.y = projectileEmitter.projectileVelocity.y * directionY + rigidBody.velocity.y;
 
                     // Create new projectile entity and add it to the world
                     const projectile = entity.registry.createEntity();
@@ -109,11 +109,34 @@ export default class ProjectileEmitSystem extends System {
                     projectilePosition.y += (transform.scale.y * sprite.height) / 2;
                 }
 
+                // Modify the direction of the projectile according to the rigid body direction
+                const projectileVelocity = { ...projectileEmitter.projectileVelocity };
+
+                if (entity.hasComponent(RigidBodyComponent)) {
+                    const rigidBody = entity.getComponent(RigidBodyComponent);
+
+                    if (!rigidBody) {
+                        throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+                    }
+
+                    let directionX = 0;
+                    let directionY = 0;
+
+                    if (rigidBody.direction.x > 0) directionX = +1;
+                    if (rigidBody.direction.x < 0) directionX = -1;
+                    if (rigidBody.direction.y > 0) directionY = +1;
+                    if (rigidBody.direction.y < 0) directionY = -1;
+                    projectileVelocity.x = projectileEmitter.projectileVelocity.x * directionX + rigidBody.velocity.x;
+                    projectileVelocity.y = projectileEmitter.projectileVelocity.y * directionY + rigidBody.velocity.y;
+                }
+
                 // Add a new projectile entity to the registry
                 const projectile = registry.createEntity();
                 projectile.group('projectiles');
                 projectile.addComponent(TransformComponent, projectilePosition, { x: 1.0, y: 1.0 }, 0.0);
-                projectile.addComponent(RigidBodyComponent, projectileEmitter.projectileVelocity);
+                projectile.addComponent(RigidBodyComponent, projectileVelocity
+                    
+                );
                 projectile.addComponent(SpriteComponent, 'bullet-texture', 4, 4, 4);
                 projectile.addComponent(BoxColliderComponent, 4, 4);
                 projectile.addComponent(
