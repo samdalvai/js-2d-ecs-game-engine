@@ -4,6 +4,7 @@ import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
 import System from '../ecs/System';
+import { Vector } from '../types';
 
 export default class PlayerFollowSystem extends System {
     constructor() {
@@ -29,16 +30,16 @@ export default class PlayerFollowSystem extends System {
         }
 
         for (const entity of this.getSystemEntities()) {
-            const transform = entity.getComponent(TransformComponent);
-            const rigidBody = entity.getComponent(RigidBodyComponent);
-            const playerFollow = entity.getComponent(PlayerFollowComponent);
+            const entityTransform = entity.getComponent(TransformComponent);
+            const entityRigidBody = entity.getComponent(RigidBodyComponent);
+            const entityPlayerFollow = entity.getComponent(PlayerFollowComponent);
 
-            if (!rigidBody || !transform || !playerFollow) {
+            if (!entityRigidBody || !entityTransform || !entityPlayerFollow) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
-            const playerFollowX = transform.position.x + playerFollow.offset.x;
-            const playerFollowY = transform.position.y + playerFollow.offset.y;
+            const playerFollowX = entityTransform.position.x + entityPlayerFollow.offset.x;
+            const playerFollowY = entityTransform.position.y + entityPlayerFollow.offset.y;
 
             const playerX = playerTransform.position.x + (playerTransform.scale.x * playerSprite.width) / 2;
             const playerY = playerTransform.position.y + (playerTransform.scale.y * playerSprite.height) / 2;
@@ -48,11 +49,31 @@ export default class PlayerFollowSystem extends System {
                 playerY,
                 playerFollowX,
                 playerFollowY,
-                playerFollow.detectionRadius,
+                entityPlayerFollow.detectionRadius,
             );
 
             if (isPlayerInsideCircle) {
-                console.log('Detected');
+                const directionVector = this.computeRotatedVector(
+                    playerFollowX,
+                    playerFollowY,
+                    playerX,
+                    playerY,
+                    entityPlayerFollow.followVelocity,
+                );
+                entityRigidBody.velocity = directionVector;
+
+                if (directionVector.x < 0) {
+                    entityRigidBody.direction = { x: -1, y: 0 };
+                } else if (directionVector.x > 0) {
+                    entityRigidBody.direction = { x: 1, y: 0 };
+                } else if (directionVector.y < 0) {
+                    entityRigidBody.direction = { x: 0, y: -1 };
+                } else {
+                    entityRigidBody.direction = { x: 0, y: 1 };
+                }
+            } else {
+                // TODO: revert to previous velocity if entity has script (to be implemented)
+                entityRigidBody.velocity = { x: 0, y: 0 };
             }
         }
     }
@@ -65,5 +86,34 @@ export default class PlayerFollowSystem extends System {
         circleRadius: number,
     ) {
         return Math.pow(entityX - circleX, 2) + Math.pow(entityY - circleY, 2) <= circleRadius * circleRadius;
+    }
+
+    private computeRotatedVector(x0: number, y0: number, x1: number, y1: number, velocity: number): Vector {
+        const dirX = x1 - x0;
+        const dirY = y1 - y0;
+
+        // Calculate magnitude of the direction vector
+        const magnitude = Math.sqrt(dirX ** 2 + dirY ** 2);
+        if (magnitude === 0) {
+            throw new Error('The target point is the same as the center of the circle.');
+        }
+
+        // Normalize the direction vector
+        const unitX = dirX / magnitude;
+        const unitY = dirY / magnitude;
+
+        // Scale to the desired length
+        let vectorX = unitX * velocity;
+        let vectorY = unitY * velocity;
+
+        if (Math.abs(vectorX) > Math.abs(vectorY)) {
+            vectorY = 0;
+        } else if (Math.abs(vectorY) > Math.abs(vectorX)) {
+            vectorX = 0;
+        } else {
+            vectorY = 0;
+        }
+
+        return { x: vectorX, y: vectorY };
     }
 }
