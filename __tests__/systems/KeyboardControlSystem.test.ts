@@ -3,7 +3,8 @@ import { expect } from '@jest/globals';
 import KeyboardControlComponent from '../../src/components/KeyboardControlComponent';
 import RigidBodyComponent from '../../src/components/RigidBodyComponent';
 import SpriteComponent from '../../src/components/SpriteComponent';
-import KeyboardControlSystem, { MovementDirection } from '../../src/systems/KeyboardControlSystem';
+import KeyboardControlSystem from '../../src/systems/KeyboardControlSystem';
+import { Direction } from '../../src/types';
 
 describe('Testing KeyboardControl system related functions', () => {
     test('Entity rigid body should move up based on corresponging velocity value', () => {
@@ -12,7 +13,7 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.UP);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.UP);
 
         expect(rigidBody.velocity).toEqual({ x: 0, y: -100 });
         expect(rigidBody.direction).toEqual({ x: 0, y: -1 });
@@ -24,7 +25,7 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.RIGHT);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.RIGHT);
 
         expect(rigidBody.velocity).toEqual({ x: 100, y: 0 });
         expect(rigidBody.direction).toEqual({ x: 1, y: 0 });
@@ -36,7 +37,7 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.DOWN);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.DOWN);
 
         expect(rigidBody.velocity).toEqual({ x: 0, y: 100 });
         expect(rigidBody.direction).toEqual({ x: 0, y: 1 });
@@ -48,7 +49,7 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.LEFT);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.LEFT);
 
         expect(rigidBody.velocity).toEqual({ x: -100, y: 0 });
         expect(rigidBody.direction).toEqual({ x: -1, y: 0 });
@@ -60,8 +61,8 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.UP);
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.UP);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.UP);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.UP);
 
         expect(rigidBody.velocity).toEqual({ x: 0, y: -100 });
         expect(rigidBody.direction).toEqual({ x: 0, y: -1 });
@@ -73,8 +74,8 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.RIGHT);
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.RIGHT);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.RIGHT);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.RIGHT);
 
         expect(rigidBody.velocity).toEqual({ x: 100, y: 0 });
         expect(rigidBody.direction).toEqual({ x: 1, y: 0 });
@@ -86,8 +87,8 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.DOWN);
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.DOWN);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.DOWN);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.DOWN);
 
         expect(rigidBody.velocity).toEqual({ x: 0, y: 100 });
         expect(rigidBody.direction).toEqual({ x: 0, y: 1 });
@@ -99,8 +100,8 @@ describe('Testing KeyboardControl system related functions', () => {
         const sprite = new SpriteComponent('test-asset', 32, 32, 1, 0, 0);
 
         const keyboardControlSystem = new KeyboardControlSystem();
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.LEFT);
-        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, MovementDirection.LEFT);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.LEFT);
+        keyboardControlSystem.updateEntityMovement(rigidBody, keyboardControl, sprite, Direction.LEFT);
 
         expect(rigidBody.velocity).toEqual({ x: -100, y: 0 });
         expect(rigidBody.direction).toEqual({ x: -1, y: 0 });
