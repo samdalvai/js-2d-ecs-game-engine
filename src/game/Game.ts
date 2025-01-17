@@ -104,7 +104,7 @@ export default class Game {
         this.registry.addSystem(RenderColliderSystem);
         this.registry.addSystem(CollisionSystem);
         this.registry.addSystem(RenderHealthBarSystem);
-        this.registry.addSystem(ProjectileEmitSystem);
+        this.registry.addSystem(ProjectileEmitSystem, this.registry);
         this.registry.addSystem(DamageSystem, this.eventBus);
         this.registry.addSystem(LifetimeSystem);
         this.registry.addSystem(ExplosionOnDeathSystem);
