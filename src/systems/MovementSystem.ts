@@ -6,7 +6,6 @@ import Entity from '../ecs/Entity';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import CollisionEvent from '../events/CollisionEvent';
-import { Flip } from '../types';
 
 export default class MovementSystem extends System {
     constructor() {
@@ -50,13 +49,11 @@ export default class MovementSystem extends System {
             if (rigidbody.velocity.x != 0) {
                 rigidbody.velocity.x *= -1;
                 rigidbody.direction.x *= -1;
-                sprite.flip = sprite.flip === Flip.NONE ? Flip.HORIZONTAL : Flip.NONE;
             }
 
             if (rigidbody.velocity.y != 0) {
                 rigidbody.velocity.y *= -1;
                 rigidbody.direction.y *= -1;
-                sprite.flip = sprite.flip === Flip.NONE ? Flip.VERTICAL : Flip.NONE;
             }
         }
     }

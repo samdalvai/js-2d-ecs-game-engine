@@ -19,3 +19,10 @@ export enum Flip {
     HORIZONTAL,
     VERTICAL,
 }
+
+export enum Direction {
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT,
+}

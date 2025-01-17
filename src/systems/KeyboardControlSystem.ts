@@ -5,16 +5,10 @@ import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
 import KeyReleasedEvent from '../events/KeyReleasedEvent';
-
-export enum MovementDirection {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT,
-}
+import { Direction } from '../types';
 
 export default class KeyboardControlSystem extends System {
-    keysPressed: MovementDirection[] = [];
+    keysPressed: Direction[] = [];
 
     constructor() {
         super();
@@ -32,19 +26,19 @@ export default class KeyboardControlSystem extends System {
         switch (event.keyCode) {
             case 'ArrowUp':
             case 'KeyW':
-                this.keysPressed.push(MovementDirection.UP);
+                this.keysPressed.push(Direction.UP);
                 break;
             case 'ArrowRight':
             case 'KeyD':
-                this.keysPressed.push(MovementDirection.RIGHT);
+                this.keysPressed.push(Direction.RIGHT);
                 break;
             case 'ArrowDown':
             case 'KeyS':
-                this.keysPressed.push(MovementDirection.DOWN);
+                this.keysPressed.push(Direction.DOWN);
                 break;
             case 'ArrowLeft':
             case 'KeyA':
-                this.keysPressed.push(MovementDirection.LEFT);
+                this.keysPressed.push(Direction.LEFT);
                 break;
         }
     };
@@ -53,19 +47,19 @@ export default class KeyboardControlSystem extends System {
         switch (event.keyCode) {
             case 'ArrowUp':
             case 'KeyW':
-                this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.UP);
+                this.keysPressed = this.keysPressed.filter(key => key !== Direction.UP);
                 break;
             case 'ArrowRight':
             case 'KeyD':
-                this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.RIGHT);
+                this.keysPressed = this.keysPressed.filter(key => key !== Direction.RIGHT);
                 break;
             case 'ArrowDown':
             case 'KeyS':
-                this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.DOWN);
+                this.keysPressed = this.keysPressed.filter(key => key !== Direction.DOWN);
                 break;
             case 'ArrowLeft':
             case 'KeyA':
-                this.keysPressed = this.keysPressed.filter(key => key !== MovementDirection.LEFT);
+                this.keysPressed = this.keysPressed.filter(key => key !== Direction.LEFT);
                 break;
         }
     };
@@ -97,28 +91,28 @@ export default class KeyboardControlSystem extends System {
         rigidBody: RigidBodyComponent,
         keyboardControl: KeyboardControlComponent,
         sprite: SpriteComponent,
-        movementDirection: MovementDirection,
+        movementDirection: Direction,
     ) => {
         switch (movementDirection) {
-            case MovementDirection.UP:
+            case Direction.UP:
                 rigidBody.velocity.x = 0;
                 rigidBody.velocity.y = keyboardControl.upVelocity;
                 rigidBody.direction = { x: 0, y: -1 };
                 sprite.srcRect.y = sprite.height * 0;
                 break;
-            case MovementDirection.RIGHT:
+            case Direction.RIGHT:
                 rigidBody.velocity.y = 0;
                 rigidBody.velocity.x = keyboardControl.rightVelocity;
                 rigidBody.direction = { x: 1, y: 0 };
                 sprite.srcRect.y = sprite.height * 1;
                 break;
-            case MovementDirection.DOWN:
+            case Direction.DOWN:
                 rigidBody.velocity.x = 0;
                 rigidBody.velocity.y = keyboardControl.downVelocity;
                 rigidBody.direction = { x: 0, y: 1 };
                 sprite.srcRect.y = sprite.height * 2;
                 break;
-            case MovementDirection.LEFT:
+            case Direction.LEFT:
                 rigidBody.velocity.y = 0;
                 rigidBody.velocity.x = keyboardControl.leftVelocity;
                 rigidBody.direction = { x: -1, y: 0 };
