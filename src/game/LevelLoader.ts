@@ -104,17 +104,24 @@ export default class LevelLoader {
         enemy1.addComponent(ExplosionOnHitComponent);
         enemy1.group('enemies');
 
-        const enemy2 = registry.createEntity();
-        enemy2.addComponent(TransformComponent, { x: 650, y: 600 }, { x: 1, y: 1 }, 0);
-        enemy2.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
-        enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
-        enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        enemy2.addComponent(HealthComponent, 100);
-        enemy2.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 20, false);
-        enemy2.addComponent(ExplosionOnDeathComponent);
-        enemy2.addComponent(ExplosionOnHitComponent);
-        enemy2.addComponent(PlayerFollowComponent, 400, 50, 50, { x: 16, y: 16 });
-        enemy2.group('enemies');
+        for (let i = 0; i < 10; i++) {
+            const enemy2 = registry.createEntity();
+            enemy2.addComponent(
+                TransformComponent,
+                { x: Math.random() * (Game.mapWidth - 100) + 200, y: Math.random() * (Game.mapHeight - 100) + 200 },
+                { x: 1, y: 1 },
+                0,
+            );
+            enemy2.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
+            enemy2.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+            enemy2.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+            enemy2.addComponent(HealthComponent, 100);
+            enemy2.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 20, false);
+            enemy2.addComponent(ExplosionOnDeathComponent);
+            enemy2.addComponent(ExplosionOnHitComponent);
+            enemy2.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
+            enemy2.group('enemies');
+        }
 
         const enemy3 = registry.createEntity();
         enemy3.addComponent(TransformComponent, { x: 250, y: 500 }, { x: 1, y: 1 }, 0);
