@@ -17,6 +17,7 @@ import MovementSystem from '../systems/MovementSystem';
 import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
+import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
 import SoundSystem from '../systems/SoundSystem';
 import { Rectangle } from '../types';
@@ -111,6 +112,7 @@ export default class Game {
         this.registry.addSystem(ExplosionOnHitSystem);
         this.registry.addSystem(CameraShakeSystem);
         this.registry.addSystem(SoundSystem, this.assetStore);
+        this.registry.addSystem(RenderPlayerFollowRadius);
 
         const loader = new LevelLoader();
         loader.loadLevel(this.registry, this.assetStore);
@@ -209,6 +211,7 @@ export default class Game {
             this.ctx.fillText(`Current FPS: (${this.currentFPS.toFixed(2)})`, x, y);
 
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
+            this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);
         }
     };
 
