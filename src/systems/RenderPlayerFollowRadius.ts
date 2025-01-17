@@ -37,6 +37,11 @@ export default class RenderPlayerFollowRadius extends System {
             ctx.arc(circleX, circleY, playerFollow.detectionRadius, 0, Math.PI * 2);
             ctx.strokeStyle = 'red';
             ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(circleX, circleY, playerFollow.minFollowDistance, 0, Math.PI * 2);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
         }
     }
 }
