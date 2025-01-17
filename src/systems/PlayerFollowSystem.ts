@@ -18,8 +18,7 @@ export default class PlayerFollowSystem extends System {
         const player = registry.getEntityByTag('player');
 
         if (!player) {
-            //throw new Error('Player entity not found');
-            return;
+            throw new Error('Player entity not found');
         }
 
         const playerTransform = player.getComponent(TransformComponent);

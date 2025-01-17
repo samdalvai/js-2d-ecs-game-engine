@@ -108,7 +108,7 @@ export default class LevelLoader {
             const enemy2 = registry.createEntity();
             enemy2.addComponent(
                 TransformComponent,
-                { x: Math.random() * (Game.mapWidth - 100) + 200, y: Math.random() * (Game.mapHeight - 100) + 200 },
+                { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
                 { x: 1, y: 1 },
                 0,
             );

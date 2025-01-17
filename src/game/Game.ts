@@ -97,8 +97,7 @@ export default class Game {
         });
     };
 
-    // TODO: setup method should be awaited
-    private setup = () => {
+    private setup = async () => {
         this.registry.addSystem(RenderSystem);
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
@@ -118,7 +117,7 @@ export default class Game {
         this.registry.addSystem(PlayerFollowSystem);
 
         const loader = new LevelLoader();
-        loader.loadLevel(this.registry, this.assetStore);
+        await loader.loadLevel(this.registry, this.assetStore);
     };
 
     private processInput = () => {
@@ -219,9 +218,9 @@ export default class Game {
         }
     };
 
-    run = () => {
+    run = async () => {
+        await this.setup();
         console.log('Running game');
-        this.setup();
         const loop = async () => {
             while (this.isRunning) {
                 this.processInput();
@@ -230,9 +229,5 @@ export default class Game {
             }
         };
         loop();
-    };
-
-    destroy = () => {
-        console.log('Destroying game');
     };
 }
