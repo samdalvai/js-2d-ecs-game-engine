@@ -13,6 +13,7 @@ import RigidBodyComponent from '../components/RigidBodyComponent';
 import ShadowComponent from '../components/ShadowComponent';
 import SoundComponent from '../components/SoundComponent';
 import SpriteComponent from '../components/SpriteComponent';
+import SpriteDirectionComponent from '../components/SpriteDirectionComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
 import { Flip, TileMap } from '../types';
@@ -91,17 +92,19 @@ export default class LevelLoader {
         player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
+        player.addComponent(SpriteDirectionComponent);
         //player.addComponent(SoundComponent, 'helicopter', 1, 0.5);
         player.tag('player');
 
         const enemy1 = registry.createEntity();
         enemy1.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
-        enemy1.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32, Flip.HORIZONTAL);
+        enemy1.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32);
         enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 }, { x: -1, y: 0 });
         enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy1.addComponent(HealthComponent, 100);
         enemy1.addComponent(ExplosionOnDeathComponent);
         enemy1.addComponent(ExplosionOnHitComponent);
+        enemy1.addComponent(SpriteDirectionComponent);
         enemy1.group('enemies');
 
         for (let i = 0; i < 10; i++) {
@@ -120,6 +123,7 @@ export default class LevelLoader {
             enemy2.addComponent(ExplosionOnDeathComponent);
             enemy2.addComponent(ExplosionOnHitComponent);
             enemy2.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
+            enemy2.addComponent(SpriteDirectionComponent);
             enemy2.group('enemies');
         }
 
@@ -132,6 +136,8 @@ export default class LevelLoader {
         enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 20, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
+        enemy3.addComponent(SpriteDirectionComponent);
+        enemy3.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
