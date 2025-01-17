@@ -96,7 +96,7 @@ export default class LevelLoader {
         const enemy1 = registry.createEntity();
         enemy1.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         enemy1.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32, Flip.HORIZONTAL);
-        enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 });
+        enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 }, { x: -1, y: 0 });
         enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy1.addComponent(HealthComponent, 100);
         enemy1.addComponent(ExplosionOnDeathComponent);
@@ -117,7 +117,7 @@ export default class LevelLoader {
         const enemy3 = registry.createEntity();
         enemy3.addComponent(TransformComponent, { x: 250, y: 500 }, { x: 1, y: 1 }, 0);
         enemy3.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
-        enemy3.addComponent(RigidBodyComponent, { x: 0, y: -50 });
+        enemy3.addComponent(RigidBodyComponent, { x: 0, y: -50 }, { x: 0, y: -1 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
         enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 20, false);
