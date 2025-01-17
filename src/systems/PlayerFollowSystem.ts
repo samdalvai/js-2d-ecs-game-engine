@@ -53,6 +53,8 @@ export default class PlayerFollowSystem extends System {
             );
 
             if (isPlayerInsideCircle) {
+                const distance = this.getDistanceFromPlayer(playerFollowX, playerFollowY, playerX, playerY);
+
                 const directionVector = this.computeRotatedVector(
                     playerFollowX,
                     playerFollowY,
@@ -60,7 +62,10 @@ export default class PlayerFollowSystem extends System {
                     playerY,
                     entityPlayerFollow.followVelocity,
                 );
-                entityRigidBody.velocity = directionVector;
+
+                if (distance >= entityPlayerFollow.minFollowDistance) {
+                    entityRigidBody.velocity = directionVector;
+                }
 
                 if (directionVector.x < 0) {
                     entityRigidBody.direction = { x: -1, y: 0 };
@@ -86,6 +91,18 @@ export default class PlayerFollowSystem extends System {
         circleRadius: number,
     ) {
         return Math.pow(entityX - circleX, 2) + Math.pow(entityY - circleY, 2) <= circleRadius * circleRadius;
+    }
+
+    private getDistanceFromPlayer(x: number, y: number, x0: number, y0: number) {
+        // Calculate the squared distance between the point and the circle's center
+        const dx = x - x0;
+        const dy = y - y0;
+        const distanceSquared = dx ** 2 + dy ** 2;
+
+        // Calculate the actual distance
+        const distance = Math.sqrt(distanceSquared);
+
+        return distance;
     }
 
     private computeRotatedVector(x0: number, y0: number, x1: number, y1: number, velocity: number): Vector {
