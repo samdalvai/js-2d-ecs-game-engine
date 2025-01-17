@@ -113,7 +113,7 @@ export default class LevelLoader {
         enemy2.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 20, false);
         enemy2.addComponent(ExplosionOnDeathComponent);
         enemy2.addComponent(ExplosionOnHitComponent);
-        enemy2.addComponent(PlayerFollowComponent, 200, 50, 50, { x: 16, y: 16 });
+        enemy2.addComponent(PlayerFollowComponent, 400, 50, 50, { x: 16, y: 16 });
         enemy2.group('enemies');
 
         const enemy3 = registry.createEntity();
