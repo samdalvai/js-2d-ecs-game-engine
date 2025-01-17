@@ -27,56 +27,64 @@ export default class ProjectileEmitSystem extends System {
                 if (entity.hasTag('player')) {
                     const projectileEmitter = entity.getComponent(ProjectileEmitterComponent);
                     const transform = entity.getComponent(TransformComponent);
-                    const rigidBody = entity.getComponent(RigidBodyComponent);
 
-                    if (!projectileEmitter || !transform || !rigidBody) {
+                    if (!projectileEmitter || !transform) {
                         throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
                     }
 
-                    // Limit emission of projectiles to 1 every 0.5 seconds
-                    if (performance.now() - projectileEmitter.lastEmissionTime < 100) {
-                        continue;
-                    }
+                    // Check if its time to re-emit a new projectile
+                    if (performance.now() - projectileEmitter.lastEmissionTime > projectileEmitter.repeatFrequency) {
+                        const projectilePosition = { ...transform.position };
+                        if (entity.hasComponent(SpriteComponent)) {
+                            const sprite = entity.getComponent(SpriteComponent);
 
-                    // If parent entity has sprite, start the projectile position in the middle of the entity
-                    const projectilePosition = { ...transform.position };
-                    if (entity.hasComponent(SpriteComponent)) {
-                        const sprite = entity.getComponent(SpriteComponent);
-                        if (!sprite) {
-                            throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+                            if (!sprite) {
+                                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+                            }
+                            projectilePosition.x += (transform.scale.x * sprite.width) / 2;
+                            projectilePosition.y += (transform.scale.y * sprite.height) / 2;
                         }
-                        projectilePosition.x += (transform.scale.x * sprite.width) / 2;
-                        projectilePosition.y += (transform.scale.y * sprite.height) / 2;
+
+                        // Modify the direction of the projectile according to the rigid body direction
+                        const projectileVelocity = { ...projectileEmitter.projectileVelocity };
+
+                        if (entity.hasComponent(RigidBodyComponent)) {
+                            const rigidBody = entity.getComponent(RigidBodyComponent);
+
+                            if (!rigidBody) {
+                                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+                            }
+
+                            let directionX = 0;
+                            let directionY = 0;
+
+                            if (rigidBody.direction.x > 0) directionX = +1;
+                            if (rigidBody.direction.x < 0) directionX = -1;
+                            if (rigidBody.direction.y > 0) directionY = +1;
+                            if (rigidBody.direction.y < 0) directionY = -1;
+                            projectileVelocity.x =
+                                projectileEmitter.projectileVelocity.x * directionX + rigidBody.velocity.x;
+                            projectileVelocity.y =
+                                projectileEmitter.projectileVelocity.y * directionY + rigidBody.velocity.y;
+                        }
+
+                        // Add a new projectile entity to the registry
+                        const projectile = entity.registry.createEntity();
+                        projectile.group('projectiles');
+                        projectile.addComponent(TransformComponent, projectilePosition, { x: 1.0, y: 1.0 }, 0.0);
+                        projectile.addComponent(RigidBodyComponent, projectileVelocity);
+                        projectile.addComponent(SpriteComponent, 'bullet-texture', 4, 4, 4);
+                        projectile.addComponent(BoxColliderComponent, 4, 4);
+                        projectile.addComponent(
+                            ProjectileComponent,
+                            projectileEmitter.isFriendly,
+                            projectileEmitter.hitPercentDamage,
+                        );
+                        projectile.addComponent(LifetimeComponent, projectileEmitter.projectileDuration);
+
+                        // Update the projectile emitter component last emission to the current milliseconds
+                        projectileEmitter.lastEmissionTime = performance.now();
                     }
-
-                    // Modify the direction of the projectile according to the rigid body direction
-                    const projectileVelocity = { ...projectileEmitter.projectileVelocity };
-
-                    let directionX = 0;
-                    let directionY = 0;
-
-                    if (rigidBody.direction.x > 0) directionX = +1;
-                    if (rigidBody.direction.x < 0) directionX = -1;
-                    if (rigidBody.direction.y > 0) directionY = +1;
-                    if (rigidBody.direction.y < 0) directionY = -1;
-                    projectileVelocity.x = projectileEmitter.projectileVelocity.x * directionX + rigidBody.velocity.x;
-                    projectileVelocity.y = projectileEmitter.projectileVelocity.y * directionY + rigidBody.velocity.y;
-
-                    // Create new projectile entity and add it to the world
-                    const projectile = entity.registry.createEntity();
-                    projectile.group('projectiles');
-                    projectile.addComponent(TransformComponent, projectilePosition, { x: 1.0, y: 1.0 }, 0.0);
-                    projectile.addComponent(RigidBodyComponent, projectileVelocity);
-                    projectile.addComponent(SpriteComponent, 'bullet-texture', 4, 4, 4);
-                    projectile.addComponent(BoxColliderComponent, 4, 4);
-                    projectile.addComponent(
-                        ProjectileComponent,
-                        projectileEmitter.isFriendly,
-                        projectileEmitter.hitPercentDamage,
-                    );
-                    projectile.addComponent(LifetimeComponent, projectileEmitter.projectileDuration);
-
-                    projectileEmitter.lastEmissionTime = performance.now();
                 }
             }
         }
@@ -134,9 +142,7 @@ export default class ProjectileEmitSystem extends System {
                 const projectile = registry.createEntity();
                 projectile.group('projectiles');
                 projectile.addComponent(TransformComponent, projectilePosition, { x: 1.0, y: 1.0 }, 0.0);
-                projectile.addComponent(RigidBodyComponent, projectileVelocity
-                    
-                );
+                projectile.addComponent(RigidBodyComponent, projectileVelocity);
                 projectile.addComponent(SpriteComponent, 'bullet-texture', 4, 4, 4);
                 projectile.addComponent(BoxColliderComponent, 4, 4);
                 projectile.addComponent(
