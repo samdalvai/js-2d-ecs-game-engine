@@ -67,22 +67,16 @@ export default class KeyboardControlSystem extends System {
     update = () => {
         for (const entity of this.getSystemEntities()) {
             const keyboardControl = entity.getComponent(KeyboardControlComponent);
-            const sprite = entity.getComponent(SpriteComponent);
             const rigidBody = entity.getComponent(RigidBodyComponent);
 
-            if (!keyboardControl || !sprite || !rigidBody) {
+            if (!keyboardControl || !rigidBody) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
             if (this.keysPressed.length == 0) {
                 rigidBody.velocity = { x: 0, y: 0 };
             } else {
-                this.updateEntityMovement(
-                    rigidBody,
-                    keyboardControl,
-                    sprite,
-                    this.keysPressed[this.keysPressed.length - 1],
-                );
+                this.updateEntityMovement(rigidBody, keyboardControl, this.keysPressed[this.keysPressed.length - 1]);
             }
         }
     };
@@ -90,7 +84,6 @@ export default class KeyboardControlSystem extends System {
     updateEntityMovement = (
         rigidBody: RigidBodyComponent,
         keyboardControl: KeyboardControlComponent,
-        sprite: SpriteComponent,
         movementDirection: Direction,
     ) => {
         switch (movementDirection) {
@@ -98,25 +91,21 @@ export default class KeyboardControlSystem extends System {
                 rigidBody.velocity.x = 0;
                 rigidBody.velocity.y = keyboardControl.upVelocity;
                 rigidBody.direction = { x: 0, y: -1 };
-                sprite.srcRect.y = sprite.height * 0;
                 break;
             case Direction.RIGHT:
                 rigidBody.velocity.y = 0;
                 rigidBody.velocity.x = keyboardControl.rightVelocity;
                 rigidBody.direction = { x: 1, y: 0 };
-                sprite.srcRect.y = sprite.height * 1;
                 break;
             case Direction.DOWN:
                 rigidBody.velocity.x = 0;
                 rigidBody.velocity.y = keyboardControl.downVelocity;
                 rigidBody.direction = { x: 0, y: 1 };
-                sprite.srcRect.y = sprite.height * 2;
                 break;
             case Direction.LEFT:
                 rigidBody.velocity.y = 0;
                 rigidBody.velocity.x = keyboardControl.leftVelocity;
                 rigidBody.direction = { x: -1, y: 0 };
-                sprite.srcRect.y = sprite.height * 3;
                 break;
             default:
                 break;

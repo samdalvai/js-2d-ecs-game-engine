@@ -21,6 +21,7 @@ import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
 import SoundSystem from '../systems/SoundSystem';
+import SpriteDirectionSystem from '../systems/SpriteDirectionSystem';
 import { Rectangle } from '../types';
 import { sleep } from '../utils/time';
 import LevelLoader from './LevelLoader';
@@ -115,6 +116,7 @@ export default class Game {
         this.registry.addSystem(SoundSystem, this.assetStore);
         this.registry.addSystem(RenderPlayerFollowRadius);
         this.registry.addSystem(PlayerFollowSystem);
+        this.registry.addSystem(SpriteDirectionSystem);
 
         const loader = new LevelLoader();
         await loader.loadLevel(this.registry, this.assetStore);
@@ -199,6 +201,7 @@ export default class Game {
 
         this.registry.getSystem(RenderSystem)?.update(this.ctx, this.assetStore, this.camera);
         this.registry.getSystem(AnimationSystem)?.update();
+        this.registry.getSystem(SpriteDirectionSystem)?.update();
         this.registry.getSystem(RenderHealthBarSystem)?.update(this.ctx, this.camera);
         this.registry.getSystem(CameraShakeSystem)?.update(this.ctx);
 
