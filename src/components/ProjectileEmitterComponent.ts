@@ -22,6 +22,6 @@ export default class ProjectileEmitterComponent extends Component {
         this.projectileDuration = projectileDuration;
         this.hitPercentDamage = hitPercentDamage;
         this.isFriendly = isFriendly;
-        this.lastEmissionTime = performance.now();
+        this.lastEmissionTime = 0;
     }
 }

@@ -92,7 +92,7 @@ export default class LevelLoader {
         player.addComponent(KeyboardControlComponent, -300, 300, 300, -300);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
         player.addComponent(HealthComponent, 100);
-        player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 0, 3000, 10, true);
+        player.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 200, 3000, 10, true);
         player.addComponent(ExplosionOnDeathComponent);
         player.addComponent(ExplosionOnHitComponent);
         player.addComponent(CameraShakeComponent, 100);
