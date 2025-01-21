@@ -22,10 +22,10 @@ export default class ProjectileEmitSystem extends System {
     }
 
     subscribeToEvents(eventBus: EventBus) {
-        eventBus.subscribeToEvent(KeyPressedEvent, this,this.onKeyPressed);
+        eventBus.subscribeToEvent(KeyPressedEvent, this, this.onKeyPressed);
     }
 
-    onKeyPressed(event: KeyPressedEvent,) {
+    onKeyPressed(event: KeyPressedEvent) {
         if (event.keyCode === 'Space') {
             const player = this.registry.getEntityByTag('player');
 
@@ -52,8 +52,8 @@ export default class ProjectileEmitSystem extends System {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
             }
 
-            // If emission frequency is zero, bypass re-emission logic
-            if (projectileEmitter.repeatFrequency == 0) {
+            // If entity is player, skip automatic emission
+            if (entity.hasTag('player')) {
                 continue;
             }
 
