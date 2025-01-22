@@ -64,6 +64,8 @@ export default class PlayerFollowSystem extends System {
 
                 if (distance >= entityPlayerFollow.minFollowDistance) {
                     entityRigidBody.velocity = directionVector;
+                } else {
+                    entityRigidBody.velocity = { x: 0, y: 0 };
                 }
 
                 // Use a threshold to stabilize direction switching
