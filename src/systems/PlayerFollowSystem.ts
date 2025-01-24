@@ -79,7 +79,7 @@ export default class PlayerFollowSystem extends System {
                     }
                 } else if (playerX < playerFollowX - THRESHOLD) {
                     // Case 2: player is on the left of the entity
-                    if (deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance || deltaY > PADDING) {
+                    if ((deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > PADDING) {
                         // Case 1a: player is on the horizontal line, move left until entity is at min distance
                         entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
                         entityRigidBody.direction = { x: -1, y: 0 };
