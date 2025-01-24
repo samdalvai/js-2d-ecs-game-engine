@@ -60,28 +60,50 @@ export default class PlayerFollowSystem extends System {
                 console.log('deltaY: ', deltaY);
                 console.log('deltaX: ', deltaX);
                 // Case 1: player is on the right of the entity
-                if (playerX > playerFollowX) {
+                if (playerX > playerFollowX + THRESHOLD) {
                     if (deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) {
                         // Case 1a: player is on the horizontal line, move right until entity is at min distance
-                        console.log('1a');
                         entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
+                        entityRigidBody.direction = { x: 1, y: 0 };
                     } else if (deltaY <= THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
                         // Case 1b: player is on the horizontal line and already at min distance, stop
-                        console.log('1b');
                         entityRigidBody.velocity = { x: 0, y: 0 };
+                        entityRigidBody.direction = { x: 1, y: 0 };
                     } else if (deltaY > PADDING) {
                         // Case 1c: player is not at horizontal line by some padding, move right
-                        console.log('1c');
                         entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
+                        entityRigidBody.direction = { x: 1, y: 0 };
                     } else if (deltaY <= PADDING) {
                         if (playerY < playerFollowY + THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
+                            entityRigidBody.direction = { x: 0, y: -1 };
                         } else if (playerY > playerFollowY - THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
+                            entityRigidBody.direction = { x: 0, y: 1 };
                         }
                     }
-
-                    entityRigidBody.direction = { x: 1, y: 0 };
+                } else if (playerX < playerFollowX - THRESHOLD) {
+                    if (deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) {
+                        // Case 1a: player is on the horizontal line, move right until entity is at min distance
+                        entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
+                        entityRigidBody.direction = { x: -1, y: 0 };
+                    } else if (deltaY <= THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
+                        // Case 1b: player is on the horizontal line and already at min distance, stop
+                        entityRigidBody.velocity = { x: 0, y: 0 };
+                        entityRigidBody.direction = { x: -1, y: 0 };
+                    } else if (deltaY > PADDING) {
+                        // Case 1c: player is not at horizontal line by some padding, move right
+                        entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
+                        entityRigidBody.direction = { x: -11, y: 0 };
+                    } else if (deltaY <= PADDING) {
+                        if (playerY < playerFollowY + THRESHOLD) {
+                            entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
+                            entityRigidBody.direction = { x: 0, y: -1 };
+                        } else if (playerY > playerFollowY - THRESHOLD) {
+                            entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
+                            entityRigidBody.direction = { x: 0, y: 1 };
+                        }
+                    }
                 } else {
                     entityRigidBody.velocity = { x: 0, y: 0 };
                 }
