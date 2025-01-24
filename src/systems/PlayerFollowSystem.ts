@@ -79,13 +79,17 @@ export default class PlayerFollowSystem extends System {
                     entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
                 } else if (deltaY > THRESHOLD) {
                     // Attempt to align y axis
-                    entityRigidBody.velocity = {
-                        x: 0,
-                        y:
-                            directionVector.y > 0
-                                ? entityPlayerFollow.followVelocity
-                                : -1 * entityPlayerFollow.followVelocity,
-                    };
+                    if (deltaY > entityPlayerFollow.minFollowDistance) {
+                        entityRigidBody.velocity = {
+                            x: 0,
+                            y:
+                                directionVector.y > 0
+                                    ? entityPlayerFollow.followVelocity
+                                    : -1 * entityPlayerFollow.followVelocity,
+                        };
+                    } else {
+                        entityRigidBody.velocity = { x: 0, y: 0 };
+                    }
                     entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
                 } else {
                     entityRigidBody.velocity = { x: 0, y: 0 };
