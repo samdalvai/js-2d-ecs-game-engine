@@ -3,8 +3,7 @@ import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
-import System from '../ecs/System';
-import { Vector } from '../types';
+import System from '../ecs/System'
 
 export default class PlayerFollowSystem extends System {
     constructor() {
@@ -57,10 +56,9 @@ export default class PlayerFollowSystem extends System {
 
                 const THRESHOLD = 5;
                 const PADDING = 50;
-                console.log('deltaY: ', deltaY);
-                console.log('deltaX: ', deltaX);
-                // Case 1: player is on the right of the entity
+
                 if (playerX > playerFollowX + THRESHOLD) {
+                    // Case 1: player is on the right of the entity
                     if (deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) {
                         // Case 1a: player is on the horizontal line, move right until entity is at min distance
                         entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
@@ -83,8 +81,9 @@ export default class PlayerFollowSystem extends System {
                         }
                     }
                 } else if (playerX < playerFollowX - THRESHOLD) {
+                    // Case 2: player is on the left of the entity
                     if (deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) {
-                        // Case 1a: player is on the horizontal line, move right until entity is at min distance
+                        // Case 1a: player is on the horizontal line, move left until entity is at min distance
                         entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
                         entityRigidBody.direction = { x: -1, y: 0 };
                     } else if (deltaY <= THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
@@ -92,9 +91,9 @@ export default class PlayerFollowSystem extends System {
                         entityRigidBody.velocity = { x: 0, y: 0 };
                         entityRigidBody.direction = { x: -1, y: 0 };
                     } else if (deltaY > PADDING) {
-                        // Case 1c: player is not at horizontal line by some padding, move right
+                        // Case 1c: player is not at horizontal line by some padding, move left
                         entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
-                        entityRigidBody.direction = { x: -11, y: 0 };
+                        entityRigidBody.direction = { x: -1, y: 0 };
                     } else if (deltaY <= PADDING) {
                         if (playerY < playerFollowY + THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
@@ -104,80 +103,25 @@ export default class PlayerFollowSystem extends System {
                             entityRigidBody.direction = { x: 0, y: 1 };
                         }
                     }
+                } else if (playerY < playerFollowY - THRESHOLD) {
+                    // Case 3: player is on the top of the entity
+                    if (deltaY > entityPlayerFollow.minFollowDistance) {
+                        entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
+                    } else {
+                        entityRigidBody.velocity = { x: 0, y: 0 };
+                    }
+                    entityRigidBody.direction = { x: 0, y: -1 };
+                } else if (playerY > playerFollowY + THRESHOLD) {
+                    // Case 4: player is on the bottom of the entity
+                    if (deltaY > entityPlayerFollow.minFollowDistance) {
+                        entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
+                    } else {
+                        entityRigidBody.velocity = { x: 0, y: 0 };
+                    }
+                    entityRigidBody.direction = { x: 0, y: 1 };
                 } else {
                     entityRigidBody.velocity = { x: 0, y: 0 };
                 }
-
-                // const directionVector = this.computeRotatedVector(
-                //     playerFollowX,
-                //     playerFollowY,
-                //     playerX,
-                //     playerY,
-                //     entityPlayerFollow.followVelocity,
-                // );
-
-                // const deltaX = Math.abs(playerX - playerFollowX);
-                // const deltaY = Math.abs(playerY - playerFollowY);
-
-                // console.log('deltaX: ', deltaX);
-                // console.log('deltaY: ', deltaY);
-                // const THRESHOLD = 1; // Small value to reduce flickering
-
-                // if (deltaX > THRESHOLD) {
-                //     // Attempt to align x axis
-                //     entityRigidBody.velocity = {
-                //         x:
-                //             directionVector.x > 0
-                //                 ? entityPlayerFollow.followVelocity
-                //                 : -1 * entityPlayerFollow.followVelocity,
-                //         y: 0,
-                //     };
-                //     entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
-                // } else if (deltaY > THRESHOLD) {
-                //     // Attempt to align y axis
-                //     if (deltaY > entityPlayerFollow.minFollowDistance) {
-                //         entityRigidBody.velocity = {
-                //             x: 0,
-                //             y:
-                //                 directionVector.y > 0
-                //                     ? entityPlayerFollow.followVelocity
-                //                     : -1 * entityPlayerFollow.followVelocity,
-                //         };
-                //     } else {
-                //         entityRigidBody.velocity = { x: 0, y: 0 };
-                //     }
-                //     entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
-                // } else {
-                //     entityRigidBody.velocity = { x: 0, y: 0 };
-                // }
-
-                // const distance = this.getDistanceFromPlayer(playerFollowX, playerFollowY, playerX, playerY);
-
-                // const directionVector = this.computeRotatedVector(
-                //     playerFollowX,
-                //     playerFollowY,
-                //     playerX,
-                //     playerY,
-                //     entityPlayerFollow.followVelocity,
-                // );
-
-                // if (distance >= entityPlayerFollow.minFollowDistance) {
-                //     entityRigidBody.velocity = directionVector;
-                // } else {
-                //     entityRigidBody.velocity = { x: 0, y: 0 };
-                // }
-
-                // // Use a threshold to stabilize direction switching
-                // const absX = Math.abs(directionVector.x);
-                // const absY = Math.abs(directionVector.y);
-                // const THRESHOLD = 0.1; // Small value to reduce flickering
-
-                // if (absX > absY + THRESHOLD) {
-                //     entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
-                // } else if (absY > absX + THRESHOLD) {
-                //     entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
-                // }
-                // If differences are too small, keep the last direction
             } else {
                 // TODO: revert to previous velocity if entity has script (to be implemented)
                 entityRigidBody.velocity = { x: 0, y: 0 };
@@ -205,26 +149,5 @@ export default class PlayerFollowSystem extends System {
         const distance = Math.sqrt(distanceSquared);
 
         return distance;
-    }
-
-    private computeRotatedVector(x0: number, y0: number, x1: number, y1: number, velocity: number): Vector {
-        const dirX = x1 - x0;
-        const dirY = y1 - y0;
-
-        // Calculate magnitude of the direction vector
-        const magnitude = Math.sqrt(dirX ** 2 + dirY ** 2);
-        if (magnitude === 0) {
-            throw new Error('The target point is the same as the center of the circle.');
-        }
-
-        // Normalize the direction vector
-        const unitX = dirX / magnitude;
-        const unitY = dirY / magnitude;
-
-        // Scale to the desired length
-        const vectorX = unitX * velocity;
-        const vectorY = unitY * velocity;
-
-        return { x: vectorX, y: vectorY };
     }
 }
