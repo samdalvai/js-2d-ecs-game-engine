@@ -52,8 +52,6 @@ export default class PlayerFollowSystem extends System {
             );
 
             if (isPlayerInsideCircle) {
-                const distance = this.getDistanceFromPlayer(playerFollowX, playerFollowY, playerX, playerY);
-
                 const directionVector = this.computeRotatedVector(
                     playerFollowX,
                     playerFollowY,
@@ -62,22 +60,60 @@ export default class PlayerFollowSystem extends System {
                     entityPlayerFollow.followVelocity,
                 );
 
-                if (distance >= entityPlayerFollow.minFollowDistance) {
-                    entityRigidBody.velocity = directionVector;
+                const deltaX = Math.abs(playerX - playerFollowX);
+                const deltaY = Math.abs(playerY - playerFollowY);
+
+                console.log('deltaX: ', deltaX);
+                console.log('deltaY: ', deltaY);
+                const THRESHOLD = 1; // Small value to reduce flickering
+
+                // Align the axis which is nearest to the entity
+                if (deltaX < deltaY) {
+                    // Attempt to align x axis
+                    if (deltaX > THRESHOLD) {
+                        console.log('Switching velocicy x');
+                        entityRigidBody.velocity = {
+                            x:
+                                directionVector.x > 0
+                                    ? entityPlayerFollow.followVelocity
+                                    : -1 * entityPlayerFollow.followVelocity,
+                            y: 0,
+                        };
+                        entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
+                    } else {
+                        console.log('stopping');
+                        entityRigidBody.velocity = { x: 0, y: 0 };
+                    }
                 } else {
-                    entityRigidBody.velocity = { x: 0, y: 0 };
+                    // Attempt to align y axis
                 }
 
-                // Use a threshold to stabilize direction switching
-                const absX = Math.abs(directionVector.x);
-                const absY = Math.abs(directionVector.y);
-                const THRESHOLD = 0.1; // Small value to reduce flickering
+                // const distance = this.getDistanceFromPlayer(playerFollowX, playerFollowY, playerX, playerY);
 
-                if (absX > absY + THRESHOLD) {
-                    entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
-                } else if (absY > absX + THRESHOLD) {
-                    entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
-                }
+                // const directionVector = this.computeRotatedVector(
+                //     playerFollowX,
+                //     playerFollowY,
+                //     playerX,
+                //     playerY,
+                //     entityPlayerFollow.followVelocity,
+                // );
+
+                // if (distance >= entityPlayerFollow.minFollowDistance) {
+                //     entityRigidBody.velocity = directionVector;
+                // } else {
+                //     entityRigidBody.velocity = { x: 0, y: 0 };
+                // }
+
+                // // Use a threshold to stabilize direction switching
+                // const absX = Math.abs(directionVector.x);
+                // const absY = Math.abs(directionVector.y);
+                // const THRESHOLD = 0.1; // Small value to reduce flickering
+
+                // if (absX > absY + THRESHOLD) {
+                //     entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
+                // } else if (absY > absX + THRESHOLD) {
+                //     entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
+                // }
                 // If differences are too small, keep the last direction
             } else {
                 // TODO: revert to previous velocity if entity has script (to be implemented)
