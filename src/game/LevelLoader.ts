@@ -111,65 +111,65 @@ export default class LevelLoader {
         enemy1.addComponent(SpriteDirectionComponent);
         enemy1.group('enemies');
 
-        for (let i = 0; i < 5; i++) {
-            const enemy = registry.createEntity();
-            enemy.addComponent(
-                TransformComponent,
-                { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
-                { x: 1, y: 1 },
-                0,
-            );
+        // for (let i = 0; i < 5; i++) {
+        //     const enemy = registry.createEntity();
+        //     enemy.addComponent(
+        //         TransformComponent,
+        //         { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
+        //         { x: 1, y: 1 },
+        //         0,
+        //     );
 
-            if (i % 2 === 0) {
-                enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
-            } else {
-                enemy.addComponent(SpriteComponent, 'truck-texture', 32, 32, 1, 0, 0);
-            }
-            enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
-            enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-            enemy.addComponent(HealthComponent, 100);
-            enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
-            enemy.addComponent(ExplosionOnDeathComponent);
-            enemy.addComponent(ExplosionOnHitComponent);
-            enemy.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
-            enemy.addComponent(SpriteDirectionComponent);
-            enemy.group('enemies');
-        }
+        //     if (i % 2 === 0) {
+        //         enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
+        //     } else {
+        //         enemy.addComponent(SpriteComponent, 'truck-texture', 32, 32, 1, 0, 0);
+        //     }
+        //     enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        //     enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        //     enemy.addComponent(HealthComponent, 100);
+        //     enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
+        //     enemy.addComponent(ExplosionOnDeathComponent);
+        //     enemy.addComponent(ExplosionOnHitComponent);
+        //     enemy.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
+        //     enemy.addComponent(SpriteDirectionComponent);
+        //     enemy.group('enemies');
+        // }
 
-        for (let i = 0; i < 4; i++) {
-            const enemy = registry.createEntity();
-            enemy.addComponent(
-                TransformComponent,
-                { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
-                { x: 1, y: 1 },
-                0,
-            );
+        // for (let i = 0; i < 4; i++) {
+        //     const enemy = registry.createEntity();
+        //     enemy.addComponent(
+        //         TransformComponent,
+        //         { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
+        //         { x: 1, y: 1 },
+        //         0,
+        //     );
 
-            if (i % 2 === 0) {
-                enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
-            } else {
-                enemy.addComponent(SpriteComponent, 'f22-texture', 32, 32, 1, 0, 0);
-            }
-            enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
-            enemy.addComponent(AnimationComponent, 2, 10);
-            enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
-            enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-            enemy.addComponent(HealthComponent, 100);
-            enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
-            enemy.addComponent(ExplosionOnDeathComponent);
-            enemy.addComponent(ExplosionOnHitComponent);
-            enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
-            enemy.addComponent(SpriteDirectionComponent);
-            enemy.group('enemies');
-        }
+        //     if (i % 2 === 0) {
+        //         enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
+        //     } else {
+        //         enemy.addComponent(SpriteComponent, 'f22-texture', 32, 32, 1, 0, 0);
+        //     }
+        //     enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
+        //     enemy.addComponent(AnimationComponent, 2, 10);
+        //     enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        //     enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        //     enemy.addComponent(HealthComponent, 100);
+        //     enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
+        //     enemy.addComponent(ExplosionOnDeathComponent);
+        //     enemy.addComponent(ExplosionOnHitComponent);
+        //     enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
+        //     enemy.addComponent(SpriteDirectionComponent);
+        //     enemy.group('enemies');
+        // }
 
         const enemy3 = registry.createEntity();
         enemy3.addComponent(TransformComponent, { x: 250, y: 500 }, { x: 1, y: 1 }, 0);
         enemy3.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
-        enemy3.addComponent(RigidBodyComponent, { x: 0, y: -50 }, { x: 0, y: -1 });
+        enemy3.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
-        enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
+        // enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.addComponent(SpriteDirectionComponent);

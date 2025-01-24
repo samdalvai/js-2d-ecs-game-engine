@@ -67,25 +67,28 @@ export default class PlayerFollowSystem extends System {
                 console.log('deltaY: ', deltaY);
                 const THRESHOLD = 1; // Small value to reduce flickering
 
-                // Align the axis which is nearest to the entity
-                if (deltaX < deltaY) {
+                if (deltaX > THRESHOLD) {
                     // Attempt to align x axis
-                    if (deltaX > THRESHOLD) {
-                        console.log('Switching velocicy x');
-                        entityRigidBody.velocity = {
-                            x:
-                                directionVector.x > 0
-                                    ? entityPlayerFollow.followVelocity
-                                    : -1 * entityPlayerFollow.followVelocity,
-                            y: 0,
-                        };
-                        entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
-                    } else {
-                        console.log('stopping');
-                        entityRigidBody.velocity = { x: 0, y: 0 };
-                    }
-                } else {
+                    entityRigidBody.velocity = {
+                        x:
+                            directionVector.x > 0
+                                ? entityPlayerFollow.followVelocity
+                                : -1 * entityPlayerFollow.followVelocity,
+                        y: 0,
+                    };
+                    entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
+                } else if (deltaY > THRESHOLD) {
                     // Attempt to align y axis
+                    entityRigidBody.velocity = {
+                        x: 0,
+                        y:
+                            directionVector.y > 0
+                                ? entityPlayerFollow.followVelocity
+                                : -1 * entityPlayerFollow.followVelocity,
+                    };
+                    entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
+                } else {
+                    entityRigidBody.velocity = { x: 0, y: 0 };
                 }
 
                 // const distance = this.getDistanceFromPlayer(playerFollowX, playerFollowY, playerX, playerY);
