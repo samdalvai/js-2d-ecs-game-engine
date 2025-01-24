@@ -52,48 +52,82 @@ export default class PlayerFollowSystem extends System {
             );
 
             if (isPlayerInsideCircle) {
-                const directionVector = this.computeRotatedVector(
-                    playerFollowX,
-                    playerFollowY,
-                    playerX,
-                    playerY,
-                    entityPlayerFollow.followVelocity,
-                );
-
                 const deltaX = Math.abs(playerX - playerFollowX);
                 const deltaY = Math.abs(playerY - playerFollowY);
 
-                console.log('deltaX: ', deltaX);
+                const THRESHOLD = 5;
+                const PADDING = 50;
                 console.log('deltaY: ', deltaY);
-                const THRESHOLD = 1; // Small value to reduce flickering
-
-                if (deltaX > THRESHOLD) {
-                    // Attempt to align x axis
-                    entityRigidBody.velocity = {
-                        x:
-                            directionVector.x > 0
-                                ? entityPlayerFollow.followVelocity
-                                : -1 * entityPlayerFollow.followVelocity,
-                        y: 0,
-                    };
-                    entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
-                } else if (deltaY > THRESHOLD) {
-                    // Attempt to align y axis
-                    if (deltaY > entityPlayerFollow.minFollowDistance) {
-                        entityRigidBody.velocity = {
-                            x: 0,
-                            y:
-                                directionVector.y > 0
-                                    ? entityPlayerFollow.followVelocity
-                                    : -1 * entityPlayerFollow.followVelocity,
-                        };
-                    } else {
+                console.log('deltaX: ', deltaX);
+                // Case 1: player is on the right of the entity
+                if (playerX > playerFollowX) {
+                    if (deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) {
+                        // Case 1a: player is on the horizontal line, move right until entity is at min distance
+                        console.log('1a');
+                        entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
+                    } else if (deltaY <= THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
+                        // Case 1b: player is on the horizontal line and already at min distance, stop
+                        console.log('1b');
                         entityRigidBody.velocity = { x: 0, y: 0 };
+                    } else if (deltaY > PADDING) {
+                        // Case 1c: player is not at horizontal line by some padding, move right
+                        console.log('1c');
+                        entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
+                    } else if (deltaY <= PADDING) {
+                        if (playerY < playerFollowY + THRESHOLD) {
+                            entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
+                        } else if (playerY > playerFollowY - THRESHOLD) {
+                            entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
+                        }
                     }
-                    entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
+
+                    entityRigidBody.direction = { x: 1, y: 0 };
                 } else {
                     entityRigidBody.velocity = { x: 0, y: 0 };
                 }
+
+                // const directionVector = this.computeRotatedVector(
+                //     playerFollowX,
+                //     playerFollowY,
+                //     playerX,
+                //     playerY,
+                //     entityPlayerFollow.followVelocity,
+                // );
+
+                // const deltaX = Math.abs(playerX - playerFollowX);
+                // const deltaY = Math.abs(playerY - playerFollowY);
+
+                // console.log('deltaX: ', deltaX);
+                // console.log('deltaY: ', deltaY);
+                // const THRESHOLD = 1; // Small value to reduce flickering
+
+                // if (deltaX > THRESHOLD) {
+                //     // Attempt to align x axis
+                //     entityRigidBody.velocity = {
+                //         x:
+                //             directionVector.x > 0
+                //                 ? entityPlayerFollow.followVelocity
+                //                 : -1 * entityPlayerFollow.followVelocity,
+                //         y: 0,
+                //     };
+                //     entityRigidBody.direction = { x: directionVector.x > 0 ? 1 : -1, y: 0 };
+                // } else if (deltaY > THRESHOLD) {
+                //     // Attempt to align y axis
+                //     if (deltaY > entityPlayerFollow.minFollowDistance) {
+                //         entityRigidBody.velocity = {
+                //             x: 0,
+                //             y:
+                //                 directionVector.y > 0
+                //                     ? entityPlayerFollow.followVelocity
+                //                     : -1 * entityPlayerFollow.followVelocity,
+                //         };
+                //     } else {
+                //         entityRigidBody.velocity = { x: 0, y: 0 };
+                //     }
+                //     entityRigidBody.direction = { x: 0, y: directionVector.y > 0 ? 1 : -1 };
+                // } else {
+                //     entityRigidBody.velocity = { x: 0, y: 0 };
+                // }
 
                 // const distance = this.getDistanceFromPlayer(playerFollowX, playerFollowY, playerX, playerY);
 
