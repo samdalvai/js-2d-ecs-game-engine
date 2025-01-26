@@ -5,8 +5,8 @@ import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
 import System from '../ecs/System';
 
-const THRESHOLD = 5;
-const PADDING = 50;
+const ALIGNMENT_THRESHOLD = 5;
+const FOLLOW_PADDING = 50;
 
 export default class PlayerFollowSystem extends System {
     constructor() {
@@ -57,47 +57,47 @@ export default class PlayerFollowSystem extends System {
                 const deltaX = Math.abs(playerX - playerFollowX);
                 const deltaY = Math.abs(playerY - playerFollowY);
 
-                if (playerX > playerFollowX + THRESHOLD) {
+                if (playerX > playerFollowX + ALIGNMENT_THRESHOLD) {
                     // Case 1: player is on the right of the entity
-                    if ((deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > PADDING) {
+                    if ((deltaY <= ALIGNMENT_THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > FOLLOW_PADDING) {
                         // Case 1a: player is on the horizontal line, move right until entity is at min distance
                         entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
                         entityRigidBody.direction = { x: 1, y: 0 };
-                    } else if (deltaY <= THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
+                    } else if (deltaY <= ALIGNMENT_THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
                         // Case 1b: player is on the horizontal line and already at min distance, stop
                         entityRigidBody.velocity = { x: 0, y: 0 };
                         entityRigidBody.direction = { x: 1, y: 0 };
-                    } else if (deltaY <= PADDING) {
+                    } else if (deltaY <= FOLLOW_PADDING) {
                         // Case 1c: player is near the horizontal line, move vertically
-                        if (playerY < playerFollowY + THRESHOLD) {
+                        if (playerY < playerFollowY + ALIGNMENT_THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
                             entityRigidBody.direction = { x: 0, y: -1 };
-                        } else if (playerY > playerFollowY - THRESHOLD) {
+                        } else if (playerY > playerFollowY - ALIGNMENT_THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
                             entityRigidBody.direction = { x: 0, y: 1 };
                         }
                     }
-                } else if (playerX < playerFollowX - THRESHOLD) {
+                } else if (playerX < playerFollowX - ALIGNMENT_THRESHOLD) {
                     // Case 2: player is on the left of the entity
-                    if ((deltaY <= THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > PADDING) {
+                    if ((deltaY <= ALIGNMENT_THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > FOLLOW_PADDING) {
                         // Case 1a: player is on the horizontal line, move left until entity is at min distance
                         entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
                         entityRigidBody.direction = { x: -1, y: 0 };
-                    } else if (deltaY <= THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
+                    } else if (deltaY <= ALIGNMENT_THRESHOLD && deltaX <= entityPlayerFollow.minFollowDistance) {
                         // Case 1b: player is on the horizontal line and already at min distance, stop
                         entityRigidBody.velocity = { x: 0, y: 0 };
                         entityRigidBody.direction = { x: -1, y: 0 };
-                    } else if (deltaY <= PADDING) {
+                    } else if (deltaY <= FOLLOW_PADDING) {
                         // Case 1c: player is near the horizontal line, move vertically
-                        if (playerY < playerFollowY + THRESHOLD) {
+                        if (playerY < playerFollowY + ALIGNMENT_THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
                             entityRigidBody.direction = { x: 0, y: -1 };
-                        } else if (playerY > playerFollowY - THRESHOLD) {
+                        } else if (playerY > playerFollowY - ALIGNMENT_THRESHOLD) {
                             entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
                             entityRigidBody.direction = { x: 0, y: 1 };
                         }
                     }
-                } else if (playerY < playerFollowY - THRESHOLD) {
+                } else if (playerY < playerFollowY - ALIGNMENT_THRESHOLD) {
                     // Case 3: player is on the top of the entity
                     if (deltaY > entityPlayerFollow.minFollowDistance) {
                         entityRigidBody.velocity = { x: 0, y: -1 * entityPlayerFollow.followVelocity };
@@ -105,7 +105,7 @@ export default class PlayerFollowSystem extends System {
                         entityRigidBody.velocity = { x: 0, y: 0 };
                     }
                     entityRigidBody.direction = { x: 0, y: -1 };
-                } else if (playerY > playerFollowY + THRESHOLD) {
+                } else if (playerY > playerFollowY + ALIGNMENT_THRESHOLD) {
                     // Case 4: player is on the bottom of the entity
                     if (deltaY > entityPlayerFollow.minFollowDistance) {
                         entityRigidBody.velocity = { x: 0, y: entityPlayerFollow.followVelocity };
