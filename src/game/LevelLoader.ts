@@ -36,6 +36,7 @@ export default class LevelLoader {
         await assetStore.addTexture('f22-texture', './assets/images/f22-spritesheet.png');
         await assetStore.addTexture('truck-texture', './assets/images/truck-ford-spritesheet.png');
         await assetStore.addTexture('cannon-texture', './assets/images/cannon-spritesheet.png');
+        await assetStore.addTexture('radar-texture', './assets/images/radar-spritesheet.png');
 
         await assetStore.addTexture('tree-texture', './assets/images/tree.png');
         await assetStore.addTexture('bullet-texture', './assets/images/bullet.png');
@@ -102,22 +103,31 @@ export default class LevelLoader {
         //player.addComponent(SoundComponent, 'helicopter', 1, 0.5);
         player.tag('player');
 
-        // const enemy1 = registry.createEntity();
-        // enemy1.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
-        // enemy1.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32);
-        // enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 }, { x: -1, y: 0 });
-        // enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        // enemy1.addComponent(HealthComponent, 100);
-        // enemy1.addComponent(ExplosionOnDeathComponent);
-        // enemy1.addComponent(ExplosionOnHitComponent);
-        // enemy1.addComponent(SpriteDirectionComponent);
-        // enemy1.group('enemies');
+        const radar = registry.createEntity();
+        radar.addComponent(
+            TransformComponent,
+            { x: Game.windowWidth - 100, y: Game.windowHeight - 100 },
+            { x: 1, y: 1 },
+        );
+        radar.addComponent(SpriteComponent, 'radar-texture', 64, 64, 4, 0, 0, Flip.NONE, true);
+        radar.addComponent(AnimationComponent, 8, 7.5);
+
+        const enemy1 = registry.createEntity();
+        enemy1.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
+        enemy1.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 32);
+        enemy1.addComponent(RigidBodyComponent, { x: -50, y: 0 }, { x: -1, y: 0 });
+        enemy1.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy1.addComponent(HealthComponent, 100);
+        enemy1.addComponent(ExplosionOnDeathComponent);
+        enemy1.addComponent(ExplosionOnHitComponent);
+        enemy1.addComponent(SpriteDirectionComponent);
+        enemy1.group('enemies');
 
         // for (let i = 0; i < 5; i++) {
         //     const enemy = registry.createEntity();
         //     enemy.addComponent(
         //         TransformComponent,
-        //         { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
+        //         { x: Math.random() * (Game.mapWidth - 100) + 100, y: Math.random() * (Game.mapHeight - 100) + 100 },
         //         { x: 1, y: 1 },
         //         0,
         //     );
@@ -142,7 +152,7 @@ export default class LevelLoader {
         //     const enemy = registry.createEntity();
         //     enemy.addComponent(
         //         TransformComponent,
-        //         { x: Math.random() * (Game.mapWidth - 100) + 500, y: Math.random() * (Game.mapHeight - 100) + 200 },
+        //         { x: Math.random() * (Game.mapWidth - 100) + 100, y: Math.random() * (Game.mapHeight - 100) + 100 },
         //         { x: 1, y: 1 },
         //         0,
         //     );
@@ -171,7 +181,7 @@ export default class LevelLoader {
         enemy3.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
-        enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 20, false);
+        enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 5, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.addComponent(SpriteDirectionComponent);
@@ -190,43 +200,36 @@ export default class LevelLoader {
         tree2.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
         tree2.group('obstacles');
 
-        // const cannon = registry.createEntity();
-        // cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
-        // cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
-        // cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
-        // cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        // cannon.addComponent(HealthComponent, 100);
-        // cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
-        // cannon.addComponent(ExplosionOnDeathComponent);
-        // cannon.addComponent(ExplosionOnHitComponent);
-        // cannon.addComponent(SpriteDirectionComponent);
-        // cannon.addComponent(PlayerFollowComponent, 250, 100, 0, { x: 16, y: 16 });
-        // cannon.group('enemies');
+        const cannon = registry.createEntity();
+        cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
+        cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
+        cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
+        cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        cannon.addComponent(HealthComponent, 100);
+        cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 10, false);
+        cannon.addComponent(ExplosionOnDeathComponent);
+        cannon.addComponent(ExplosionOnHitComponent);
+        cannon.addComponent(SpriteDirectionComponent);
+        cannon.addComponent(PlayerFollowComponent, 250, 100, 0, { x: 16, y: 16 });
+        cannon.group('enemies');
 
-        // const enemy = registry.createEntity();
-        // enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
-        // enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
-        // enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
-        // enemy.addComponent(AnimationComponent, 2, 10);
-        // enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: 1 });
-        // enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        // enemy.addComponent(HealthComponent, 100);
-        // enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
-        // enemy.addComponent(ExplosionOnDeathComponent);
-        // enemy.addComponent(ExplosionOnHitComponent);
-        // enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
-        // enemy.addComponent(SpriteDirectionComponent);
-        // enemy.group('enemies');
+        const enemy = registry.createEntity();
+        enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
+        enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
+        enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
+        enemy.addComponent(AnimationComponent, 2, 10);
+        enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: 1 });
+        enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy.addComponent(HealthComponent, 100);
+        enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
+        enemy.addComponent(ExplosionOnDeathComponent);
+        enemy.addComponent(ExplosionOnHitComponent);
+        enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
+        enemy.addComponent(SpriteDirectionComponent);
+        enemy.group('enemies');
 
         const label = registry.createEntity();
         const color = { r: 255, g: 255, b: 255 };
-        label.addComponent(
-            TextLabelComponent,
-            { x: 50, y: 50 },
-            'Chopper 1.0',
-            color,
-            true,
-            '20px Arial',
-        );
+        label.addComponent(TextLabelComponent, { x: 50, y: 50 }, 'Chopper 1.0', color, true, '24px Arial');
     }
 }

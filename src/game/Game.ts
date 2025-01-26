@@ -201,7 +201,7 @@ export default class Game {
             this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
             this.registry.getSystem(LifetimeSystem)?.update();
             this.registry.getSystem(SoundSystem)?.update(this.assetStore);
-            this.registry.getSystem(GameEndSystem)?.update(this.registry, this.camera);
+            this.registry.getSystem(GameEndSystem)?.update(this.registry);
         }
     };
 
