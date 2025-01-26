@@ -221,15 +221,16 @@ export default class Game {
         this.registry.getSystem(RenderTextSystem)?.update(this.ctx, this.camera);
 
         if (this.isDebug) {
-            const padding = 25;
-            const x = this.canvas.width - padding;
-            const y = padding;
+            const x = Game.windowWidth - 260;
+            const y = 50;
 
-            this.ctx.font = '20px Arial';
-            this.ctx.textAlign = 'right';
-            this.ctx.textBaseline = 'top';
-            this.ctx.fillStyle = 'lightgreen';
+            this.ctx.save();
+
+            this.ctx.font = '24px Arial';
+            this.ctx.fillStyle = 'white';
             this.ctx.fillText(`Current FPS: (${this.currentFPS.toFixed(2)})`, x, y);
+
+            this.ctx.restore();
 
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
             this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);

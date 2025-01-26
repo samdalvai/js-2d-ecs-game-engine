@@ -3,7 +3,7 @@ import TextLabelComponent from '../components/TextLabelComponent';
 import Registry from '../ecs/Registry';
 import System from '../ecs/System';
 import Game from '../game/Game';
-import { GameStatus, Rectangle } from '../types';
+import { GameStatus } from '../types';
 
 export default class GameEndSystem extends System {
     constructor() {
