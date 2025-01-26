@@ -113,7 +113,7 @@ export default class Game {
         this.registry.addSystem(RenderHealthBarSystem);
         this.registry.addSystem(RenderTextSystem);
         this.registry.addSystem(RenderFpsSystem);
-        
+
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
         this.registry.addSystem(KeyboardControlSystem);
@@ -185,9 +185,10 @@ export default class Game {
         this.registry.update();
 
         if (Game.gameStatus === GameStatus.PLAYING) {
+            console.log('Proceeeding with other updates');
             // Perform the subscription of the events for all systems
-            this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
             this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
             this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
             this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
             this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);

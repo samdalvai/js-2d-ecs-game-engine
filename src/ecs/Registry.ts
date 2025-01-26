@@ -43,7 +43,8 @@ export default class Registry {
         this.freeIds = [];
     }
 
-    update<T extends Component>() {
+    update = <T extends Component>() => {
+        console.log('Started updating regstry');
         for (const entity of this.entitiesToBeAdded) {
             this.addEntityToSystems(entity);
         }
@@ -73,7 +74,8 @@ export default class Registry {
         }
 
         this.entitiesToBeKilled = [];
-    }
+        console.log('Finished updating regstry');
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     // Entity management
@@ -107,7 +109,7 @@ export default class Registry {
     // Tag management
     ////////////////////////////////////////////////////////////////////////////////
 
-    tagEntity(entity: Entity, tag: string) {
+    tagEntity = (entity: Entity, tag: string) => {
         const existingEntity = this.entityPerTag.get(tag);
 
         if (existingEntity !== undefined) {
@@ -116,9 +118,9 @@ export default class Registry {
 
         this.entityPerTag.set(tag, entity);
         this.tagPerEntity.set(entity.getId(), tag);
-    }
+    };
 
-    entityHasTag(entity: Entity, tag: string) {
+    entityHasTag = (entity: Entity, tag: string) => {
         const currentTag = this.tagPerEntity.get(entity.getId());
 
         if (currentTag === undefined) {
@@ -126,13 +128,13 @@ export default class Registry {
         }
 
         return currentTag === tag;
-    }
+    };
 
-    getEntityByTag(tag: string) {
+    getEntityByTag = (tag: string) => {
         return this.entityPerTag.get(tag);
-    }
+    };
 
-    removeEntityTag(entity: Entity) {
+    removeEntityTag = (entity: Entity) => {
         const currentTag = this.tagPerEntity.get(entity.getId());
 
         if (currentTag === undefined) {
@@ -142,13 +144,13 @@ export default class Registry {
 
         this.tagPerEntity.delete(entity.getId());
         this.entityPerTag.delete(currentTag);
-    }
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     // Group management
     ////////////////////////////////////////////////////////////////////////////////
 
-    groupEntity(entity: Entity, group: string) {
+    groupEntity = (entity: Entity, group: string) => {
         const currentEntities = this.entitiesPerGroup.get(group);
 
         if (currentEntities === undefined) {
@@ -158,9 +160,9 @@ export default class Registry {
         }
 
         this.groupPerEntity.set(entity.getId(), group);
-    }
+    };
 
-    entityBelongsToGroup(entity: Entity, group: string) {
+    entityBelongsToGroup = (entity: Entity, group: string) => {
         const currentGroup = this.groupPerEntity.get(entity.getId());
 
         if (currentGroup === undefined) {
@@ -168,9 +170,9 @@ export default class Registry {
         }
 
         return currentGroup === group;
-    }
+    };
 
-    getEntitiesByGroup(group: string) {
+    getEntitiesByGroup = (group: string) => {
         const currentEntities = this.entitiesPerGroup.get(group);
 
         if (currentEntities === undefined) {
@@ -178,9 +180,9 @@ export default class Registry {
         }
 
         return [...currentEntities];
-    }
+    };
 
-    removeEntityGroup(entity: Entity) {
+    removeEntityGroup = (entity: Entity) => {
         const currentGroup = this.groupPerEntity.get(entity.getId());
 
         if (currentGroup === undefined) {
@@ -199,17 +201,17 @@ export default class Registry {
                 this.entitiesPerGroup.delete(currentGroup);
             }
         }
-    }
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     // Component management
     ////////////////////////////////////////////////////////////////////////////////
 
-    addComponent<T extends Component>(
+    addComponent = <T extends Component>(
         entity: Entity,
         ComponentClass: ComponentClass<T>,
         ...args: ConstructorParameters<typeof ComponentClass>
-    ) {
+    ) => {
         const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
 
@@ -224,9 +226,9 @@ export default class Registry {
 
         this.entityComponentSignatures[entityId].set(componentId);
         // console.log('Component with id ' + componentId + ' was added to entity with id ' + entityId);
-    }
+    };
 
-    removeComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) {
+    removeComponent = <T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>) => {
         const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
 
@@ -238,30 +240,30 @@ export default class Registry {
         this.entityComponentSignatures[entityId].remove(componentId);
 
         // console.log('Component with id ' + componentId + ' was removed from entity id ' + entityId);
-    }
+    };
 
-    hasComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean {
+    hasComponent = <T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): boolean => {
         const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
         return this.entityComponentSignatures[entityId].test(componentId);
-    }
+    };
 
-    getComponent<T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): T | undefined {
+    getComponent = <T extends Component>(entity: Entity, ComponentClass: ComponentClass<T>): T | undefined => {
         const componentId = ComponentClass.getComponentId();
         const entityId = entity.getId();
 
         const componentPool = this.componentPools[componentId] as Pool<T>;
         return componentPool?.get(entityId);
-    }
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     // System management
     ////////////////////////////////////////////////////////////////////////////////
 
-    addSystem<T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) {
+    addSystem = <T extends System>(SystemClass: SystemClass<T>, ...args: ConstructorParameters<typeof SystemClass>) => {
         const newSystem = new SystemClass(...args);
         this.systems.set(SystemClass.getSystemId(), newSystem);
-    }
+    };
 
     removeSystem<T extends System>(SystemClass: SystemClass<T>) {
         this.systems.delete(SystemClass.getSystemId());
@@ -281,7 +283,7 @@ export default class Registry {
         return system as T;
     }
 
-    addEntityToSystems(entity: Entity) {
+    addEntityToSystems = (entity: Entity) => {
         const entityId = entity.getId();
 
         const entityComponentSignature = this.entityComponentSignatures[entityId];
@@ -297,11 +299,11 @@ export default class Registry {
                 system.addEntityToSystem(entity);
             }
         }
-    }
+    };
 
-    removeEntityFromSystems(entity: Entity) {
+    removeEntityFromSystems = (entity: Entity) => {
         for (const system of this.systems.values()) {
             system.removeEntityFromSystem(entity);
         }
-    }
+    };
 }
