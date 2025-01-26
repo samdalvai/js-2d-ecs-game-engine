@@ -4,7 +4,7 @@
   "description": "A game engine for the browser using ECS architecture",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "rm -rf .parcel-cache && parcel index.html",
     "test": "jest",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix"
