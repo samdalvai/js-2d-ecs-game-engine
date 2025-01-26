@@ -1,6 +1,9 @@
 import HealthComponent from '../components/HealthComponent';
+import TextLabelComponent from '../components/TextLabelComponent';
 import Registry from '../ecs/Registry';
 import System from '../ecs/System';
+import Game from '../game/Game';
+import { GameStatus, Rectangle } from '../types';
 
 export default class GameEndSystem extends System {
     constructor() {
@@ -8,7 +11,7 @@ export default class GameEndSystem extends System {
         this.requireComponent(HealthComponent);
     }
 
-    update(registry: Registry) {
+    update(registry: Registry, camera: Rectangle) {
         let numberOfEnemies = 0;
         let isPlayerAlive = false;
 
@@ -22,21 +25,31 @@ export default class GameEndSystem extends System {
             }
         }
 
-        // if (numberOfEnemies == 0 && Game::gameStatus != WON) {
-        //     Game::gameStatus = WON;
-        //     Logger::Log("Player has won!");
-        //     Entity label = registry->CreateEntity();
-        //     SDL_Color color = { 100, 255, 100};
-        //     label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game won!!", "charriot-font-xl", color, true);
-        //     return;
-        // }
+        if (numberOfEnemies == 0 && Game.gameStatus !== GameStatus.WON) {
+            Game.gameStatus = GameStatus.WON;
+            const label = registry.createEntity();
+            const color = { r: 100, g: 255, b: 100 };
+            label.addComponent(
+                TextLabelComponent,
+                { x: camera.width / 2 - 50, y: camera.height / 2 },
+                'Game won!!',
+                color,
+                true,
+            );
+            return;
+        }
 
-        // if (!isPlayerAlive && Game::gameStatus != LOST) {
-        //     Game::gameStatus = LOST;
-        //     Logger::Log("Player has lost!");
-        //     Entity label = registry->CreateEntity();
-        //     SDL_Color color = { 255, 50, 50};
-        //     label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game lost!", "charriot-font-xl", color, true);
-        // }
+        if (!isPlayerAlive && Game.gameStatus !== GameStatus.LOST) {
+            Game.gameStatus = GameStatus.LOST;
+            const label = registry.createEntity();
+            const color = { r: 255, g: 50, b: 50 };
+            label.addComponent(
+                TextLabelComponent,
+                { x: camera.width / 2 - 50, y: camera.height / 2 },
+                'Game lost!',
+                color,
+                true,
+            );
+        }
     }
 }

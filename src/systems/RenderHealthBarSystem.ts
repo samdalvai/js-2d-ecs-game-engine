@@ -54,6 +54,7 @@ export default class RenderHealthBarSystem extends System {
 
             ctx.fillRect(healthBarRect.x, healthBarRect.y, healthBarRect.width, healthBarRect.height);
 
+            ctx.save();
             const text = health.healthPercentage + '%';
             ctx.font = '14px Arial';
 
@@ -64,6 +65,7 @@ export default class RenderHealthBarSystem extends System {
             const textY = healthBarRect.y - topPadding * 2;
 
             ctx.fillText(text, textX, textY);
+            ctx.restore();
         }
     }
 }
