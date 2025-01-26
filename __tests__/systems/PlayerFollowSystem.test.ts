@@ -9,7 +9,7 @@ import PlayerFollowSystem from '../../src/systems/PlayerFollowSystem';
 
 describe('Testing Player follow system related functions', () => {
     ////////////////////////////////////////////////////////////////////////////////
-    // Player in a corner
+    // Player in a corner outside of follow padding
     ////////////////////////////////////////////////////////////////////////////////
 
     test('Entity should move right if player is in the top right corner', () => {
@@ -318,5 +318,109 @@ describe('Testing Player follow system related functions', () => {
 
         expect(rigidBody?.velocity.x).toBe(0);
         expect(rigidBody?.direction).toEqual({ x: -1, y: 0 });
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Player in a corner inside follow padding
+    ////////////////////////////////////////////////////////////////////////////////
+
+    test('Entity should move up if player is in the top right corner and within follow padding', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
+        entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
+        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+
+        const player = registry.createEntity();
+        player.addComponent(SpriteComponent, 'test', 32, 32);
+        player.addComponent(TransformComponent, { x: 550, y: 450 }, { x: 1, y: 1 }, 0);
+        player.tag('player');
+
+        registry.addSystem(PlayerFollowSystem);
+
+        registry.update();
+
+        registry.getSystem(PlayerFollowSystem)?.update(registry);
+
+        const rigidBody = entity.getComponent(RigidBodyComponent);
+
+        expect(rigidBody?.velocity.y).toBe(-50);
+        expect(rigidBody?.direction).toEqual({ x: 0, y: -1 });
+    });
+
+    test('Entity should move down if player is in the bottom right corner and within follow padding', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
+        entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
+        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+
+        const player = registry.createEntity();
+        player.addComponent(SpriteComponent, 'test', 32, 32);
+        player.addComponent(TransformComponent, { x: 550, y: 550 }, { x: 1, y: 1 }, 0);
+        player.tag('player');
+
+        registry.addSystem(PlayerFollowSystem);
+
+        registry.update();
+
+        registry.getSystem(PlayerFollowSystem)?.update(registry);
+
+        const rigidBody = entity.getComponent(RigidBodyComponent);
+
+        expect(rigidBody?.velocity.y).toBe(50);
+        expect(rigidBody?.direction).toEqual({ x: 0, y: 1 });
+    });
+
+    test('Entity should move up if player is in the top left corner and within follow padding', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
+        entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
+        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+
+        const player = registry.createEntity();
+        player.addComponent(SpriteComponent, 'test', 32, 32);
+        player.addComponent(TransformComponent, { x: 450, y: 450 }, { x: 1, y: 1 }, 0);
+        player.tag('player');
+
+        registry.addSystem(PlayerFollowSystem);
+
+        registry.update();
+
+        registry.getSystem(PlayerFollowSystem)?.update(registry);
+
+        const rigidBody = entity.getComponent(RigidBodyComponent);
+
+        expect(rigidBody?.velocity.y).toBe(-50);
+        expect(rigidBody?.direction).toEqual({ x: 0, y: -1 });
+    });
+
+    test('Entity should move down if player is in the bottom left corner and within follow padding', () => {
+        const registry = new Registry();
+
+        const entity = registry.createEntity();
+        entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
+        entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
+        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+
+        const player = registry.createEntity();
+        player.addComponent(SpriteComponent, 'test', 32, 32);
+        player.addComponent(TransformComponent, { x: 450, y: 550 }, { x: 1, y: 1 }, 0);
+        player.tag('player');
+
+        registry.addSystem(PlayerFollowSystem);
+
+        registry.update();
+
+        registry.getSystem(PlayerFollowSystem)?.update(registry);
+
+        const rigidBody = entity.getComponent(RigidBodyComponent);
+
+        expect(rigidBody?.velocity.y).toBe(50);
+        expect(rigidBody?.direction).toEqual({ x: 0, y: 1 });
     });
 });
