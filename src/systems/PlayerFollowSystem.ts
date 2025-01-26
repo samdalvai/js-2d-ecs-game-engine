@@ -8,6 +8,32 @@ import System from '../ecs/System';
 const ALIGNMENT_THRESHOLD = 5;
 const FOLLOW_PADDING = 50;
 
+/*
+How the follow system works:
+
+                |
+      P         |         P
+                |
+--------------------------------
+                                    FOLLOW PADDING
+---------       E      ---------
+                                    FOLLOW PADDING
+--------------------------------
+                |
+      P         |          P
+                |
+
+1. If player is outside visibility circle, nothing will happen
+2. If player is inside visibility circle but outside min distance
+the entity will move on the x axis to align with the player
+3. If player is on the same axis but outside min distance 
+the enity will move towards the player
+4. If player is inside min distance but outside follow padding
+for y, the entity will move on the x axis to align
+5. If player is inside min distance and inside follow padding
+the entity will move on the y axis to align
+*/
+
 export default class PlayerFollowSystem extends System {
     constructor() {
         super();
