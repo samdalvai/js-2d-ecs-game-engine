@@ -44,7 +44,6 @@ export default class Registry {
     }
 
     update = <T extends Component>() => {
-        console.log('Started updating regstry');
         for (const entity of this.entitiesToBeAdded) {
             this.addEntityToSystems(entity);
         }
@@ -74,7 +73,6 @@ export default class Registry {
         }
 
         this.entitiesToBeKilled = [];
-        console.log('Finished updating regstry');
     };
 
     ////////////////////////////////////////////////////////////////////////////////
