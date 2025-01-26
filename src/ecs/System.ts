@@ -47,16 +47,16 @@ export default class System extends ISystem {
         this.entities.pop();
     };
 
-    getSystemEntities() {
+    getSystemEntities = () => {
         return this.entities;
-    }
+    };
 
-    getComponentSignature() {
+    getComponentSignature = () => {
         return this.componentSignature;
-    }
+    };
 
-    requireComponent<T extends Component>(ComponentClass: ComponentClass<T>) {
+    requireComponent = <T extends Component>(ComponentClass: ComponentClass<T>) => {
         const componentId = ComponentClass.getComponentId();
         this.componentSignature.set(componentId);
-    }
+    };
 }

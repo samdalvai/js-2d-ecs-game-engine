@@ -3,9 +3,15 @@ import { expect } from '@jest/globals';
 import RigidBodyComponent from '../../src/components/RigidBodyComponent';
 import TransformComponent from '../../src/components/TransformComponent';
 import Registry from '../../src/ecs/Registry';
+import Game from '../../src/game/Game';
 import MovementSystem from '../../src/systems/MovementSystem';
 
 describe('Testing Movement system related functions', () => {
+    beforeEach(() => {
+        Game.mapWidth = 1000;
+        Game.mapHeight = 1000;
+    });
+
     test('Entity having horizontal velocity should change his position', () => {
         const registry = new Registry();
 
@@ -19,7 +25,7 @@ describe('Testing Movement system related functions', () => {
 
         const deltaTime = 1;
 
-        registry.getSystem(MovementSystem)?.update(deltaTime, 1000, 1000);
+        registry.getSystem(MovementSystem)?.update(deltaTime);
 
         const transform = entity.getComponent(TransformComponent);
 
@@ -41,7 +47,7 @@ describe('Testing Movement system related functions', () => {
 
         const deltaTime = 1;
 
-        registry.getSystem(MovementSystem)?.update(deltaTime, 1000, 1000);
+        registry.getSystem(MovementSystem)?.update(deltaTime);
 
         const transform = entity.getComponent(TransformComponent);
 
@@ -63,7 +69,7 @@ describe('Testing Movement system related functions', () => {
 
         const deltaTime = 1;
 
-        registry.getSystem(MovementSystem)?.update(deltaTime, 1000, 1000);
+        registry.getSystem(MovementSystem)?.update(deltaTime);
 
         const transform = entity.getComponent(TransformComponent);
 
@@ -85,7 +91,7 @@ describe('Testing Movement system related functions', () => {
 
         const deltaTime = 1;
 
-        registry.getSystem(MovementSystem)?.update(deltaTime, 1000, 1000);
+        registry.getSystem(MovementSystem)?.update(deltaTime);
 
         const transform = entity.getComponent(TransformComponent);
 
