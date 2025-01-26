@@ -35,6 +35,7 @@ export default class GameEndSystem extends System {
                 'Game won!!',
                 color,
                 true,
+                '35px Arial',
             );
             return;
         }
@@ -49,6 +50,7 @@ export default class GameEndSystem extends System {
                 'Game lost!',
                 color,
                 true,
+                '35px Arial',
             );
         }
     }
