@@ -164,7 +164,7 @@ export default class LevelLoader {
         // }
 
         const enemy3 = registry.createEntity();
-        enemy3.addComponent(TransformComponent, { x: 300, y: 400 }, { x: 1, y: 1 }, 0);
+        enemy3.addComponent(TransformComponent, { x: 300, y: 600 }, { x: 1, y: 1 }, 0);
         enemy3.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
         enemy3.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
