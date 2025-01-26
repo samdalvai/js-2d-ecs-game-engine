@@ -203,20 +203,14 @@ export default class LevelLoader {
         cannon.group('enemies');
 
         const enemy = registry.createEntity();
-        enemy.addComponent(
-            TransformComponent,
-            { x: 1000, y: 300 },
-            { x: 1.5, y: 1.5 },
-            0,
-        );
-
+        enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
         enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
         enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
         enemy.addComponent(AnimationComponent, 2, 10);
-        enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: 1 });
         enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy.addComponent(HealthComponent, 100);
-        enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
+        enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
         enemy.addComponent(ExplosionOnDeathComponent);
         enemy.addComponent(ExplosionOnHitComponent);
         enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
