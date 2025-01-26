@@ -83,9 +83,24 @@ export default class PlayerFollowSystem extends System {
                 const deltaX = Math.abs(playerX - playerFollowX);
                 const deltaY = Math.abs(playerY - playerFollowY);
 
+                // Handle player follow for entities not having a follow velocity
+                if (entityPlayerFollow.followVelocity === 0) {
+                    if (deltaX > deltaY) {
+                        entityRigidBody.direction = { x: playerX < playerFollowX ? -1 : 1, y: 0 };
+                    } else {
+                        entityRigidBody.direction = { x: 0, y: playerY < playerFollowY ? -1 : 1 };
+                    }
+
+                    continue;
+                }
+
+                // Handle player follow for entities having a follow velocity
                 if (playerX > playerFollowX + ALIGNMENT_THRESHOLD) {
                     // Case 1: player is on the right of the entity
-                    if ((deltaY <= ALIGNMENT_THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > FOLLOW_PADDING) {
+                    if (
+                        (deltaY <= ALIGNMENT_THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) ||
+                        deltaY > FOLLOW_PADDING
+                    ) {
                         // Case 1a: player is on the horizontal line, move right until entity is at min distance
                         entityRigidBody.velocity = { x: entityPlayerFollow.followVelocity, y: 0 };
                         entityRigidBody.direction = { x: 1, y: 0 };
@@ -105,7 +120,10 @@ export default class PlayerFollowSystem extends System {
                     }
                 } else if (playerX < playerFollowX - ALIGNMENT_THRESHOLD) {
                     // Case 2: player is on the left of the entity
-                    if ((deltaY <= ALIGNMENT_THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) || deltaY > FOLLOW_PADDING) {
+                    if (
+                        (deltaY <= ALIGNMENT_THRESHOLD && deltaX > entityPlayerFollow.minFollowDistance) ||
+                        deltaY > FOLLOW_PADDING
+                    ) {
                         // Case 1a: player is on the horizontal line, move left until entity is at min distance
                         entityRigidBody.velocity = { x: -1 * entityPlayerFollow.followVelocity, y: 0 };
                         entityRigidBody.direction = { x: -1, y: 0 };

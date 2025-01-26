@@ -34,6 +34,7 @@ export default class LevelLoader {
         await assetStore.addTexture('tank-texture', './assets/images/tank-panther-spritesheet.png');
         await assetStore.addTexture('f22-texture', './assets/images/f22-spritesheet.png');
         await assetStore.addTexture('truck-texture', './assets/images/truck-ford-spritesheet.png');
+        await assetStore.addTexture('cannon-texture', './assets/images/cannon-spritesheet.png');
 
         await assetStore.addTexture('tree-texture', './assets/images/tree.png');
         await assetStore.addTexture('bullet-texture', './assets/images/bullet.png');
@@ -187,5 +188,39 @@ export default class LevelLoader {
         tree2.addComponent(SpriteComponent, 'tree-texture', 32, 32, 1, 0);
         tree2.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
         tree2.group('obstacles');
+
+        const cannon = registry.createEntity();
+        cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
+        cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
+        cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
+        cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        cannon.addComponent(HealthComponent, 100);
+        cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
+        cannon.addComponent(ExplosionOnDeathComponent);
+        cannon.addComponent(ExplosionOnHitComponent);
+        cannon.addComponent(SpriteDirectionComponent);
+        cannon.addComponent(PlayerFollowComponent, 250, 100, 0, { x: 16, y: 16 });
+        cannon.group('enemies');
+
+        const enemy = registry.createEntity();
+        enemy.addComponent(
+            TransformComponent,
+            { x: 1000, y: 300 },
+            { x: 1.5, y: 1.5 },
+            0,
+        );
+
+        enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
+        enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
+        enemy.addComponent(AnimationComponent, 2, 10);
+        enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        enemy.addComponent(HealthComponent, 100);
+        enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
+        enemy.addComponent(ExplosionOnDeathComponent);
+        enemy.addComponent(ExplosionOnHitComponent);
+        enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
+        enemy.addComponent(SpriteDirectionComponent);
+        enemy.group('enemies');
     }
 }
