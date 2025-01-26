@@ -26,3 +26,9 @@ export enum Direction {
     DOWN,
     LEFT,
 }
+
+export enum GameStatus {
+    PLAYING,
+    WON,
+    LOST,
+}

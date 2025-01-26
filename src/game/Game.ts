@@ -11,6 +11,7 @@ import CollisionSystem from '../systems/CollisionSystem';
 import DamageSystem from '../systems/DamageSystem';
 import ExplosionOnDeathSystem from '../systems/ExplosionOnDeathSystem';
 import ExplosionOnHitSystem from '../systems/ExplosionOnHitSystem';
+import GameEndSystem from '../systems/GameEndSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import LifetimeSystem from '../systems/LifeTimeSystem';
 import MovementSystem from '../systems/MovementSystem';
@@ -20,9 +21,10 @@ import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
+import RenderTextSystem from '../systems/RenderTextSystem';
 import SoundSystem from '../systems/SoundSystem';
 import SpriteDirectionSystem from '../systems/SpriteDirectionSystem';
-import { Rectangle } from '../types';
+import { GameStatus, Rectangle } from '../types';
 import { sleep } from '../utils/time';
 import LevelLoader from './LevelLoader';
 
@@ -45,6 +47,9 @@ export default class Game {
 
     static mapWidth: number;
     static mapHeight: number;
+    static windowWidth: number;
+    static windowHeight: number;
+    static gameStatus: GameStatus;
 
     constructor() {
         this.isRunning = false;
@@ -64,6 +69,9 @@ export default class Game {
 
         camera.width = window.innerWidth;
         camera.height = window.innerHeight;
+
+        Game.windowWidth = window.innerWidth;
+        Game.windowHeight = window.innerHeight;
 
         const ctx = canvas.getContext('2d');
 
@@ -117,9 +125,12 @@ export default class Game {
         this.registry.addSystem(RenderPlayerFollowRadius);
         this.registry.addSystem(PlayerFollowSystem);
         this.registry.addSystem(SpriteDirectionSystem);
+        this.registry.addSystem(GameEndSystem);
+        this.registry.addSystem(RenderTextSystem);
 
         const loader = new LevelLoader();
         await loader.loadLevel(this.registry, this.assetStore);
+        Game.gameStatus = GameStatus.PLAYING;
     };
 
     private processInput = () => {
@@ -170,25 +181,28 @@ export default class Game {
 
         this.registry.update();
 
-        // Perform the subscription of the events for all systems
-        this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
-        this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
+        if (Game.gameStatus === GameStatus.PLAYING) {
+            // Perform the subscription of the events for all systems
+            this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
 
-        // Invoke all the systems that need to update
-        this.registry.getSystem(PlayerFollowSystem)?.update(this.registry);
-        this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
-        this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
-        this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
-        this.registry.getSystem(KeyboardControlSystem)?.update();
-        this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
-        this.registry.getSystem(LifetimeSystem)?.update();
-        this.registry.getSystem(SoundSystem)?.update(this.assetStore);
+            // Invoke all the systems that need to update
+            this.registry.getSystem(PlayerFollowSystem)?.update(this.registry);
+            this.registry.getSystem(MovementSystem)?.update(deltaTime, Game.mapWidth, Game.mapHeight);
+            this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
+            this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
+            this.registry.getSystem(KeyboardControlSystem)?.update();
+            this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
+            this.registry.getSystem(LifetimeSystem)?.update();
+            this.registry.getSystem(SoundSystem)?.update(this.assetStore);
+            this.registry.getSystem(GameEndSystem)?.update(this.registry, this.camera);
+        }
     };
 
     private render = () => {
@@ -204,6 +218,7 @@ export default class Game {
         this.registry.getSystem(SpriteDirectionSystem)?.update();
         this.registry.getSystem(RenderHealthBarSystem)?.update(this.ctx, this.camera);
         this.registry.getSystem(CameraShakeSystem)?.update(this.ctx);
+        this.registry.getSystem(RenderTextSystem)?.update(this.ctx, this.camera);
 
         if (this.isDebug) {
             const padding = 25;
