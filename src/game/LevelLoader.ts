@@ -171,7 +171,7 @@ export default class LevelLoader {
         enemy3.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
-        enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
+        enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 20, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.addComponent(SpriteDirectionComponent);
@@ -190,18 +190,18 @@ export default class LevelLoader {
         tree2.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
         tree2.group('obstacles');
 
-        const cannon = registry.createEntity();
-        cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
-        cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
-        cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
-        cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        cannon.addComponent(HealthComponent, 100);
-        cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
-        cannon.addComponent(ExplosionOnDeathComponent);
-        cannon.addComponent(ExplosionOnHitComponent);
-        cannon.addComponent(SpriteDirectionComponent);
-        cannon.addComponent(PlayerFollowComponent, 250, 100, 0, { x: 16, y: 16 });
-        cannon.group('enemies');
+        // const cannon = registry.createEntity();
+        // cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
+        // cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
+        // cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
+        // cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        // cannon.addComponent(HealthComponent, 100);
+        // cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 2, false);
+        // cannon.addComponent(ExplosionOnDeathComponent);
+        // cannon.addComponent(ExplosionOnHitComponent);
+        // cannon.addComponent(SpriteDirectionComponent);
+        // cannon.addComponent(PlayerFollowComponent, 250, 100, 0, { x: 16, y: 16 });
+        // cannon.group('enemies');
 
         // const enemy = registry.createEntity();
         // enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
