@@ -11,7 +11,7 @@ export default class GameEndSystem extends System {
         this.requireComponent(HealthComponent);
     }
 
-    update(registry: Registry, camera: Rectangle) {
+    update(registry: Registry) {
         let numberOfEnemies = 0;
         let isPlayerAlive = false;
 
@@ -31,7 +31,7 @@ export default class GameEndSystem extends System {
             const color = { r: 100, g: 255, b: 100 };
             label.addComponent(
                 TextLabelComponent,
-                { x: camera.width / 2 - 50, y: camera.height / 2 },
+                { x: Game.windowWidth / 2 - 50, y: Game.windowHeight / 2 },
                 'Game won!!',
                 color,
                 true,
@@ -46,7 +46,7 @@ export default class GameEndSystem extends System {
             const color = { r: 255, g: 50, b: 50 };
             label.addComponent(
                 TextLabelComponent,
-                { x: camera.width / 2 - 50, y: camera.height / 2 },
+                { x: Game.windowWidth / 2 - 50, y: Game.windowHeight / 2 },
                 'Game lost!',
                 color,
                 true,
