@@ -6,6 +6,9 @@ describe('Testing performance related functions', () => {
             const start = performance.now();
 
             // Code to be tested
+            for (let i = 0; i < 100000000; i++) {
+                //
+            }
 
             const end = performance.now();
             times.push(end - start);
