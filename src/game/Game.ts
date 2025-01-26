@@ -18,6 +18,7 @@ import MovementSystem from '../systems/MovementSystem';
 import PlayerFollowSystem from '../systems/PlayerFollowSystem';
 import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
+import RenderFpsSystem from '../systems/RenderFpsSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
@@ -108,13 +109,16 @@ export default class Game {
 
     private setup = async () => {
         this.registry.addSystem(RenderSystem);
+        this.registry.addSystem(RenderColliderSystem);
+        this.registry.addSystem(RenderHealthBarSystem);
+        this.registry.addSystem(RenderTextSystem);
+        this.registry.addSystem(RenderFpsSystem);
+        
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
         this.registry.addSystem(KeyboardControlSystem);
         this.registry.addSystem(AnimationSystem);
-        this.registry.addSystem(RenderColliderSystem);
         this.registry.addSystem(CollisionSystem);
-        this.registry.addSystem(RenderHealthBarSystem);
         this.registry.addSystem(ProjectileEmitSystem, this.registry);
         this.registry.addSystem(DamageSystem, this.eventBus);
         this.registry.addSystem(LifetimeSystem);
@@ -126,7 +130,6 @@ export default class Game {
         this.registry.addSystem(PlayerFollowSystem);
         this.registry.addSystem(SpriteDirectionSystem);
         this.registry.addSystem(GameEndSystem);
-        this.registry.addSystem(RenderTextSystem);
 
         const loader = new LevelLoader();
         await loader.loadLevel(this.registry, this.assetStore);
@@ -221,17 +224,7 @@ export default class Game {
         this.registry.getSystem(RenderTextSystem)?.update(this.ctx, this.camera);
 
         if (this.isDebug) {
-            const x = Game.windowWidth - 260;
-            const y = 50;
-
-            this.ctx.save();
-
-            this.ctx.font = '24px Arial';
-            this.ctx.fillStyle = 'white';
-            this.ctx.fillText(`Current FPS: (${this.currentFPS.toFixed(2)})`, x, y);
-
-            this.ctx.restore();
-
+            this.registry.getSystem(RenderFpsSystem)?.update(this.ctx, this.currentFPS);
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
             this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);
         }
