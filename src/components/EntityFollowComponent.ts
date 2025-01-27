@@ -1,4 +1,5 @@
 import Component from '../ecs/Component';
+import Entity from '../ecs/Entity';
 import { Vector } from '../types';
 
 export default class EntityFollowComponent extends Component {
@@ -6,6 +7,7 @@ export default class EntityFollowComponent extends Component {
     minFollowDistance: number;
     followVelocity: number;
     offset: Vector;
+    followedEntity: Entity | null;
 
     constructor(detectionRadius = 0, minFollowDistance = 0, followVelocity = 0, offset = { x: 0, y: 0 }) {
         super();
@@ -13,5 +15,6 @@ export default class EntityFollowComponent extends Component {
         this.minFollowDistance = minFollowDistance;
         this.followVelocity = followVelocity;
         this.offset = offset;
+        this.followedEntity = null;
     }
 }
