@@ -7,7 +7,7 @@ import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
 import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
-import PlayerFollowComponent from '../components/PlayerFollowComponent';
+import EntityFollowComponent from '../components/EntityFollowComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import ShadowComponent from '../components/ShadowComponent';
@@ -123,69 +123,69 @@ export default class LevelLoader {
         enemy1.addComponent(SpriteDirectionComponent);
         enemy1.group('enemies');
 
-        for (let i = 0; i < 5; i++) {
-            const enemy = registry.createEntity();
-            enemy.addComponent(
-                TransformComponent,
-                { x: Math.random() * (Game.mapWidth - 100) + 100, y: Math.random() * (Game.mapHeight - 100) + 100 },
-                { x: 1, y: 1 },
-                0,
-            );
+        // for (let i = 0; i < 5; i++) {
+        //     const enemy = registry.createEntity();
+        //     enemy.addComponent(
+        //         TransformComponent,
+        //         { x: Math.random() * (Game.mapWidth - 100) + 100, y: Math.random() * (Game.mapHeight - 100) + 100 },
+        //         { x: 1, y: 1 },
+        //         0,
+        //     );
 
-            if (i % 2 === 0) {
-                enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
-            } else {
-                enemy.addComponent(SpriteComponent, 'truck-texture', 32, 32, 1, 0, 0);
-            }
-            enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
-            enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-            enemy.addComponent(HealthComponent, 100);
-            enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
-            enemy.addComponent(ExplosionOnDeathComponent);
-            enemy.addComponent(ExplosionOnHitComponent);
-            enemy.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
-            enemy.addComponent(SpriteDirectionComponent);
-            enemy.group('enemies');
-        }
+        //     if (i % 2 === 0) {
+        //         enemy.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
+        //     } else {
+        //         enemy.addComponent(SpriteComponent, 'truck-texture', 32, 32, 1, 0, 0);
+        //     }
+        //     enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        //     enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        //     enemy.addComponent(HealthComponent, 100);
+        //     enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
+        //     enemy.addComponent(ExplosionOnDeathComponent);
+        //     enemy.addComponent(ExplosionOnHitComponent);
+        //     enemy.addComponent(PlayerFollowComponent, 250, 50, 50, { x: 16, y: 16 });
+        //     enemy.addComponent(SpriteDirectionComponent);
+        //     enemy.group('enemies');
+        // }
 
-        for (let i = 0; i < 4; i++) {
-            const enemy = registry.createEntity();
-            enemy.addComponent(
-                TransformComponent,
-                { x: Math.random() * (Game.mapWidth - 100) + 100, y: Math.random() * (Game.mapHeight - 100) + 100 },
-                { x: 1, y: 1 },
-                0,
-            );
+        // for (let i = 0; i < 4; i++) {
+        //     const enemy = registry.createEntity();
+        //     enemy.addComponent(
+        //         TransformComponent,
+        //         { x: Math.random() * (Game.mapWidth - 100) + 100, y: Math.random() * (Game.mapHeight - 100) + 100 },
+        //         { x: 1, y: 1 },
+        //         0,
+        //     );
 
-            if (i % 2 === 0) {
-                enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
-            } else {
-                enemy.addComponent(SpriteComponent, 'f22-texture', 32, 32, 1, 0, 0);
-            }
-            enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
-            enemy.addComponent(AnimationComponent, 2, 10);
-            enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
-            enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-            enemy.addComponent(HealthComponent, 100);
-            enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
-            enemy.addComponent(ExplosionOnDeathComponent);
-            enemy.addComponent(ExplosionOnHitComponent);
-            enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
-            enemy.addComponent(SpriteDirectionComponent);
-            enemy.group('enemies');
-        }
+        //     if (i % 2 === 0) {
+        //         enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
+        //     } else {
+        //         enemy.addComponent(SpriteComponent, 'f22-texture', 32, 32, 1, 0, 0);
+        //     }
+        //     enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
+        //     enemy.addComponent(AnimationComponent, 2, 10);
+        //     enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        //     enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        //     enemy.addComponent(HealthComponent, 100);
+        //     enemy.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 3000, 2, false);
+        //     enemy.addComponent(ExplosionOnDeathComponent);
+        //     enemy.addComponent(ExplosionOnHitComponent);
+        //     enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
+        //     enemy.addComponent(SpriteDirectionComponent);
+        //     enemy.group('enemies');
+        // }
 
         const enemy3 = registry.createEntity();
         enemy3.addComponent(TransformComponent, { x: 300, y: 600 }, { x: 1, y: 1 }, 0);
         enemy3.addComponent(SpriteComponent, 'tank-texture', 32, 32, 1, 0, 0);
-        enemy3.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        enemy3.addComponent(RigidBodyComponent, { x: 50, y: 0 }, { x: 1, y: 0 });
         enemy3.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
         enemy3.addComponent(HealthComponent, 50);
         enemy3.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 5, false);
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.addComponent(SpriteDirectionComponent);
-        enemy3.addComponent(PlayerFollowComponent, 250, 100, 50, { x: 16, y: 16 });
+        enemy3.addComponent(EntityFollowComponent, 250, 100, 50, { x: 16, y: 16 });
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
@@ -210,7 +210,7 @@ export default class LevelLoader {
         cannon.addComponent(ExplosionOnDeathComponent);
         cannon.addComponent(ExplosionOnHitComponent);
         cannon.addComponent(SpriteDirectionComponent);
-        cannon.addComponent(PlayerFollowComponent, 250, 100, 0, { x: 16, y: 16 });
+        cannon.addComponent(EntityFollowComponent, 250, 100, 0, { x: 16, y: 16 });
         cannon.group('enemies');
 
         const enemy = registry.createEntity();
@@ -224,7 +224,7 @@ export default class LevelLoader {
         enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
         enemy.addComponent(ExplosionOnDeathComponent);
         enemy.addComponent(ExplosionOnHitComponent);
-        enemy.addComponent(PlayerFollowComponent, 350, 150, 150, { x: 16, y: 16 });
+        enemy.addComponent(EntityFollowComponent, 350, 150, 150, { x: 16, y: 16 });
         enemy.addComponent(SpriteDirectionComponent);
         enemy.group('enemies');
 

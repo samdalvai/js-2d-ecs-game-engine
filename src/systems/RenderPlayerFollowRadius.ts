@@ -1,4 +1,4 @@
-import PlayerFollowComponent from '../components/PlayerFollowComponent';
+import EntityFollowComponent from '../components/EntityFollowComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
 import { Rectangle } from '../types';
@@ -7,13 +7,13 @@ export default class RenderPlayerFollowRadius extends System {
     constructor() {
         super();
         this.requireComponent(TransformComponent);
-        this.requireComponent(PlayerFollowComponent);
+        this.requireComponent(EntityFollowComponent);
     }
 
     update(ctx: CanvasRenderingContext2D, camera: Rectangle) {
         for (const entity of this.getSystemEntities()) {
             const transform = entity.getComponent(TransformComponent);
-            const playerFollow = entity.getComponent(PlayerFollowComponent);
+            const playerFollow = entity.getComponent(EntityFollowComponent);
 
             if (!playerFollow || !transform) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
