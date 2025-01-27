@@ -19,7 +19,7 @@ import MovementSystem from '../systems/MovementSystem';
 import PlayerDetectionSystem from '../systems/PlayerDetectionSystem';
 import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
-import RenderFpsSystem from '../systems/RenderFpsSystem';
+import RenderDebugInfoSystem from '../systems/RenderDebugInfoSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
@@ -114,7 +114,7 @@ export default class Game {
         this.registry.addSystem(RenderColliderSystem);
         this.registry.addSystem(RenderHealthBarSystem);
         this.registry.addSystem(RenderTextSystem);
-        this.registry.addSystem(RenderFpsSystem);
+        this.registry.addSystem(RenderDebugInfoSystem);
 
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
@@ -231,7 +231,7 @@ export default class Game {
         this.registry.getSystem(RenderTextSystem)?.update(this.ctx, this.camera);
 
         if (this.isDebug) {
-            this.registry.getSystem(RenderFpsSystem)?.update(this.ctx, this.currentFPS);
+            this.registry.getSystem(RenderDebugInfoSystem)?.update(this.ctx, this.currentFPS, this.inputManager);
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
             this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);
         }
