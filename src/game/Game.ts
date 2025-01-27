@@ -135,8 +135,7 @@ export default class Game {
         this.registry.addSystem(ScriptingSystem);
         this.registry.addSystem(GameEndSystem);
 
-        const loader = new LevelLoader();
-        await loader.loadLevel(this.registry, this.assetStore);
+        await LevelLoader.loadLevel(this.registry, this.assetStore);
         Game.gameStatus = GameStatus.PLAYING;
     };
 
