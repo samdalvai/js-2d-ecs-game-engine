@@ -29,7 +29,7 @@ export default class CollisionSystem extends System {
                 const b = entities[j];
 
                 // Bypass if we are trying to test the same entity
-                if (a == b) {
+                if (a === b) {
                     continue;
                 }
 
