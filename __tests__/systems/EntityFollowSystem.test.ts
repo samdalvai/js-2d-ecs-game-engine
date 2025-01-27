@@ -25,11 +25,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 600, y: 400 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -50,11 +53,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 600, y: 600 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -75,11 +81,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 400, y: 400 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -100,11 +109,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 400, y: 600 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -129,11 +141,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 500, y: 400 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -154,11 +169,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 500, y: 600 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -179,11 +197,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 600, y: 500 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -204,11 +225,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 400, y: 500 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -233,11 +257,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 500, y: 400 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -258,11 +285,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 500, y: 450 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -283,11 +313,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 450, y: 500 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -308,11 +341,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 400, y: 500 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -337,11 +373,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 550, y: 450 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -362,11 +401,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 550, y: 550 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -387,11 +429,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 450, y: 450 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
@@ -412,11 +457,14 @@ describe('Testing Player follow system related functions', () => {
         player.addComponent(TransformComponent, { x: 450, y: 550 }, { x: 1, y: 1 }, 0);
         player.tag('player');
 
+        const follow = entity.getComponent(EntityFollowComponent);
+        follow!.followedEntity = player;
+
         registry.addSystem(EntityFollowSystem);
 
         registry.update();
 
-        registry.getSystem(EntityFollowSystem)?.update(registry);
+        registry.getSystem(EntityFollowSystem)?.update();
 
         const rigidBody = entity.getComponent(RigidBodyComponent);
 
