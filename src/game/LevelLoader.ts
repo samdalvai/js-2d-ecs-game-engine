@@ -10,6 +10,7 @@ import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
+import ScriptComponent from '../components/ScriptComponent';
 import ShadowComponent from '../components/ShadowComponent';
 import SoundComponent from '../components/SoundComponent';
 import SpriteComponent from '../components/SpriteComponent';
@@ -186,6 +187,12 @@ export default class LevelLoader {
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.addComponent(SpriteDirectionComponent);
         enemy3.addComponent(EntityFollowComponent, 250, 100, 50, { x: 16, y: 16 }, 5000);
+        enemy3.addComponent(ScriptComponent, [
+            { movement: { x: 50, y: 0 }, duration: 2000 },
+            { movement: { x: 0, y: 50 }, duration: 2000 },
+            { movement: { x: -50, y: 0 }, duration: 2000 },
+            { movement: { x: 0, y: -50 }, duration: 2000 },
+        ]);
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
@@ -226,6 +233,12 @@ export default class LevelLoader {
         enemy.addComponent(ExplosionOnHitComponent);
         enemy.addComponent(EntityFollowComponent, 200, 100, 150, { x: 16, y: 16 }, 5000);
         enemy.addComponent(SpriteDirectionComponent);
+        enemy.addComponent(ScriptComponent, [
+            { movement: { x: 0, y: 50 }, duration: 4000 },
+            { movement: { x: -50, y: 0 }, duration: 4000 },
+            { movement: { x: 0, y: -50 }, duration: 4000 },
+            { movement: { x: 50, y: 0 }, duration: 4000 },
+        ]);
         enemy.group('enemies');
 
         const label = registry.createEntity();

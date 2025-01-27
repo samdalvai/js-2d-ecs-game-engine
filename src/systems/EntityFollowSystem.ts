@@ -1,5 +1,6 @@
 import EntityFollowComponent from '../components/EntityFollowComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
+import ScriptComponent from '../components/ScriptComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import System from '../ecs/System';
@@ -55,7 +56,9 @@ export default class EntityFollowSystem extends System {
 
             if (!followedEntity) {
                 // TODO: revert to previous velocity if entity has script (to be implemented)
-                rigidBody.velocity = { x: 0, y: 0 };
+                if (!entity.hasComponent(ScriptComponent)) {
+                    rigidBody.velocity = { x: 0, y: 0 };
+                }
                 continue;
             }
 

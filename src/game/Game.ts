@@ -24,6 +24,7 @@ import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
 import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
 import RenderTextSystem from '../systems/RenderTextSystem';
+import ScriptingSystem from '../systems/ScriptingSystem';
 import SoundSystem from '../systems/SoundSystem';
 import SpriteDirectionSystem from '../systems/SpriteDirectionSystem';
 import { GameStatus, Rectangle } from '../types';
@@ -131,6 +132,7 @@ export default class Game {
         this.registry.addSystem(EntityFollowSystem);
         this.registry.addSystem(PlayerDetectionSystem);
         this.registry.addSystem(SpriteDirectionSystem);
+        this.registry.addSystem(ScriptingSystem);
         this.registry.addSystem(GameEndSystem);
 
         const loader = new LevelLoader();
@@ -185,7 +187,7 @@ export default class Game {
         this.eventBus.reset();
 
         this.registry.update();
-        
+
         this.registry.getSystem(GameEndSystem)?.update(this.registry);
 
         if (Game.gameStatus === GameStatus.PLAYING) {
@@ -202,6 +204,7 @@ export default class Game {
 
             // Invoke all the systems that need to update
             this.registry.getSystem(PlayerDetectionSystem)?.update(this.registry);
+            this.registry.getSystem(ScriptingSystem)?.update();
             this.registry.getSystem(EntityFollowSystem)?.update();
             this.registry.getSystem(MovementSystem)?.update(deltaTime);
             this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
