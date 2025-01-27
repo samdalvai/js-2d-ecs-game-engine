@@ -4,6 +4,8 @@ import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
 import Registry from '../ecs/Registry';
 import System from '../ecs/System';
+import EventBus from '../event-bus/EventBus';
+import EntityHitEvent from '../events/EntityHitEvent';
 
 export default class PlayerDetectionSystem extends System {
     constructor() {
@@ -13,12 +15,35 @@ export default class PlayerDetectionSystem extends System {
         this.requireComponent(RigidBodyComponent);
     }
 
+    subscribeToEvents(eventBus: EventBus) {
+        eventBus.subscribeToEvent(EntityHitEvent, this, this.onEntityHitByPlayer);
+    }
+
+    onEntityHitByPlayer = (event: EntityHitEvent) => {
+        const entity = event.entity;
+
+        if (!entity.hasTag('player') && entity.hasComponent(EntityFollowComponent)) {
+            const player = entity.registry.getEntityByTag('player');
+
+            if (!player) {
+                throw new Error('Player entity not found');
+            }
+
+            const entityFollow = entity.getComponent(EntityFollowComponent);
+
+            if (!entityFollow) {
+                throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
+            }
+
+            entityFollow.followedEntity = player;
+        }
+    };
+
     update(registry: Registry) {
         const player = registry.getEntityByTag('player');
 
         if (!player) {
-            console.log('Player entity not found');
-            return;
+            throw new Error('Player entity not found');
         }
 
         const playerTransform = player.getComponent(TransformComponent);

@@ -185,7 +185,9 @@ export default class Game {
         this.eventBus.reset();
 
         this.registry.update();
-
+        
+        this.registry.getSystem(GameEndSystem)?.update(this.registry);
+        
         if (Game.gameStatus === GameStatus.PLAYING) {
             // Perform the subscription of the events for all systems
             this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
@@ -196,6 +198,7 @@ export default class Game {
             this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
             this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
             this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
+            this.registry.getSystem(PlayerDetectionSystem)?.subscribeToEvents(this.eventBus);
 
             // Invoke all the systems that need to update
             this.registry.getSystem(PlayerDetectionSystem)?.update(this.registry);
@@ -207,7 +210,6 @@ export default class Game {
             this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
             this.registry.getSystem(LifetimeSystem)?.update();
             this.registry.getSystem(SoundSystem)?.update(this.assetStore);
-            this.registry.getSystem(GameEndSystem)?.update(this.registry);
         }
     };
 
