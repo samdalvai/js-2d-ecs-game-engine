@@ -15,7 +15,7 @@ import GameEndSystem from '../systems/GameEndSystem';
 import KeyboardControlSystem from '../systems/KeyboardControlSystem';
 import LifetimeSystem from '../systems/LifeTimeSystem';
 import MovementSystem from '../systems/MovementSystem';
-import PlayerFollowSystem from '../systems/PlayerFollowSystem';
+import EntityFollowSystem from '../systems/EntityFollowSystem';
 import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderFpsSystem from '../systems/RenderFpsSystem';
@@ -127,7 +127,7 @@ export default class Game {
         this.registry.addSystem(CameraShakeSystem);
         this.registry.addSystem(SoundSystem, this.assetStore);
         this.registry.addSystem(RenderPlayerFollowRadius);
-        this.registry.addSystem(PlayerFollowSystem);
+        this.registry.addSystem(EntityFollowSystem);
         this.registry.addSystem(SpriteDirectionSystem);
         this.registry.addSystem(GameEndSystem);
 
@@ -196,7 +196,7 @@ export default class Game {
             this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
 
             // Invoke all the systems that need to update
-            this.registry.getSystem(PlayerFollowSystem)?.update(this.registry);
+            this.registry.getSystem(EntityFollowSystem)?.update(this.registry);
             this.registry.getSystem(MovementSystem)?.update(deltaTime);
             this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
             this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
