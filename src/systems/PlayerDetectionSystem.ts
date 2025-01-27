@@ -36,6 +36,7 @@ export default class PlayerDetectionSystem extends System {
             }
 
             entityFollow.followedEntity = player;
+            entityFollow.startFollowTime = performance.now();
         }
     };
 
@@ -78,6 +79,12 @@ export default class PlayerDetectionSystem extends System {
 
             if (isPlayerInsideCircle) {
                 entityFollow.followedEntity = player;
+                entityFollow.startFollowTime = performance.now();
+            } else if (
+                entityFollow.followedEntity &&
+                performance.now() - entityFollow.startFollowTime > entityFollow.followDuration
+            ) {
+                entityFollow.followedEntity = null;
             }
         }
     }

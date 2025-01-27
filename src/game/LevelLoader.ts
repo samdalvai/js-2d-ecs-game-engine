@@ -3,11 +3,11 @@ import AnimationComponent from '../components/AnimationComponent';
 import BoxColliderComponent from '../components/BoxColliderComponent';
 import CameraFollowComponent from '../components/CameraFollowComponent';
 import CameraShakeComponent from '../components/CameraShakeComponent';
+import EntityFollowComponent from '../components/EntityFollowComponent';
 import ExplosionOnDeathComponent from '../components/ExplosionOnDeathComponent';
 import ExplosionOnHitComponent from '../components/ExplosionOnHitComponent';
 import HealthComponent from '../components/HealthComponent';
 import KeyboardControlComponent from '../components/KeyboardControlComponent';
-import EntityFollowComponent from '../components/EntityFollowComponent';
 import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import ShadowComponent from '../components/ShadowComponent';
@@ -185,7 +185,7 @@ export default class LevelLoader {
         enemy3.addComponent(ExplosionOnDeathComponent);
         enemy3.addComponent(ExplosionOnHitComponent);
         enemy3.addComponent(SpriteDirectionComponent);
-        enemy3.addComponent(EntityFollowComponent, 250, 100, 50, { x: 16, y: 16 });
+        enemy3.addComponent(EntityFollowComponent, 250, 100, 50, { x: 16, y: 16 }, 5000);
         enemy3.group('enemies');
 
         const tree1 = registry.createEntity();
@@ -224,7 +224,7 @@ export default class LevelLoader {
         enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
         enemy.addComponent(ExplosionOnDeathComponent);
         enemy.addComponent(ExplosionOnHitComponent);
-        enemy.addComponent(EntityFollowComponent, 200, 100, 150, { x: 16, y: 16 });
+        enemy.addComponent(EntityFollowComponent, 200, 100, 150, { x: 16, y: 16 }, 5000);
         enemy.addComponent(SpriteDirectionComponent);
         enemy.group('enemies');
 

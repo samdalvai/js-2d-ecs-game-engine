@@ -187,7 +187,7 @@ export default class Game {
         this.registry.update();
         
         this.registry.getSystem(GameEndSystem)?.update(this.registry);
-        
+
         if (Game.gameStatus === GameStatus.PLAYING) {
             // Perform the subscription of the events for all systems
             this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
