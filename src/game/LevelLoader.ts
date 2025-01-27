@@ -22,13 +22,13 @@ import { Flip, TileMap } from '../types';
 import Game from './Game';
 
 export default class LevelLoader {
-    public async loadLevel(registry: Registry, assetStore: AssetStore) {
+    public static async loadLevel(registry: Registry, assetStore: AssetStore) {
         await this.loadAssets(assetStore);
         this.loadTileMap(registry, assetStore);
         this.loadEntities(registry);
     }
 
-    private async loadAssets(assetStore: AssetStore) {
+    private static async loadAssets(assetStore: AssetStore) {
         console.log('Loading assets');
         await assetStore.addTexture('desert-texture', './assets/tilemaps/desert.png');
         await assetStore.addTexture('chopper-green-texture', './assets/images/chopper-green-spritesheet.png');
@@ -51,7 +51,7 @@ export default class LevelLoader {
         await assetStore.addJson('tile-map', '/assets/tilemaps/tilemap.json');
     }
 
-    private loadTileMap(registry: Registry, assetStore: AssetStore) {
+    private static loadTileMap(registry: Registry, assetStore: AssetStore) {
         console.log('Loading tilemap');
         const tileMap = assetStore.getJson('tile-map') as TileMap;
 
@@ -84,7 +84,7 @@ export default class LevelLoader {
         Game.mapHeight = rowNumber * tileSize * mapScale;
     }
 
-    private loadEntities(registry: Registry) {
+    private static loadEntities(registry: Registry) {
         console.log('Loading entities');
         const player = registry.createEntity();
         player.addComponent(TransformComponent, { x: 300, y: 300 }, { x: 1, y: 1 }, 0);
