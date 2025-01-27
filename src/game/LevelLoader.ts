@@ -224,7 +224,7 @@ export default class LevelLoader {
         enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
         enemy.addComponent(ExplosionOnDeathComponent);
         enemy.addComponent(ExplosionOnHitComponent);
-        enemy.addComponent(EntityFollowComponent, 350, 150, 150, { x: 16, y: 16 });
+        enemy.addComponent(EntityFollowComponent, 200, 100, 150, { x: 16, y: 16 });
         enemy.addComponent(SpriteDirectionComponent);
         enemy.group('enemies');
 
