@@ -20,11 +20,11 @@ export default class CameraMovementSystem extends System {
             }
 
             if (transform.position.x + camera.width / 2 < Game.mapWidth) {
-                camera.x = transform.position.x - camera.width / 2;
+                camera.x = Math.floor(transform.position.x - camera.width / 2);
             }
 
             if (transform.position.y + camera.height / 2 < Game.mapHeight) {
-                camera.y = transform.position.y - camera.height / 2;
+                camera.y = Math.floor(transform.position.y - camera.height / 2);
             }
 
             // Keep camera rectangle view inside the screen limits
