@@ -217,13 +217,13 @@ export default class LevelLoader {
         cannon.addComponent(ExplosionOnDeathComponent);
         cannon.addComponent(ExplosionOnHitComponent);
         cannon.addComponent(SpriteDirectionComponent);
-        cannon.addComponent(EntityFollowComponent, 250, 100, 0, { x: 16, y: 16 });
+        cannon.addComponent(EntityFollowComponent, 250, 100, 0, { x: 16, y: 16 }, 2000);
         cannon.group('enemies');
 
         const enemy = registry.createEntity();
         enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
         enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
-        enemy.addComponent(ShadowComponent, 32, 16, -1, 0);
+        enemy.addComponent(ShadowComponent, 40, 20, -1, 0);
         enemy.addComponent(AnimationComponent, 2, 10);
         enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: 1 });
         enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
