@@ -1,4 +1,4 @@
-import PlayerFollowComponent from '../components/PlayerFollowComponent';
+import EntityFollowComponent from '../components/EntityFollowComponent';
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import TransformComponent from '../components/TransformComponent';
@@ -38,7 +38,7 @@ export default class PlayerFollowSystem extends System {
     constructor() {
         super();
         this.requireComponent(TransformComponent);
-        this.requireComponent(PlayerFollowComponent);
+        this.requireComponent(EntityFollowComponent);
         this.requireComponent(RigidBodyComponent);
     }
 
@@ -60,7 +60,7 @@ export default class PlayerFollowSystem extends System {
         for (const entity of this.getSystemEntities()) {
             const entityTransform = entity.getComponent(TransformComponent);
             const entityRigidBody = entity.getComponent(RigidBodyComponent);
-            const entityPlayerFollow = entity.getComponent(PlayerFollowComponent);
+            const entityPlayerFollow = entity.getComponent(EntityFollowComponent);
 
             if (!entityRigidBody || !entityTransform || !entityPlayerFollow) {
                 throw new Error('Could not find some component(s) of entity with id ' + entity.getId());
@@ -163,7 +163,7 @@ export default class PlayerFollowSystem extends System {
                 }
             } else {
                 // TODO: revert to previous velocity if entity has script (to be implemented)
-                entityRigidBody.velocity = { x: 0, y: 0 };
+                // entityRigidBody.velocity = { x: 0, y: 0 };
             }
         }
     }

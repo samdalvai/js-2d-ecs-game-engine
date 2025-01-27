@@ -1,7 +1,7 @@
 import Component from '../ecs/Component';
 import { Vector } from '../types';
 
-export default class PlayerFollowComponent extends Component {
+export default class EntityFollowComponent extends Component {
     detectionRadius: number;
     minFollowDistance: number;
     followVelocity: number;

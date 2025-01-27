@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import PlayerFollowComponent from '../../src/components/PlayerFollowComponent';
+import EntityFollowComponent from '../../src/components/EntityFollowComponent';
 import RigidBodyComponent from '../../src/components/RigidBodyComponent';
 import SpriteComponent from '../../src/components/SpriteComponent';
 import TransformComponent from '../../src/components/TransformComponent';
@@ -18,7 +18,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -43,7 +43,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -68,7 +68,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -93,7 +93,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -122,7 +122,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 600 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -147,7 +147,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 400 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -172,7 +172,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 400, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -197,7 +197,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 600, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -226,7 +226,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 450 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -251,7 +251,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 400 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -276,7 +276,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 400, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -301,7 +301,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 450, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -330,7 +330,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -355,7 +355,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -380,7 +380,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
@@ -405,7 +405,7 @@ describe('Testing Player follow system related functions', () => {
         const entity = registry.createEntity();
         entity.addComponent(TransformComponent, { x: 500, y: 500 }, { x: 1, y: 1 }, 0);
         entity.addComponent(RigidBodyComponent, { x: 0, y: 0 });
-        entity.addComponent(PlayerFollowComponent, 400, 100, 50, { x: 16, y: 16 });
+        entity.addComponent(EntityFollowComponent, 400, 100, 50, { x: 16, y: 16 });
 
         const player = registry.createEntity();
         player.addComponent(SpriteComponent, 'test', 32, 32);
