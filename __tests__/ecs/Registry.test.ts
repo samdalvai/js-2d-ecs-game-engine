@@ -12,6 +12,10 @@ describe('Testing Registry related functions', () => {
         ISystem.resetIds();
     });
 
+    ////////////////////////////////////////////////////////////////////////////////
+    // Entities creation
+    ////////////////////////////////////////////////////////////////////////////////
+
     test('Should add entity to registry entities to be added', () => {
         const registry = new Registry();
         const entity = registry.createEntity();
@@ -40,6 +44,10 @@ describe('Testing Registry related functions', () => {
         expect(registry.entitiesToBeAdded.length).toBe(1);
         expect(registry.freeIds.length).toBe(0);
     });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Entities signature
+    ////////////////////////////////////////////////////////////////////////////////
 
     test('Should set entity component signature at bit 0 for one entity and one component', () => {
         const registry = new Registry();
@@ -91,6 +99,10 @@ describe('Testing Registry related functions', () => {
         expect(registry.entityComponentSignatures[1].test(0)).toBe(true);
         expect(registry.entityComponentSignatures[2].test(0)).toBe(true);
     });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Entities components
+    ////////////////////////////////////////////////////////////////////////////////
 
     test('Should add entity and component to component pools when adding component', () => {
         const registry = new Registry();
@@ -294,6 +306,10 @@ describe('Testing Registry related functions', () => {
 
         expect(entity.getComponent(MyComponent2)).toEqual(undefined);
     });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Entities systems
+    ////////////////////////////////////////////////////////////////////////////////
 
     test('Should add system to registry', () => {
         const registry = new Registry();
@@ -847,6 +863,34 @@ describe('Testing Registry related functions', () => {
         expect(system?.getSystemEntities()[0]).toEqual(entity2);
     });
 
+    test('Should remove entities from system with multiple entities, when updating registry and entity removed is the last one', () => {
+        const registry = new Registry();
+
+        class MyComponent extends Component {}
+
+        class MySystem extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        const entity2 = registry.createEntity();
+        entity1.addComponent(MyComponent);
+        entity2.addComponent(MyComponent);
+
+        registry.addSystem(MySystem);
+
+        entity2.kill();
+        registry.update();
+
+        const system = registry.getSystem(MySystem);
+
+        expect(system?.getSystemEntities().length).toEqual(1);
+        expect(system?.getSystemEntities()[0]).toEqual(entity1);
+    });
+
     test('Should remove entities from system, when updating registry', () => {
         const registry = new Registry();
 
@@ -948,6 +992,10 @@ describe('Testing Registry related functions', () => {
         expect(system1?.getSystemEntities().length).toEqual(0);
         expect(system2?.getSystemEntities().length).toEqual(1);
     });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Entities tags and groups
+    ////////////////////////////////////////////////////////////////////////////////
 
     test('Should add tag to entity and get entity by tag', () => {
         const registry = new Registry();
