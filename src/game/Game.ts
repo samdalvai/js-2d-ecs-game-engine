@@ -234,6 +234,22 @@ export default class Game {
             this.registry.getSystem(RenderDebugInfoSystem)?.update(this.ctx, this.currentFPS, this.inputManager);
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
             this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);
+
+            // TODO: create a system for rendering GUI with click events
+            this.ctx.save();
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            this.ctx.fillRect(0, 0, Game.windowWidth, Game.windowHeight);
+
+            this.ctx.fillStyle = 'gray';
+            this.ctx.fillRect(200, 200, 250, 100);
+
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillStyle = `white`;
+            this.ctx.font = '26px Arial';
+
+            this.ctx.fillText('Click me', 325, 250);
+            this.ctx.restore();
         }
     };
 
