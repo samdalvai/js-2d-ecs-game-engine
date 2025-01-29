@@ -2,7 +2,6 @@ import { expect } from '@jest/globals';
 
 import KeyboardControlComponent from '../../src/components/KeyboardControlComponent';
 import RigidBodyComponent from '../../src/components/RigidBodyComponent';
-import SpriteComponent from '../../src/components/SpriteComponent';
 import KeyboardControlSystem from '../../src/systems/KeyboardControlSystem';
 import { Direction } from '../../src/types';
 
