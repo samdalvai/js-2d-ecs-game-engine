@@ -22,6 +22,7 @@ import ProjectileEmitSystem from '../systems/ProjectileEmitSystem';
 import RenderColliderSystem from '../systems/RenderColliderSystem';
 import RenderDebugInfoSystem from '../systems/RenderDebugInfoSystem';
 import RenderHealthBarSystem from '../systems/RenderHealthBarSystem';
+import RenderMenuSystem from '../systems/RenderMenuSystem';
 import RenderPlayerFollowRadius from '../systems/RenderPlayerFollowRadius';
 import RenderSystem from '../systems/RenderSystem';
 import RenderTextSystem from '../systems/RenderTextSystem';
@@ -116,6 +117,7 @@ export default class Game {
         this.registry.addSystem(RenderHealthBarSystem);
         this.registry.addSystem(RenderTextSystem);
         this.registry.addSystem(RenderDebugInfoSystem);
+        this.registry.addSystem(RenderMenuSystem);
 
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
@@ -247,20 +249,7 @@ export default class Game {
             this.registry.getSystem(RenderDebugInfoSystem)?.update(this.ctx, this.currentFPS, this.inputManager);
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
             this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);
-
-            // TODO: create a system for rendering GUI with click events
-            this.ctx.save();
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            this.ctx.fillRect(0, 0, Game.windowWidth, Game.windowHeight);
-
-            this.ctx.fillStyle = 'gray';
-            this.ctx.fillRect(Game.windowWidth / 2 - 125, Game.windowHeight / 2 - 50, 250, 100);
-
-            this.ctx.fillStyle = 'white';
-            this.ctx.font = '26px Arial';
-
-            this.ctx.fillText('Play again', Game.windowWidth / 2 - 60, Game.windowHeight / 2 + 5);
-            this.ctx.restore();
+            this.registry.getSystem(RenderMenuSystem)?.update(this.ctx);
         }
     };
 
