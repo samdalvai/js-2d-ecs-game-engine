@@ -207,39 +207,39 @@ export default class LevelLoader {
         tree2.addComponent(BoxColliderComponent, 15, 30, { x: 0, y: 0 });
         tree2.group('obstacles');
 
-        const cannon = registry.createEntity();
-        cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
-        cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
-        cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
-        cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        cannon.addComponent(HealthComponent, 100);
-        cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 10, false);
-        cannon.addComponent(ExplosionOnDeathComponent);
-        cannon.addComponent(ExplosionOnHitComponent);
-        cannon.addComponent(SpriteDirectionComponent);
-        cannon.addComponent(EntityFollowComponent, 250, 100, 0, { x: 16, y: 16 }, 2000);
-        cannon.group('enemies');
+        // const cannon = registry.createEntity();
+        // cannon.addComponent(TransformComponent, { x: 800, y: 700 }, { x: 1, y: 1 }, 0);
+        // cannon.addComponent(SpriteComponent, 'cannon-texture', 32, 32, 1, 0, 0);
+        // cannon.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: -1, y: 0 });
+        // cannon.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        // cannon.addComponent(HealthComponent, 100);
+        // cannon.addComponent(ProjectileEmitterComponent, { x: 100, y: 100 }, 1000, 2000, 10, false);
+        // cannon.addComponent(ExplosionOnDeathComponent);
+        // cannon.addComponent(ExplosionOnHitComponent);
+        // cannon.addComponent(SpriteDirectionComponent);
+        // cannon.addComponent(EntityFollowComponent, 250, 100, 0, { x: 16, y: 16 }, 2000);
+        // cannon.group('enemies');
 
-        const enemy = registry.createEntity();
-        enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
-        enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
-        enemy.addComponent(ShadowComponent, 40, 20, -1, 0);
-        enemy.addComponent(AnimationComponent, 2, 10);
-        enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: 1 });
-        enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
-        enemy.addComponent(HealthComponent, 100);
-        enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
-        enemy.addComponent(ExplosionOnDeathComponent);
-        enemy.addComponent(ExplosionOnHitComponent);
-        enemy.addComponent(EntityFollowComponent, 200, 100, 150, { x: 16, y: 16 }, 5000);
-        enemy.addComponent(SpriteDirectionComponent);
-        enemy.addComponent(ScriptComponent, [
-            { movement: { x: 0, y: 50 }, duration: 4000 },
-            { movement: { x: -50, y: 0 }, duration: 4000 },
-            { movement: { x: 0, y: -50 }, duration: 4000 },
-            { movement: { x: 50, y: 0 }, duration: 4000 },
-        ]);
-        enemy.group('enemies');
+        // const enemy = registry.createEntity();
+        // enemy.addComponent(TransformComponent, { x: 1000, y: 300 }, { x: 1.5, y: 1.5 }, 0);
+        // enemy.addComponent(SpriteComponent, 'chopper-white-texture', 32, 32, 1, 0, 0);
+        // enemy.addComponent(ShadowComponent, 40, 20, -1, 0);
+        // enemy.addComponent(AnimationComponent, 2, 10);
+        // enemy.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: 1 });
+        // enemy.addComponent(BoxColliderComponent, 25, 20, { x: 4, y: 7 });
+        // enemy.addComponent(HealthComponent, 100);
+        // enemy.addComponent(ProjectileEmitterComponent, { x: 200, y: 200 }, 1000, 5000, 20, false);
+        // enemy.addComponent(ExplosionOnDeathComponent);
+        // enemy.addComponent(ExplosionOnHitComponent);
+        // enemy.addComponent(EntityFollowComponent, 200, 100, 150, { x: 16, y: 16 }, 5000);
+        // enemy.addComponent(SpriteDirectionComponent);
+        // enemy.addComponent(ScriptComponent, [
+        //     { movement: { x: 0, y: 50 }, duration: 4000 },
+        //     { movement: { x: -50, y: 0 }, duration: 4000 },
+        //     { movement: { x: 0, y: -50 }, duration: 4000 },
+        //     { movement: { x: 50, y: 0 }, duration: 4000 },
+        // ]);
+        // enemy.group('enemies');
 
         const label = registry.createEntity();
         const color = { r: 255, g: 255, b: 255 };
