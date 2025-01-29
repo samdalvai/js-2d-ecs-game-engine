@@ -34,7 +34,8 @@ export default class RenderMenuSystem extends System {
             event.coordinates.y <= buttonY2
         ) {
             console.log('Button clicked');
-            this.assetStore.clearAssets()
+            this.assetStore.clearAssets();
+            this.registry.clear();
             await LevelLoader.loadLevel(this.registry, this.assetStore);
             Game.gameStatus = GameStatus.PLAYING;
         }

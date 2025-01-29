@@ -310,4 +310,25 @@ export default class Registry {
             system.removeEntityFromSystem(entity);
         }
     };
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Registry resetting
+    ////////////////////////////////////////////////////////////////////////////////
+
+    clear = () => {
+        this.numEntities = 0;
+        this.componentPools = [];
+        this.entityComponentSignatures = [];
+        this.entitiesToBeAdded = [];
+        this.entitiesToBeKilled = [];
+        this.entityPerTag = new Map();
+        this.tagPerEntity = new Map();
+        this.entitiesPerGroup = new Map();
+        this.groupPerEntity = new Map();
+        this.freeIds = [];
+
+        for (const system of this.systems.values()) {
+            system.removeAllEntities();
+        }
+    };
 }
