@@ -3,6 +3,7 @@ import Registry from '../ecs/Registry';
 import EventBus from '../event-bus/EventBus';
 import KeyPressedEvent from '../events/KeyPressedEvent';
 import KeyReleasedEvent from '../events/KeyReleasedEvent';
+import MouseClickEvent from '../events/MouseClickEvent';
 import InputManager from '../input-manager/InputManager';
 import AnimationSystem from '../systems/AnimationSystem';
 import CameraMovementSystem from '../systems/CameraMovementSystem';
@@ -140,8 +141,9 @@ export default class Game {
     };
 
     private processInput = () => {
-        while (this.inputManager.inputBuffer.length > 0) {
-            const inputEvent = this.inputManager.inputBuffer.shift();
+        // Hanlde keyboard events
+        while (this.inputManager.keyboardInputBuffer.length > 0) {
+            const inputEvent = this.inputManager.keyboardInputBuffer.shift();
 
             if (!inputEvent) {
                 return;
@@ -159,6 +161,17 @@ export default class Game {
                     this.eventBus.emitEvent(KeyReleasedEvent, inputEvent.code);
                     break;
             }
+        }
+
+        // Handle mouse events
+        while (this.inputManager.mouseInputBuffer.length > 0) {
+            const inputEvent = this.inputManager.mouseInputBuffer.shift();
+
+            if (!inputEvent) {
+                return;
+            }
+
+            this.eventBus.emitEvent(MouseClickEvent, { x: inputEvent.x, y: inputEvent.y });
         }
     };
 
@@ -245,7 +258,7 @@ export default class Game {
 
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
-            this.ctx.fillStyle = `white`;
+            this.ctx.fillStyle = 'white';
             this.ctx.font = '26px Arial';
 
             this.ctx.fillText('Click me', 325, 250);
