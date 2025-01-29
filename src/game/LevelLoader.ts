@@ -87,11 +87,11 @@ export default class LevelLoader {
     private static loadEntities(registry: Registry) {
         console.log('Loading entities');
         const player = registry.createEntity();
-        player.addComponent(TransformComponent, { x: 300, y: 300 }, { x: 1, y: 1 }, 0);
+        player.addComponent(TransformComponent, { x: 240, y: 100 }, { x: 1, y: 1 }, 0);
         player.addComponent(SpriteComponent, 'chopper-green-texture', 32, 32, 1, 0, 0);
         player.addComponent(ShadowComponent, 32, 16, -1, 0);
         player.addComponent(AnimationComponent, 2, 10);
-        player.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 0, y: -1 });
+        player.addComponent(RigidBodyComponent, { x: 0, y: 0 }, { x: 1, y: 0 });
         player.addComponent(CameraFollowComponent);
         player.addComponent(KeyboardControlComponent, -300, 300, 300, -300);
         player.addComponent(BoxColliderComponent, 32, 25, { x: 0, y: 5 });
