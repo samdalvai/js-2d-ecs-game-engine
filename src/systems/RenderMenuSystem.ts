@@ -33,7 +33,6 @@ export default class RenderMenuSystem extends System {
             event.coordinates.y >= buttonY1 &&
             event.coordinates.y <= buttonY2
         ) {
-            console.log('Button clicked');
             this.assetStore.clearAssets();
             this.registry.clear();
             await LevelLoader.loadLevel(this.registry, this.assetStore);
@@ -53,14 +52,13 @@ export default class RenderMenuSystem extends System {
             height: 100,
         };
 
-        const colorWin = { r: 100, g: 255, b: 100 };
-        const colorLost = { r: 255, g: 50, b: 50 };
-
         if (Game.gameStatus === GameStatus.WON) {
+            const colorWin = { r: 100, g: 255, b: 100 };
             ctx.fillStyle = `rgb(${colorWin.r},${colorWin.g},${colorWin.b})`;
             ctx.font = '40px Arial';
             ctx.fillText('Game won!!', buttonRect.x + 15, buttonRect.y - 50);
         } else {
+            const colorLost = { r: 255, g: 50, b: 50 };
             ctx.fillStyle = `rgb(${colorLost.r},${colorLost.g},${colorLost.b})`;
             ctx.font = '40px Arial';
             ctx.fillText('Game lost!!', buttonRect.x + 15, buttonRect.y - 50);
