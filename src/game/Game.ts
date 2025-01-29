@@ -254,14 +254,12 @@ export default class Game {
             this.ctx.fillRect(0, 0, Game.windowWidth, Game.windowHeight);
 
             this.ctx.fillStyle = 'gray';
-            this.ctx.fillRect(200, 200, 250, 100);
+            this.ctx.fillRect(Game.windowWidth / 2 - 125, Game.windowHeight / 2 - 50, 250, 100);
 
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
             this.ctx.fillStyle = 'white';
             this.ctx.font = '26px Arial';
 
-            this.ctx.fillText('Click me', 325, 250);
+            this.ctx.fillText('Play again', Game.windowWidth / 2 - 60, Game.windowHeight / 2 + 5);
             this.ctx.restore();
         }
     };
