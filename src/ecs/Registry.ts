@@ -289,6 +289,12 @@ export default class Registry {
         for (const system of this.systems.values()) {
             const systemComponentSignature = system.getComponentSignature();
 
+            // Skip checking if system signature is 0, otherwise it will add
+            // all the entities to the system
+            if (systemComponentSignature.signature === 0) {
+                continue;
+            }
+
             const isInterested =
                 (entityComponentSignature.signature & systemComponentSignature.signature) ==
                 systemComponentSignature.signature;
