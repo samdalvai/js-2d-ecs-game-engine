@@ -117,7 +117,7 @@ export default class Game {
         this.registry.addSystem(RenderHealthBarSystem);
         this.registry.addSystem(RenderTextSystem);
         this.registry.addSystem(RenderDebugInfoSystem);
-        this.registry.addSystem(RenderMenuSystem);
+        this.registry.addSystem(RenderMenuSystem, this.registry, this.assetStore);
 
         this.registry.addSystem(MovementSystem);
         this.registry.addSystem(CameraMovementSystem);
@@ -202,7 +202,7 @@ export default class Game {
 
         this.registry.update();
 
-        this.registry.getSystem(GameEndSystem)?.update(this.registry);
+        this.registry.getSystem(GameEndSystem)?.update();
 
         if (Game.gameStatus !== GameStatus.PLAYING) {
             this.registry.getSystem(RenderMenuSystem)?.subscribeToEvents(this.eventBus);

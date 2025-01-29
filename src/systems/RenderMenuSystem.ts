@@ -1,15 +1,27 @@
+import AssetStore from '../asset-store/AssetStore';
+import Registry from '../ecs/Registry';
 import System from '../ecs/System';
 import EventBus from '../event-bus/EventBus';
 import MouseClickEvent from '../events/MouseClickEvent';
 import Game from '../game/Game';
+import LevelLoader from '../game/LevelLoader';
 import { GameStatus, Rectangle } from '../types';
 
 export default class RenderMenuSystem extends System {
+    registry: Registry;
+    assetStore: AssetStore;
+
+    constructor(registry: Registry, assetStore: AssetStore) {
+        super();
+        this.registry = registry;
+        this.assetStore = assetStore;
+    }
+
     subscribeToEvents = (eventBus: EventBus) => {
         eventBus.subscribeToEvent(MouseClickEvent, this, this.onMouseClick);
     };
 
-    onMouseClick(event: MouseClickEvent) {
+    async onMouseClick(event: MouseClickEvent) {
         const buttonX1 = Game.windowWidth / 2 - 125;
         const buttonX2 = buttonX1 + 250;
         const buttonY1 = Game.windowHeight / 2 - 50;
@@ -22,6 +34,9 @@ export default class RenderMenuSystem extends System {
             event.coordinates.y <= buttonY2
         ) {
             console.log('Button clicked');
+            this.assetStore.clearAssets()
+            await LevelLoader.loadLevel(this.registry, this.assetStore);
+            Game.gameStatus = GameStatus.PLAYING;
         }
     }
 
