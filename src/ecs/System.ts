@@ -59,4 +59,8 @@ export default class System extends ISystem {
         const componentId = ComponentClass.getComponentId();
         this.componentSignature.set(componentId);
     };
+
+    removeAllEntities = () => {
+        this.entities = [];
+    };
 }

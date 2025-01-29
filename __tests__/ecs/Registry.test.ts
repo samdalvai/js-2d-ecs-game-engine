@@ -1089,4 +1089,79 @@ describe('Testing Registry related functions', () => {
 
         expect(registry.getEntitiesByGroup('test')).toEqual([entity2]);
     });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Registry resetting
+    ////////////////////////////////////////////////////////////////////////////////
+
+    test('Should remove all entities, components, tags, and clear systems entities when clearing registry', () => {
+        const registry = new Registry();
+
+        class MyComponent1 extends Component {}
+        class MyComponent2 extends Component {}
+
+        class MySystem1 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent1);
+            }
+        }
+
+        class MySystem2 extends System {
+            constructor() {
+                super();
+                this.requireComponent(MyComponent2);
+            }
+        }
+
+        const entity1 = registry.createEntity();
+        entity1.addComponent(MyComponent1);
+        entity1.tag('test1');
+        entity1.group('entities');
+
+        const entity2 = registry.createEntity();
+        entity2.addComponent(MyComponent2);
+        entity2.tag('test2');
+        entity2.group('entities');
+
+        registry.addSystem(MySystem1);
+        registry.addSystem(MySystem2);
+
+        registry.update();
+
+        const system1 = registry.getSystem(MySystem1);
+        const system2 = registry.getSystem(MySystem2);
+
+        expect(registry.numEntities).toBe(2);
+        expect(registry.componentPools.length).toBe(2);
+        expect(registry.entityComponentSignatures.length).toBe(2);
+
+        expect(registry.entityPerTag.size).toBe(2);
+        expect(registry.tagPerEntity.size).toBe(2);
+
+        expect(registry.entitiesPerGroup.size).toBe(1);
+        expect(registry.groupPerEntity.size).toBe(2);
+
+        expect(registry.freeIds.length).toBe(0);
+
+        expect(system1?.getSystemEntities().length).toEqual(1);
+        expect(system2?.getSystemEntities().length).toEqual(1);
+
+        registry.clear();
+        
+        expect(registry.numEntities).toBe(0);
+        expect(registry.componentPools.length).toBe(0);
+        expect(registry.entityComponentSignatures.length).toBe(0);
+
+        expect(registry.entityPerTag.size).toBe(0);
+        expect(registry.tagPerEntity.size).toBe(0);
+
+        expect(registry.entitiesPerGroup.size).toBe(0);
+        expect(registry.groupPerEntity.size).toBe(0);
+
+        expect(registry.freeIds.length).toBe(0);
+
+        expect(system1?.getSystemEntities().length).toEqual(0);
+        expect(system2?.getSystemEntities().length).toEqual(0);
+    });
 });
