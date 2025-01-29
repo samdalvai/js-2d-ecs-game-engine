@@ -204,30 +204,33 @@ export default class Game {
 
         this.registry.getSystem(GameEndSystem)?.update(this.registry);
 
-        if (Game.gameStatus === GameStatus.PLAYING) {
-            // Perform the subscription of the events for all systems
-            this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
-            this.registry.getSystem(PlayerDetectionSystem)?.subscribeToEvents(this.eventBus);
-
-            // Invoke all the systems that need to update
-            this.registry.getSystem(PlayerDetectionSystem)?.update(this.registry);
-            this.registry.getSystem(ScriptingSystem)?.update();
-            this.registry.getSystem(EntityFollowSystem)?.update();
-            this.registry.getSystem(MovementSystem)?.update(deltaTime);
-            this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
-            this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
-            this.registry.getSystem(KeyboardControlSystem)?.update();
-            this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
-            this.registry.getSystem(LifetimeSystem)?.update();
-            this.registry.getSystem(SoundSystem)?.update(this.assetStore);
+        if (Game.gameStatus !== GameStatus.PLAYING) {
+            this.registry.getSystem(RenderMenuSystem)?.subscribeToEvents(this.eventBus);
+            return;
         }
+
+        // Perform the subscription of the events for all systems
+        this.registry.getSystem(MovementSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(KeyboardControlSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ProjectileEmitSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(DamageSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ExplosionOnDeathSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(ExplosionOnHitSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(CameraShakeSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(SoundSystem)?.subscribeToEvents(this.eventBus);
+        this.registry.getSystem(PlayerDetectionSystem)?.subscribeToEvents(this.eventBus);
+
+        // Invoke all the systems that need to update
+        this.registry.getSystem(PlayerDetectionSystem)?.update(this.registry);
+        this.registry.getSystem(ScriptingSystem)?.update();
+        this.registry.getSystem(EntityFollowSystem)?.update();
+        this.registry.getSystem(MovementSystem)?.update(deltaTime);
+        this.registry.getSystem(CameraMovementSystem)?.update(this.camera);
+        this.registry.getSystem(CollisionSystem)?.update(this.eventBus);
+        this.registry.getSystem(KeyboardControlSystem)?.update();
+        this.registry.getSystem(ProjectileEmitSystem)?.update(this.registry);
+        this.registry.getSystem(LifetimeSystem)?.update();
+        this.registry.getSystem(SoundSystem)?.update(this.assetStore);
     };
 
     private render = () => {
@@ -249,6 +252,9 @@ export default class Game {
             this.registry.getSystem(RenderDebugInfoSystem)?.update(this.ctx, this.currentFPS, this.inputManager);
             this.registry.getSystem(RenderColliderSystem)?.update(this.ctx, this.camera);
             this.registry.getSystem(RenderPlayerFollowRadius)?.update(this.ctx, this.camera);
+        }
+
+        if (Game.gameStatus !== GameStatus.PLAYING) {
             this.registry.getSystem(RenderMenuSystem)?.update(this.ctx);
         }
     };
