@@ -34,4 +34,4 @@ Now open the browser at http://localhost:1234
 
 A small demo of the game is available at
 
-https://js-2d-ecs-game-engine-samdalvai-samdalvais-projects.vercel.app/
+https://js-2d-ecs-game-engine.vercel.app/
