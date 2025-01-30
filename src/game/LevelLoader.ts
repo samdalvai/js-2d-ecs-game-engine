@@ -12,7 +12,7 @@ import ProjectileEmitterComponent from '../components/ProjectileEmitterComponent
 import RigidBodyComponent from '../components/RigidBodyComponent';
 import ScriptComponent from '../components/ScriptComponent';
 import ShadowComponent from '../components/ShadowComponent';
-import SoundComponent from '../components/SoundComponent';
+// import SoundComponent from '../components/SoundComponent';
 import SpriteComponent from '../components/SpriteComponent';
 import SpriteDirectionComponent from '../components/SpriteDirectionComponent';
 import TextLabelComponent from '../components/TextLabelComponent';
