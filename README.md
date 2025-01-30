@@ -12,7 +12,7 @@ The engine comes with a basic 2d example game. The player can move a small helic
 
 # How to run
 
-## Prerequisites
+## Prerequisites
 
 * Node.js installed
 
@@ -29,3 +29,9 @@ npm start
 ```
 
 Now open the browser at http://localhost:1234
+
+## Game demo
+
+A small demo of the game is available at
+
+https://js-2d-ecs-game-engine-samdalvai-samdalvais-projects.vercel.app/
