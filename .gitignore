@@ -4,3 +4,4 @@ dist/*
 .DS_STORE
 
 !dist/assets/
+.vercel

@@ -193,7 +193,7 @@ export default class LevelLoader {
         const color = { r: 255, g: 255, b: 255 };
         label.addComponent(TextLabelComponent, { x: 50, y: 50 }, 'Chopper 1.0', color, true, '24px Arial');
 
-        Random enemies
+        // Random enemies
         for (let i = 0; i < 5; i++) {
             const enemy = registry.createEntity();
             enemy.addComponent(
